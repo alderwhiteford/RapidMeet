@@ -8,9 +8,10 @@ const scheduleInit = {
   name: '',
   start_time: '',
   end_time: '',
-  user_names: [],
-  user_emails: [],
-  user_ids: [],
+  // user_names: [],
+  // user_emails: [],
+  // user_ids: [],
+  users: {},
   availability: {}
 }
 
@@ -41,18 +42,17 @@ export async function getScheduleById({ scheduleId }) {
   });
 }
 
-export async function addScheduleUser({ scheduleId, user_name, user_email, existing_user_ids, existing_user_emails }) {
+export async function addScheduleUser({ scheduleId, user_name, user_email, existing_users }) {
   const user_id = stringToUniqueNumber(user_name);
 
-  if (existing_user_ids.includes(user_id) || existing_user_emails.includes(user_email)) {
+  if (existing_users[user_id]) {
     return // Throw error
    }
   
   const scheduleRef = doc(db, "schedule", scheduleId);
   try {
     await updateDoc(scheduleRef, {
-      user_ids: arrayUnion(user_id),
-      user_names: arrayUnion(user_name)
+      [`users.${user_id}`]: {user_name, user_email}
     })
     return // Handle success
   }
@@ -61,8 +61,8 @@ export async function addScheduleUser({ scheduleId, user_name, user_email, exist
   };
 }
 
-export async function updateUserAvailability({ scheduleId, user_id, availability, existing_availability, existing_user_ids }) {
-  if (!existing_user_ids.includes(user_id)) {
+export async function updateUserAvailability({ scheduleId, user_id, availability, existing_availability, existing_users}) {
+  if (!existing_users[user_id]) {
     return // Throw error
   }
 
