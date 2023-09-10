@@ -1,12 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
+import CreateSchedule from './views/CreateSchedule';
+import Schedule from './views/Schedule';
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<>Welcome to the App</>} />
-        <Route path="/hello" element={<>Hello</>} />
-        <Route path="/world" element={<>World</>} />
+        <Route path="/" element={<CreateSchedule />} />
+        <Route path="/:scheduleId" element={<Schedule />} />
       </Routes>
       <div className="App">
       </div>
