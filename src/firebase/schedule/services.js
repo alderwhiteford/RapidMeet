@@ -8,9 +8,6 @@ const scheduleInit = {
   name: '',
   start_time: '',
   end_time: '',
-  // user_names: [],
-  // user_emails: [],
-  // user_ids: [],
   users: {},
   availability: {}
 }
@@ -19,14 +16,9 @@ export async function createSchedule({ name, start_time, end_time }) {
   const newSchedule = { ...scheduleInit, name, start_time, end_time }
   const newScheduleRef = doc(collection(db, "schedule"));
 
-  try {
-    await setDoc(newScheduleRef, newSchedule)
-    const newScheduleWithID = { ...newSchedule, id: newScheduleRef.id };
-    return newScheduleWithID; // Handle success
-  }
-  catch (error) {
-    return // Throw error
-  }
+  await setDoc(newScheduleRef, newSchedule)
+  const newScheduleWithID = { ...newSchedule, id: newScheduleRef.id };
+  return newScheduleWithID;
 }
 
 export async function getScheduleById({ scheduleId }) {
@@ -56,24 +48,18 @@ export async function addScheduleUser({ scheduleId, user_name, user_email, exist
   const user_id = stringToUniqueNumber(user_name);
 
   if (existing_users[user_id]) {
-    return // Throw error
+    throw new Error('User already exists!') 
    }
   
   const scheduleRef = doc(db, "schedule", scheduleId);
-  try {
-    await updateDoc(scheduleRef, {
-      [`users.${user_id}`]: {user_name, user_email}
-    })
-    return // Handle success
-  }
-  catch (error) {
-    return // Throw error
-  };
+  await updateDoc(scheduleRef, {
+    [`users.${user_id}`]: {user_name, user_email}
+  })
 }
 
 export async function updateUserAvailability({ scheduleId, user_id, availability, existing_availability, existing_users}) {
   if (!existing_users[user_id]) {
-    return // Throw error
+    throw new Error('User already exists!') 
   }
 
   for (let time of availability) {
@@ -84,13 +70,8 @@ export async function updateUserAvailability({ scheduleId, user_id, availability
   }
 
   const scheduleRef = doc(db, "schedule", scheduleId);
-  try {
-    await updateDoc(scheduleRef, {
-      availability: existing_availability
-    });
-    return // Handle success
-  } 
-  catch (error) {
-    return // Throw error
-  }
-}
+  await updateDoc(scheduleRef, {
+    availability: existing_availability
+  });
+} 
+
