@@ -13,6 +13,7 @@ export const scheduleSlice = createSlice({
 
   reducers: {
     setSchedule: (state, action) => {
+      console.log(action);
       state.id = action.payload.id;
       state.name = action.payload.name;
       state.start_time = action.payload.start_time;
