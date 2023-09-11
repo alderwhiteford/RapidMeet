@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const scheduleSlice = createSlice({
   name: 'schedule',
   initialState: {
+    id: '',
     name: '',
     start_time: '',
     end_time: '',
@@ -12,6 +13,7 @@ export const scheduleSlice = createSlice({
 
   reducers: {
     setSchedule: (state, action) => {
+      state.id = action.payload.id;
       state.name = action.payload.name;
       state.start_time = action.payload.start_time;
       state.end_time = action.payload.end_time;
