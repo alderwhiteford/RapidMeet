@@ -21,7 +21,8 @@ export async function createSchedule({ name, start_time, end_time }) {
 
   try {
     await setDoc(newScheduleRef, newSchedule)
-    return newSchedule; // Handle success
+    const newScheduleWithID = { ...newSchedule, id: newScheduleRef.id };
+    return newScheduleWithID; // Handle success
   }
   catch (error) {
     return // Throw error
@@ -29,16 +30,25 @@ export async function createSchedule({ name, start_time, end_time }) {
 }
 
 export async function getScheduleById({ scheduleId }) {
-  return new Promise(async (resolve, reject) => {
-    const docRef = doc(db, 'schedule', scheduleId);
+  const docRef = doc(db, 'schedule', scheduleId);
 
-    const unsubscribe = onSnapshot(docRef, 
+  return new Promise((resolve, reject) => {
+    let unsubscribe;
+
+    unsubscribe = onSnapshot(
+      docRef,
       (snapshot) => {
-        resolve(snapshot.data());
+        if (snapshot.exists()) {
+          resolve({ success: true, data: snapshot.data() });
+        } else {
+          const error = new Error('Document does not exist.');
+          reject({ success: false, error, unsubscribe });
+        }
       },
       (error) => {
-        reject({ error, unsubscribe }); // Throw error
-    });
+        reject({ success: false, error, unsubscribe });
+      }
+    );
   });
 }
 
