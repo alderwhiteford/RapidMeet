@@ -3,7 +3,7 @@ import {
   getScheduleById as getScheduleByIdAPI,
   addScheduleUser as addScheduleUserAPI,
   updateUserAvailability as updateUserAvailabilityAPI,
-} from '../firebase/schedule/services';
+} from './firebase/schedule/services';
 
 export async function createSchedule({ name, start_time, end_time }) {
   try {

@@ -1,6 +1,6 @@
-import { stringToUniqueNumber } from "../../utils/strings";
+import { stringToUniqueNumber } from "../../../utils/strings";
 import { db } from "../config";
-import { collection, doc, setDoc, updateDoc, onSnapshot, arrayUnion } from "firebase/firestore"; 
+import { collection, doc, setDoc, updateDoc, onSnapshot } from "firebase/firestore"; 
 
 // DISCLAIMER: Params that start with 'existing' will be fetched from state and passed to the API call
 
