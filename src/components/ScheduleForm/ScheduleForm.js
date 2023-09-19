@@ -29,6 +29,7 @@ export default function ScheduleForm() {
       name: schedule_name,
       start_time: startTime,
       end_time: endTime,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     })
       .then((res) => {
         navigate(`/${res.data.id}`);
