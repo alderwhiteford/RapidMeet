@@ -7,6 +7,7 @@ export const scheduleSlice = createSlice({
     name: '',
     start_time: '',
     end_time: '',
+    dates: [],
     users: {},
     availability: {}
   },
@@ -17,6 +18,7 @@ export const scheduleSlice = createSlice({
       state.name = action.payload.name;
       state.start_time = action.payload.start_time;
       state.end_time = action.payload.end_time;
+      state.dates = action.payload.dates;
       state.users = action.payload.users;
       state.availability = action.payload.availability;
     },

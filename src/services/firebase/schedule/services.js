@@ -8,12 +8,13 @@ const scheduleInit = {
   name: '',
   start_time: '',
   end_time: '',
+  dates: [],
   users: {},
   availability: {}
 }
 
-export async function createSchedule({ name, start_time, end_time }) {
-  const newSchedule = { ...scheduleInit, name, start_time, end_time }
+export async function createSchedule({ name, start_time, end_time, dates }) {
+  const newSchedule = { ...scheduleInit, name, start_time, end_time, dates }
   const newScheduleRef = doc(collection(db, "schedule"));
 
   await setDoc(newScheduleRef, newSchedule)

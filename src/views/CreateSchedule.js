@@ -9,11 +9,14 @@ import ScheduleForm from '../components/ScheduleForm/ScheduleForm';
 function CreateSchedule() {
   const navigate = useNavigate();
 
-  const handleCreateSchedule = ({ name, start_time, end_time }) => {
+  const handleCreateSchedule = ({ name, start_time, end_time, dates }) => {
+    const epochDates = dates.map((date) => date.getTime())
+
     createSchedule({
       name,
       start_time,
       end_time,
+      dates: epochDates
     }).then((res) => {
       navigate(`/${res.data.id}`);
     }).catch((error) => {
