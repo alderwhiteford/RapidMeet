@@ -30,7 +30,8 @@ export default function DatePicker({ field }) {
     boxShadow: 'none',
     textTransform: 'none',
     marginBottom: '40px',
-    backgroundColor: datesSelected ? '#04a43c' : '#D3D3D3',
+    // backgroundColor: datesSelected ? '#04a43c' : '#D3D3D3',
+    backgroundColor: datesSelected ? '#04a43c' : '#97c9a5',
     transition: '0.2s ease',
   
     '&:hover': {
