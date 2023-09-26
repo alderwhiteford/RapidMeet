@@ -1,30 +1,9 @@
-import { useNavigate } from 'react-router-dom';
-
-import { createSchedule } from '../services/scheduleApi';
 import PageWrapper from '../components/PageWrapper/PageWrapper';
 import { Grid, Typography } from '@mui/material';
 import styled from '@emotion/styled';
 import ScheduleForm from '../components/ScheduleForm/ScheduleForm';
 
 function CreateSchedule() {
-  const navigate = useNavigate();
-
-  const handleCreateSchedule = ({ name, start_time, end_time, dates }) => {
-    const epochDates = dates.map((date) => date.getTime())
-
-    createSchedule({
-      name,
-      start_time,
-      end_time,
-      dates: epochDates
-    }).then((res) => {
-      navigate(`/${res.data.id}`);
-    }).catch((error) => {
-      // Todo: implement error handling
-      console.log(error.message);
-    });
-  };
-
   const CreateScheduleHeader = styled(Typography)({
     fontWeight: 600
   });
@@ -53,7 +32,7 @@ function CreateSchedule() {
           <CreateScheduleSubHeader variant="h3">
             Group Schedule
           </CreateScheduleSubHeader>
-          <ScheduleForm onSubmitHandler={handleCreateSchedule}/>
+          <ScheduleForm />
         </StyledGrid>
       </PageWrapper>
     </>

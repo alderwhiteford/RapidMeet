@@ -2,8 +2,9 @@ import { useLayoutEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getScheduleById } from '../services/scheduleApi';
 import { setSchedule } from '../redux/scheduleSlice';
+import { db } from '../firebase/config';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 function Schedule() {
   const navigate = useNavigate();
@@ -12,15 +13,20 @@ function Schedule() {
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
-    getScheduleById(scheduleId)
-      .then((res) => {
-        if (!res.success) {
-          navigate('/');
-          return
-        }
-        dispatch(setSchedule(res.data.data));
-      })
-  }, [scheduleId, navigate, dispatch]);
+    const docRef = doc(db, 'schedule', scheduleId);
+
+    const unsubscribe = onSnapshot(docRef, (snapshot) => {
+      if (snapshot.exists()) {
+        dispatch(setSchedule(snapshot.data()));
+      } else {
+        // Todo: Set error state, redirect to 404 page or something
+        navigate('/');
+        return;
+      }
+    });
+
+    return () => unsubscribe();
+  }, [scheduleId, dispatch, navigate]);
 
   return (
       <div>

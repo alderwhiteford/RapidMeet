@@ -10,40 +10,18 @@ const scheduleInit = {
   end_time: '',
   dates: [],
   users: {},
-  availability: {}
+  availability: {},
+  timezone: '',
 }
 
-export async function createSchedule({ name, start_time, end_time, dates }) {
-  const newSchedule = { ...scheduleInit, name, start_time, end_time, dates }
+export async function createSchedule({ name, start_time, end_time, dates, timezone }) {
+  const newSchedule = { ...scheduleInit, name, start_time, end_time, dates, timezone }
   const newScheduleRef = doc(collection(db, "schedule"));
 
   await setDoc(newScheduleRef, newSchedule)
   const newScheduleWithID = { ...newSchedule, id: newScheduleRef.id };
   return newScheduleWithID;
-}
-
-export async function getScheduleById({ scheduleId }) {
-  const docRef = doc(db, 'schedule', scheduleId);
-
-  return new Promise((resolve, reject) => {
-    let unsubscribe;
-
-    unsubscribe = onSnapshot(
-      docRef,
-      (snapshot) => {
-        if (snapshot.exists()) {
-          resolve({ success: true, data: snapshot.data() });
-        } else {
-          const error = new Error('Document does not exist.');
-          reject({ success: false, error, unsubscribe });
-        }
-      },
-      (error) => {
-        reject({ success: false, error, unsubscribe });
-      }
-    );
-  });
-}
+};
 
 export async function addScheduleUser({ scheduleId, user_name, user_email, existing_users }) {
   const user_id = stringToUniqueNumber(user_name);
@@ -56,7 +34,7 @@ export async function addScheduleUser({ scheduleId, user_name, user_email, exist
   await updateDoc(scheduleRef, {
     [`users.${user_id}`]: {user_name, user_email}
   })
-}
+};
 
 export async function updateUserAvailability({ scheduleId, user_id, availability, existing_availability, existing_users}) {
   if (!existing_users[user_id]) {
@@ -74,5 +52,5 @@ export async function updateUserAvailability({ scheduleId, user_id, availability
   await updateDoc(scheduleRef, {
     availability: existing_availability
   });
-} 
+};
 
