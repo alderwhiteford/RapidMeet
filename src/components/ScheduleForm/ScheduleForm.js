@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
+import DatePicker from '../DatePicker/DatePicker';
 import { Button, InputLabel, FormControl, FormHelperText, MenuItem, Select, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -13,7 +14,7 @@ export default function ScheduleForm() {
 
   const navigate = useNavigate();
   const {
-    control, 
+    control,
     register,
     handleSubmit,
     formState: { errors }
@@ -24,11 +25,14 @@ export default function ScheduleForm() {
       }
   );
 
-  const handleCreateSchedule = ({ schedule_name }) => {
+  const handleCreateSchedule = ({ schedule_name, dates }) => {
+    const epochDates = dates.map((date) => date.getTime())
+    
     createSchedule({
       name: schedule_name,
       start_time: startTime,
       end_time: endTime,
+      dates: epochDates
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     })
       .then((res) => {
@@ -53,11 +57,12 @@ export default function ScheduleForm() {
 
   const StyledForm = styled('form')({
     display: 'flex',
-    flexDirection: 'column',
-  });
+    flexDirection: 'column'
+  })
 
   const StyledTextField = styled(TextField)({
     marginBottom: '15px',
+    flexDirection: 'column',
   });
 
   return (
@@ -67,9 +72,17 @@ export default function ScheduleForm() {
         helperText={errors.schedule_name?.message ?? ' '}
         InputLabelProps={{ shrink: true }}
         label="Schedule Name"
-        {...register('schedule_name', { required: 'Please provide a name' })}
+        {...register('name', { required: "Please provide a name" })}
         type="text"
         variant="outlined"
+      />
+      <Controller
+        name='dates'
+        control={control}
+        defaultValue={[]}
+        render={({ ref, ...field }) => (
+          <DatePicker ref={ref} { ...field }/>
+        )}
       />
       <FormControl variant="outlined" style={{ marginBottom: '15px' }}>
         <InputLabel>Start Time</InputLabel>

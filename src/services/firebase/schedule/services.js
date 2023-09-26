@@ -8,19 +8,20 @@ const scheduleInit = {
   name: '',
   start_time: '',
   end_time: '',
+  dates: [],
   users: {},
   availability: {},
   timezone: '',
 }
 
-export async function createSchedule({ name, start_time, end_time, timezone }) {
-  const newSchedule = { ...scheduleInit, name, start_time, end_time, timezone }
+export async function createSchedule({ name, start_time, end_time, dates, timezone }) {
+  const newSchedule = { ...scheduleInit, name, start_time, end_time, dates, timezone }
   const newScheduleRef = doc(collection(db, "schedule"));
 
   await setDoc(newScheduleRef, newSchedule)
   const newScheduleWithID = { ...newSchedule, id: newScheduleRef.id };
   return newScheduleWithID;
-}
+};
 
 export async function addScheduleUser({ scheduleId, user_name, user_email, existing_users }) {
   const user_id = stringToUniqueNumber(user_name);
@@ -33,7 +34,7 @@ export async function addScheduleUser({ scheduleId, user_name, user_email, exist
   await updateDoc(scheduleRef, {
     [`users.${user_id}`]: {user_name, user_email}
   })
-}
+};
 
 export async function updateUserAvailability({ scheduleId, user_id, availability, existing_availability, existing_users}) {
   if (!existing_users[user_id]) {
@@ -51,5 +52,5 @@ export async function updateUserAvailability({ scheduleId, user_id, availability
   await updateDoc(scheduleRef, {
     availability: existing_availability
   });
-} 
+};
 
