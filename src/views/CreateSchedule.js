@@ -1,32 +1,41 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import { createSchedule } from '../services/scheduleApi';
+import PageWrapper from '../components/PageWrapper/PageWrapper';
+import { Grid, Typography } from '@mui/material';
+import styled from '@emotion/styled';
+import ScheduleForm from '../components/ScheduleForm/ScheduleForm';
 
 function CreateSchedule() {
-  const [name, setName] = useState('');
-  const navigate = useNavigate();
+  const CreateScheduleHeader = styled(Typography)({
+    fontWeight: 600
+  });
 
-  const handleCreateSchedule = () => {
-    createSchedule({
-      name,
-      start_time: '2023-09-09T10:00:00',
-      end_time: '2023-09-09T12:00:00',
-    }).then((res) => {
-      navigate(`/${res.data.id}`);
-    }).catch((error) => {
-      // Todo: implement error handling
-      console.log(error.message);
-    });
-  };
+  const CreateScheduleSubHeader = styled(Typography)({
+    fontWeight: 600,
+    color: '#04a43c',
+    marginBottom: '40px'
+  });
+
+  const StyledGrid = styled(Grid)({
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    paddingRight: '8.5%',
+    paddingLeft: '8.5%',
+  })
 
   return (
-    <div>
-      {/*Todo: Add form control and form components*/}
-      <label htmlFor='name'>Schedule Name</label>
-      <input id='name' type='text' onChange={(e) => setName(e.target.value)}/>
-      <button onClick={handleCreateSchedule}>Create</button>
-    </div>
+    <>
+      <PageWrapper>
+        <StyledGrid item md={6} xs={12}>
+          <CreateScheduleHeader variant="h3">
+            Create a
+          </CreateScheduleHeader>
+          <CreateScheduleSubHeader variant="h3">
+            Group Schedule
+          </CreateScheduleSubHeader>
+          <ScheduleForm />
+        </StyledGrid>
+      </PageWrapper>
+    </>
   )
 };
 

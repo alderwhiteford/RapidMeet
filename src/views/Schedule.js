@@ -8,7 +8,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 
 function Schedule() {
   const navigate = useNavigate();
-  const { schedule } = useSelector((state) => state);
+  const { name, start_time, end_time } = useSelector((state) => state.schedule);
   const { scheduleId } = useParams();
   const dispatch = useDispatch();
 
@@ -32,9 +32,9 @@ function Schedule() {
       <div>
         {/**Todo: create separate components that split UI up, availability calendar, current schedule, etc*/}
          <h1>This is schedule {scheduleId}</h1>
-         <p>This is schedule name: {schedule?.name}</p>
-         <p>Start time: {schedule?.start_time}</p>
-         <p>End time: {schedule?.end_time}</p>
+         <p>This is schedule name: {name}</p>
+         <p>Start time: {start_time}</p>
+         <p>End time: {end_time}</p>
       </div>
   )
 };
