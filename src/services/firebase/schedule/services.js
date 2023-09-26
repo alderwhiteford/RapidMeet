@@ -22,29 +22,6 @@ export async function createSchedule({ name, start_time, end_time, timezone }) {
   return newScheduleWithID;
 }
 
-export async function getScheduleById({ scheduleId }) {
-  const docRef = doc(db, 'schedule', scheduleId);
-
-  return new Promise((resolve, reject) => {
-    let unsubscribe;
-
-    unsubscribe = onSnapshot(
-      docRef,
-      (snapshot) => {
-        if (snapshot.exists()) {
-          resolve({ success: true, data: snapshot.data() });
-        } else {
-          const error = new Error('Document does not exist.');
-          reject({ success: false, error, unsubscribe });
-        }
-      },
-      (error) => {
-        reject({ success: false, error, unsubscribe });
-      }
-    );
-  });
-}
-
 export async function addScheduleUser({ scheduleId, user_name, user_email, existing_users }) {
   const user_id = stringToUniqueNumber(user_name);
 

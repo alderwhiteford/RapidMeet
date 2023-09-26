@@ -1,6 +1,5 @@
 import {
   createSchedule as createScheduleAPI,
-  getScheduleById as getScheduleByIdAPI,
   addScheduleUser as addScheduleUserAPI,
   updateUserAvailability as updateUserAvailabilityAPI,
 } from './firebase/schedule/services';
@@ -9,15 +8,6 @@ export async function createSchedule({ name, start_time, end_time }) {
   try {
     const newSchedule = await createScheduleAPI({ name, start_time, end_time });
     return { success: true, data: newSchedule };
-  } catch (error) {
-    return { success: false, error: error.message };
-  }
-}
-
-export async function getScheduleById(scheduleId) {
-  try {
-    const schedule = await getScheduleByIdAPI({ scheduleId });
-    return { success: true, data: schedule };
   } catch (error) {
     return { success: false, error: error.message };
   }
