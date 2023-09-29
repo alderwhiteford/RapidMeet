@@ -32,7 +32,7 @@ export default function ScheduleForm() {
       name: schedule_name,
       start_time: startTime,
       end_time: endTime,
-      dates: epochDates
+      dates: epochDates,
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     })
       .then((res) => {
@@ -71,7 +71,7 @@ export default function ScheduleForm() {
         error={!!errors.schedule_name}
         helperText={errors.schedule_name?.message ?? ' '}
         InputLabelProps={{ shrink: true }}
-        label="Schedule Name"
+        label="Event Name"
         {...register('name', { required: "Please provide a name" })}
         type="text"
         variant="outlined"
