@@ -28,12 +28,12 @@ export default function ScheduleForm() {
       }
   );
 
-  const handleCreateSchedule = ({ schedule_name, dates }) => {
+  const handleCreateSchedule = ({ event_name, dates }) => {
     const epochDates = dates.map((date) => date.getTime())
     console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
     
     createSchedule({
-      name: schedule_name,
+      name: event_name,
       start_time: startTime,
       end_time: endTime,
       dates: epochDates,
