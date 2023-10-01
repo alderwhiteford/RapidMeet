@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setSchedule } from '../redux/scheduleSlice';
-import { db } from '../firebase/config';
+import { db } from '../services/firebase/config';
 import { doc, onSnapshot } from 'firebase/firestore';
 
 function Schedule() {
