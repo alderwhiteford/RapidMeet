@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react'
 import DatePicker from '../DatePicker/DatePicker';
 import { Button, InputLabel, FormControl, FormHelperText, MenuItem, Select, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
@@ -9,8 +10,10 @@ import { createSchedule } from '../../services/scheduleApi';
 import { timeOptions } from '../../utils/constants';
 
 export default function ScheduleForm() {
-  const [startTime, setStartTime] = useState('Select start time');
-  const [endTime, setEndTime] = useState('Select end time');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  const [datesSelected, setDatesSelected] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
 
   const navigate = useNavigate();
   const {
@@ -25,11 +28,12 @@ export default function ScheduleForm() {
       }
   );
 
-  const handleCreateSchedule = ({ schedule_name, dates }) => {
+  const handleCreateSchedule = ({ event_name, dates }) => {
     const epochDates = dates.map((date) => date.getTime())
+    console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
     
     createSchedule({
-      name: schedule_name,
+      name: event_name,
       start_time: startTime,
       end_time: endTime,
       dates: epochDates,
@@ -43,9 +47,18 @@ export default function ScheduleForm() {
       });
   };
 
+  const slideDown = keyframes`
+    to {
+      transform: translateY(0);
+    }
+  `
+
   const SubmitButton = styled(Button)({
+    position: 'relative',
+    transform: animationComplete ? 'translateY(0)' : 'translateY(-13.5em)',
+    animation: !animationComplete && datesSelected ? `${slideDown} 0.4s ease-in-out forwards` : '',
     height: '40px',
-    backgroundColor: '#D3D3D3',
+    backgroundColor: datesSelected && endTime !== '' ? '#97c9a5' : '#D3D3D3',
     boxShadow: 'none',
     textTransform: 'none',
 
@@ -54,6 +67,10 @@ export default function ScheduleForm() {
       boxShadow: 'none',
     },
   });
+
+  const StyledFormControl = styled(FormControl)({
+    opacity: animationComplete ? 1 : 0,
+  })
 
   const StyledForm = styled('form')({
     display: 'flex',
@@ -68,11 +85,11 @@ export default function ScheduleForm() {
   return (
     <StyledForm onSubmit={handleSubmit(handleCreateSchedule)}>
       <StyledTextField
-        error={!!errors.schedule_name}
-        helperText={errors.schedule_name?.message ?? ' '}
+        error={!!errors.event_name}
+        helperText={errors.event_name?.message ?? ' '}
         InputLabelProps={{ shrink: true }}
         label="Event Name"
-        {...register('name', { required: "Please provide a name" })}
+        {...register('event_name', { required: "Please provide a name for the event" })}
         type="text"
         variant="outlined"
       />
@@ -81,15 +98,20 @@ export default function ScheduleForm() {
         control={control}
         defaultValue={[]}
         render={({ ref, ...field }) => (
-          <DatePicker ref={ref} { ...field }/>
+          <DatePicker 
+            ref={ref} { ...field } 
+            datesSelected={datesSelected} 
+            setDatesSelected={setDatesSelected} 
+            setAnimationComplete={setAnimationComplete}
+          />
         )}
       />
-      <FormControl variant="outlined" style={{ marginBottom: '15px' }}>
+      <StyledFormControl variant="outlined" style={{ marginBottom: '15px' }} error={!!errors.start_time}>
         <InputLabel>Start Time</InputLabel>
         <Controller
           name="start_time"
           control={control}
-          defaultValue=""
+          defaultValue=''
           rules={{ required: 'Please provide a start time' }}
           render={({ field }) => (
             <Select
@@ -100,6 +122,7 @@ export default function ScheduleForm() {
                 setStartTime(e.target.value);
                 field.onChange(e);
               }}
+              disabled={!datesSelected}
             >
               {timeOptions.map((time) => (
                 <MenuItem key={time} value={time}>
@@ -109,12 +132,12 @@ export default function ScheduleForm() {
             </Select>
           )}
         />
-        <FormHelperText error={!!errors.start_time}>
-          {errors.start_time?.message}
+        <FormHelperText>
+          {errors.start_time?.message || ' '}
         </FormHelperText>
-      </FormControl>
+      </StyledFormControl>
 
-      <FormControl variant="outlined" style={{ marginBottom: '15px' }}>
+      <StyledFormControl variant="outlined" style={{ marginBottom: '15px' }} error={!!errors.end_time}>
         <InputLabel>End Time</InputLabel>
         <Controller
           name="end_time"
@@ -130,7 +153,7 @@ export default function ScheduleForm() {
                 setEndTime(e.target.value);
                 field.onChange(e);
               }}
-              disabled={startTime === 'Select start time'}
+              disabled={startTime === ''}
             >
               {timeOptions
                 .slice(startTime ? timeOptions.indexOf(startTime) + 1 : 0)
@@ -142,13 +165,14 @@ export default function ScheduleForm() {
             </Select>
           )}
         />
-        <FormHelperText error={!!errors.end_time}>
-          {errors.end_time?.message}
+        <FormHelperText>
+          {errors.end_time?.message || ' '}
         </FormHelperText>
-      </FormControl>
+      </StyledFormControl>
       <SubmitButton
         variant="contained"
         type="submit"
+        onAnimationEnd={() => setAnimationComplete(true) }
       >
         Create Schedule
       </SubmitButton>
