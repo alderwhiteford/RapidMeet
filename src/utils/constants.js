@@ -1,3 +1,11 @@
+export const schedulePhrases = [
+  'Group Meeting.',
+  'Birthday Party.', 
+  'Conference.',
+  'Workshop.',
+  'Presenation.',
+];
+
 export const timeOptions = [
   '12:00 am',
   '1:00 am',
