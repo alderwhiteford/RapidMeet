@@ -36,10 +36,11 @@ export default function ScheduleForm() {
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     })
       .then((res) => {
-        navigate(`/${res.data.id}`);
-      })
-      .catch((error) => {
-        console.log(error.message);
+        if (res.success) {
+          navigate(`/${res.data.id}`);
+        } else {
+          console.log(res.error);
+        }
       });
   };
 
