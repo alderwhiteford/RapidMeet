@@ -4,11 +4,17 @@ import { useState } from "react";
 
 export default function SelectCell({ epochTime, isMouseDown }) {
   const [selected, setSelected] = useState(false);
+  const [mouseEntered, setMouseEntered] = useState(false);
 
   const handleMouseEnter = () => {
-    if (isMouseDown) {
+    if (!mouseEntered && isMouseDown) {
       setSelected(!selected);
+      setMouseEntered(true)
     }
+  }
+
+  const handleMouseLeave = () => {
+    setMouseEntered(false)
   }
 
   const StyledDiv = styled.div({
@@ -26,7 +32,8 @@ export default function SelectCell({ epochTime, isMouseDown }) {
         border: 1,
       }}
       onMouseEnter={handleMouseEnter}
-      onMouseDown={() => setSelected(!selected)}
+      onMouseLeave={handleMouseLeave}
+      onMouseUp={handleMouseLeave}
     >
       <StyledDiv>
       </StyledDiv>
