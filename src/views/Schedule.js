@@ -1,14 +1,15 @@
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setSchedule } from '../redux/scheduleSlice';
+import { setMouseDown, setSchedule } from '../redux/scheduleSlice';
 import { db } from '../services/firebase/config';
 import { doc, onSnapshot } from 'firebase/firestore';
+import ScheduleGrid from '../components/Schedule/Schedule';
 
 function Schedule() {
   const navigate = useNavigate();
-  const { name, start_time, end_time } = useSelector((state) => state.schedule);
+  const { name, start_time, end_time, dates } = useSelector((state) => state.schedule);
   const { scheduleId } = useParams();
   const dispatch = useDispatch();
 
@@ -35,6 +36,7 @@ function Schedule() {
          <p>This is schedule name: {name}</p>
          <p>Start time: {start_time}</p>
          <p>End time: {end_time}</p>
+         <ScheduleGrid startTime={start_time} endTime={end_time} dates={dates}/>
       </div>
   )
 };

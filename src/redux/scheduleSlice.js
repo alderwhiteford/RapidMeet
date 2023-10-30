@@ -9,7 +9,7 @@ export const scheduleSlice = createSlice({
     end_time: '',
     dates: [],
     users: {},
-    availability: {}
+    availability: {},
   },
 
   reducers: {
@@ -21,9 +21,12 @@ export const scheduleSlice = createSlice({
       state.dates = action.payload.dates;
       state.users = action.payload.users;
       state.availability = action.payload.availability;
-    },
+    }
   },
 })
 
-export const { setSchedule } = scheduleSlice.actions;
+export const { 
+  setSchedule,
+} = scheduleSlice.actions;
+
 export default scheduleSlice.reducer;

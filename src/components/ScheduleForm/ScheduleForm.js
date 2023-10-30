@@ -29,8 +29,13 @@ export default function ScheduleForm() {
   );
 
   const handleCreateSchedule = ({ event_name, dates }) => {
-    const epochDates = dates.map((date) => date.getTime())
-    console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
+    const epochDates = dates.map((date) => {
+      date.setHours(0);
+      date.setMinutes(0);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+      return date.getTime()
+    })
     
     createSchedule({
       name: event_name,
