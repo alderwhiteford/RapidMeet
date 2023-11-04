@@ -1,7 +1,7 @@
 import styled from "@emotion/styled"
 import { TableCell } from "@mui/material"
 
-export default function HeaderCell({ day, date, lastCol }) {
+export default function HeaderCell({ day, date, firstHeader }) {
   const StyledDiv = styled.div({
     display: 'flex',
     flexDirection: 'column',
@@ -11,18 +11,25 @@ export default function HeaderCell({ day, date, lastCol }) {
 
   const HeaderDay = styled.h1({
     margin: 0,
-    fontSize: '20px',
-    marginBottom: '5px'
+    fontSize: '25px',
+    fontWeight: 400,
   })
 
   const HeaderDate = styled.h2({
     margin: 0,
     fontSize: '15px',
-    fontWeight: 400,
+    fontWeight: 300,
   })
   
   return (
-    <TableCell sx={!lastCol ? { borderRight: 1, borderColor: 'white', backgroundColor: '#04a43c' } : { backgroundColor: '#04a43c' }}>
+    <TableCell 
+      sx={{ 
+        backgroundColor: '#04a43c',
+        minWidth: '150px',
+        height: '100%',
+        border: 0,
+        borderRadius: firstHeader ? '20px 0 0 0' : ''
+      }}>
       <StyledDiv>
         <HeaderDay>
           {day}
