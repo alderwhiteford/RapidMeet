@@ -33,7 +33,7 @@ function Schedule() {
   return (
       <div>
         <Navbar />
-        {/* <ScheduleGrid startTime={start_time} endTime={end_time} dates={dates}/> */}
+        <ScheduleGrid startTime={start_time} endTime={end_time} dates={dates}/>
       </div>
   )
 };
