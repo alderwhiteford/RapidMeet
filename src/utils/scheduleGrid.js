@@ -16,6 +16,20 @@ export function computeTimeIntervals(startTime, endTime) {
     endHour += 12
   }
 
+  // Compute Time Bar Times:
+  const times = [];
+  for (let i = startHour ; i <= endHour ; i++) {
+    let time = i;
+    let meridiem = 'AM';
+    if (i > 12) {
+      time = time - 12;
+      meridiem = 'PM';
+    }
+    const timeString = `${time} ${meridiem}`
+    times.push(timeString);
+  }
+
+  // Compute Epoch Times:
   const startEpochTime = 1000 * 60 * 60 * startHour // (milliseconds * seconds * minutes * hours)
 
   const timeIntervals = [startEpochTime];
@@ -27,7 +41,7 @@ export function computeTimeIntervals(startTime, endTime) {
     lastInterval = currentInterval;
   }
 
-  return timeIntervals;
+  return [times, timeIntervals];
 }
 
 export function createScheduleRows(dates, intervals) {
