@@ -1,12 +1,12 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { computeTimeIntervals, createScheduleRows, createTimeSideBar } from "../../utils/scheduleGrid";
+import { computeTimeIntervals, createScheduleRows } from "../../utils/scheduleGrid";
 import { days, months } from "../../utils/constants";
 import HeaderCell from "../HeaderCell/HeaderCell";
 import { useState } from "react";
 import SelectCell from "../Cell/SelectCell";
 import TimeCell from "../Cell/TimeCell";
 
-export default function ScheduleGrid({ startTime, endTime, dates }) {
+export default function ScheduleGrid({ startTime, endTime, dates, setTimes }) {
   const [sideBarTimes, intervals] = computeTimeIntervals(startTime, endTime);
   const rows = createScheduleRows(dates, intervals)
   const [isMouseDown, setIsMouseDown] = useState(false);
@@ -59,6 +59,7 @@ export default function ScheduleGrid({ startTime, endTime, dates }) {
                       epochTime={cell}
                       isMouseDown={isMouseDown}
                       isHour={index % 2 === 1}
+                      setTime={setTimes}
                     />
                   ))}
                 </TableRow>
