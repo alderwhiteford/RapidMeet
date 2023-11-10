@@ -1,4 +1,4 @@
-import styled, { css } from "@emotion/styled";
+import styled from "@emotion/styled";
 import { TableCell } from "@mui/material";
 
 export default function TimeCell({ time, lastCell }) {
@@ -46,7 +46,7 @@ export default function TimeCell({ time, lastCell }) {
   `
   
   return (
-    <StyledCell>
+    <StyledCell key={time}>
       {time &&
         <TimeText>
           {time}

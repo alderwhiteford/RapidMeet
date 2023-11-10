@@ -1,11 +1,11 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useLayoutEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setMouseDown, setSchedule } from '../redux/scheduleSlice';
+import { setSchedule } from '../redux/scheduleSlice';
 import { db } from '../services/firebase/config';
 import { doc, onSnapshot } from 'firebase/firestore';
-import ScheduleGrid from '../components/Schedule/Schedule';
+import ScheduleMerged from '../components/Schedule/Schedule';
 
 function Schedule() {
   const navigate = useNavigate();
@@ -32,11 +32,16 @@ function Schedule() {
   return (
       <div>
         {/**Todo: create separate components that split UI up, availability calendar, current schedule, etc*/}
-         <h1>This is schedule {scheduleId}</h1>
-         <p>This is schedule name: {name}</p>
-         <p>Start time: {start_time}</p>
-         <p>End time: {end_time}</p>
-         <ScheduleGrid startTime={start_time} endTime={end_time} dates={dates}/>
+        <h1>This is schedule {scheduleId}</h1>
+        <p>This is schedule name: {name}</p>
+        <p>Start time: {start_time}</p>
+        <p>End time: {end_time}</p>
+        <ScheduleMerged 
+          startTime={start_time}
+          endTime={end_time}
+          dates={dates}
+          display 
+        />
       </div>
   )
 };
