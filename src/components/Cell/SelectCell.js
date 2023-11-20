@@ -38,7 +38,7 @@ export default function SelectCell({ epochTime, isMouseDown, isHour }) {
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onMouseUp={handleMouseLeave}
+      onMouseUpCapture={handleMouseLeave}
     >
       <StyledDiv>
       </StyledDiv>

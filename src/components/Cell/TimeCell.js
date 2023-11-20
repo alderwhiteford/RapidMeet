@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
-import { TableCell } from "@mui/material";
 
 export default function TimeCell({ time, lastCell }) {
-  const StyledCell = styled(TableCell)({
+  const StyledCell = styled('div')({
     border: 0,
+    width: '65px',
+    minHeight: '26px',
     position: 'sticky',
     left: '0px',
-    backgroundColor: 'white',
 
     '&::before': {
       content: "''",
@@ -35,7 +35,7 @@ export default function TimeCell({ time, lastCell }) {
     margin: 0;
     position: absolute;
     font-size: 15px;
-    top: ${lastCell ? '' : '-14%'};
+    top: ${lastCell ? '' : '-30%'};
     bottom: ${lastCell ? '-35%' : ''} ;
     left: 0;
     color: #C1C1C1;

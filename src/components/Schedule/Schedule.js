@@ -15,71 +15,82 @@ export default function ScheduleMerged({ startTime, endTime, dates, display }) {
   const [isMouseDown, setIsMouseDown] = useState(false);
 
   return (
-    <TableContainer 
-      component={Paper} 
-      sx={{
+    <Paper sx={{
+      width: '80vw',
+      maxHeight: '75vh',
+      overflow: 'scroll',
+      marginLeft: '50px',
+      marginTop: '50px',
+      boxShadow: '5px 5px 5px #C1C1C1',
+      display: 'flex',
+    }}>
+      <div style={{
         display: 'flex',
-        width: '50vw',
-        height: '75vh',
-        overFlow: 'scroll',
-        marginLeft: '20px',
-        marginTop: '20px',
-        boxShadow: 'none',
-        minWidth: '350px',
-        borderRight: 'solid #C1C1C1 1px',
-      }}
-      {...(!display ? { 
-          onMouseDownCapture: () => setIsMouseDown(true), 
-          onMouseUpCapture: () => setIsMouseDown(false),
-          onMouseLeave: () => setIsMouseDown(false)
-        } : {})
-      }
-    >
-      <Table>
-        <TableHead>
-          <TableRow sx={{ height: '100px', position: 'sticky', top: '0px', zIndex: 1}}>
-            <TableCell sx={{ border: 0, minWidth: '70px', width: '70px', backgroundColor:'white', position: 'sticky', left:'0px' }}/>
-            {dates.map((date, index) => {
-              const JSDate = new Date(date);
-              return (
-                <HeaderCell
-                  day={days[JSDate.getDay()]} 
-                  date={`${months[JSDate.getMonth()]} ${JSDate.getDate()}`}
-                  firstHeader={index === 0}
-                />
-              )
-            })}
-          </TableRow>
-        </TableHead>
-        <TableBody sx={{position: 'relative'}}>
-          {rows.map((row, index) => (
-              <TableRow>
-                <TimeCell 
-                  time={index === rows.length - 1 
-                    ? sideBarTimes[sideBarTimes.length - 1] 
-                    : index % 2 === 0 
-                      ? sideBarTimes[index / 2] 
-                      : undefined}
-                  lastCell={index === rows.length - 1}
-                />
-                {row.map((cell) => (
-                  display ?
-                    <DisplayCell
-                      users={users}
-                      availability={availability[cell]}
-                      epochTime={cell}
-                      isHour={index % 2 === 1}
-                    /> : 
-                    <SelectCell
-                      epochTime={cell}
-                      isMouseDown={isMouseDown}
-                      isHour={index % 2 === 1}
-                    />
-                ))}
-              </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+        flexDirection: 'column',
+        paddingTop: '100px',
+      }}>
+        {rows.map((row, index) =>
+          <TimeCell 
+            time={index === rows.length - 1 
+              ? sideBarTimes[sideBarTimes.length - 1] 
+              : index % 2 === 0 
+                ? sideBarTimes[index / 2] 
+                : undefined}
+            lastCell={index === rows.length - 1}
+          />
+        )}
+      </div>
+      <TableContainer 
+        component={Paper} 
+        sx={{
+          display: 'flex',
+          boxShadow: 'none',
+          height: '100%',
+        }}
+        {...(!display ? { 
+            onMouseDownCapture: () => setIsMouseDown(true), 
+            onMouseUpCapture: () => setIsMouseDown(false),
+            onMouseLeave: () => setIsMouseDown(false)
+          } : {})
+        }
+      >
+        <Table sx={{boxShadow: '5px 5px'}}>
+          <TableHead>
+            <TableRow sx={{ height: '100px', position: 'sticky', top: '0px', zIndex: 1}}>
+              {dates.map((date, index) => {
+                const JSDate = new Date(date);
+                return (
+                  <HeaderCell
+                    day={days[JSDate.getDay()]} 
+                    date={`${months[JSDate.getMonth()]} ${JSDate.getDate()}`}
+                    firstHeader={index === 0}
+                  />
+                )
+              })}
+            </TableRow>
+          </TableHead>
+          <TableBody sx={{position: 'relative'}}>
+            {rows.map((row, index) => (
+                <TableRow>
+                  {row.map((cell) => (
+                    display ?
+                      <DisplayCell
+                        users={users}
+                        availability={availability[cell]}
+                        epochTime={cell}
+                        isHour={index % 2 === 1}
+                      /> : 
+                      <SelectCell
+                        epochTime={cell}
+                        isMouseDown={isMouseDown}
+                        isHour={index % 2 === 1}
+                      />
+                  ))}
+                </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Paper>
   )
 }
