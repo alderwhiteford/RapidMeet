@@ -6,6 +6,7 @@ import { setSchedule } from '../redux/scheduleSlice';
 import { db } from '../services/firebase/config';
 import { doc, onSnapshot } from 'firebase/firestore';
 import ScheduleMerged from '../components/Schedule/Schedule';
+import Navbar from '../components/Navbar/Navbar';
 
 function Schedule() {
   const navigate = useNavigate();
