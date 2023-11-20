@@ -32,15 +32,14 @@ function Schedule() {
   return (
       <div>
         {/**Todo: create separate components that split UI up, availability calendar, current schedule, etc*/}
-        <h1>This is schedule {scheduleId}</h1>
+        {/* <h1>This is schedule {scheduleId}</h1>
         <p>This is schedule name: {name}</p>
         <p>Start time: {start_time}</p>
-        <p>End time: {end_time}</p>
+        <p>End time: {end_time}</p> */}
         <ScheduleMerged 
           startTime={start_time}
           endTime={end_time}
           dates={dates}
-          display 
         />
       </div>
   )

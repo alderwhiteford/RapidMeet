@@ -4,7 +4,9 @@ import { TableCell } from "@mui/material";
 export default function TimeCell({ time, lastCell }) {
   const StyledCell = styled(TableCell)({
     border: 0,
-    position: 'relative',
+    position: 'sticky',
+    left: '0px',
+    backgroundColor: 'white',
 
     '&::before': {
       content: "''",
@@ -33,7 +35,7 @@ export default function TimeCell({ time, lastCell }) {
     margin: 0;
     position: absolute;
     font-size: 15px;
-    top: ${lastCell ? '' : '-30%'};
+    top: ${lastCell ? '' : '-14%'};
     bottom: ${lastCell ? '-35%' : ''} ;
     left: 0;
     color: #C1C1C1;

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { computeTimeIntervals, createScheduleRows } from "../../utils/scheduleGrid";
 import { useState } from "react";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box } from "@mui/material";
 import SelectCell from "../Cell/SelectCell";
 import HeaderCell from "../HeaderCell/HeaderCell";
 import TimeCell from "../Cell/TimeCell";
@@ -21,10 +21,12 @@ export default function ScheduleMerged({ startTime, endTime, dates, display }) {
         display: 'flex',
         width: '50vw',
         height: '75vh',
-        borderRadius: '0 20px 0 0',
         overFlow: 'scroll',
-        marginLeft: '200px',
-        boxShadow: 'none'
+        marginLeft: '20px',
+        marginTop: '20px',
+        boxShadow: 'none',
+        minWidth: '350px',
+        borderRight: 'solid #C1C1C1 1px',
       }}
       {...(!display ? { 
           onMouseDownCapture: () => setIsMouseDown(true), 
@@ -35,8 +37,8 @@ export default function ScheduleMerged({ startTime, endTime, dates, display }) {
     >
       <Table>
         <TableHead>
-          <TableRow sx={{ height: '100px'}}>
-            <TableCell sx={{ border: 0, minWidth: '70px', width: '70px' }}/>
+          <TableRow sx={{ height: '100px', position: 'sticky', top: '0px', zIndex: 1}}>
+            <TableCell sx={{ border: 0, minWidth: '70px', width: '70px', backgroundColor:'white', position: 'sticky', left:'0px' }}/>
             {dates.map((date, index) => {
               const JSDate = new Date(date);
               return (

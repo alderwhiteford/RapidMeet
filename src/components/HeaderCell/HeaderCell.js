@@ -28,7 +28,7 @@ export default function HeaderCell({ day, date, firstHeader }) {
         minWidth: '150px',
         height: '100%',
         border: 0,
-        borderRadius: firstHeader ? '20px 0 0 0' : ''
+        borderRadius: firstHeader ? '5px 0 0 0' : ''
       }}>
       <StyledDiv>
         <HeaderDay>
