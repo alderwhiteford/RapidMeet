@@ -7,6 +7,7 @@ export default function TimeCell({ time, lastCell }) {
     minHeight: '26px',
     position: 'sticky',
     left: '0px',
+    fontFamily: 'sans-serif',
 
     '&::before': {
       content: "''",

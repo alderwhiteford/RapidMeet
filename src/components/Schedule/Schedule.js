@@ -16,13 +16,13 @@ export default function ScheduleMerged({ startTime, endTime, dates, display }) {
 
   return (
     <Paper sx={{
-      width: '80vw',
-      maxHeight: '75vh',
+      minWidth: '50vw',
+      maxWidth: '80vw',
+      maxHeight: '65vh',
       overflow: 'scroll',
-      marginLeft: '50px',
-      marginTop: '50px',
       boxShadow: '5px 5px 5px #C1C1C1',
       display: 'flex',
+      paddingBottom: '25px'
     }}>
       <div style={{
         display: 'flex',
@@ -56,18 +56,18 @@ export default function ScheduleMerged({ startTime, endTime, dates, display }) {
       >
         <Table sx={{boxShadow: '5px 5px'}}>
           <TableHead>
-            <TableRow sx={{ height: '100px', position: 'sticky', top: '0px', zIndex: 1}}>
-              {dates.map((date, index) => {
-                const JSDate = new Date(date);
-                return (
-                  <HeaderCell
-                    day={days[JSDate.getDay()]} 
-                    date={`${months[JSDate.getMonth()]} ${JSDate.getDate()}`}
-                    firstHeader={index === 0}
-                  />
-                )
-              })}
-            </TableRow>
+              <TableRow sx={{ height: '100px', zIndex: 4}}>
+                {dates.map((date, index) => {
+                  const JSDate = new Date(date);
+                  return (
+                    <HeaderCell
+                      day={days[JSDate.getDay()]} 
+                      date={`${months[JSDate.getMonth()]} ${JSDate.getDate()}`}
+                      firstHeader={index === 0}
+                    />
+                  )
+                })}
+              </TableRow>
           </TableHead>
           <TableBody sx={{position: 'relative'}}>
             {rows.map((row, index) => (
