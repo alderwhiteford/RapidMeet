@@ -24,10 +24,10 @@ export async function createSchedule({ name, start_time, end_time, dates, timezo
 };
 
 export async function addScheduleUser({ scheduleId, user_name, user_email, existing_users }) {
-  const user_id = stringToUniqueNumber(user_name);
+  const user_id = stringToUniqueNumber(user_email);
 
   if (existing_users[user_id]) {
-    throw new Error('User already exists!') 
+    throw new Error('User already exists with this email') 
    }
   
   const scheduleRef = doc(db, "schedule", scheduleId);
