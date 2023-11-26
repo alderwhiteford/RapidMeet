@@ -36,7 +36,7 @@ export async function addScheduleUser({ scheduleId, user_name, user_email, exist
   })
 };
 
-export async function updateUserAvailability({ scheduleId, user_id, availability, existing_availability, existing_users}) {
+export async function updateUserAvailability({ scheduleId, user_id, availability, existing_availability, existing_users }) {
   if (!existing_users[user_id]) {
     throw new Error('User already exists!') 
   }
