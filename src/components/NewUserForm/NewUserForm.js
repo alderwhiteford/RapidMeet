@@ -92,8 +92,8 @@ export default function NewUserForm() {
   const addUser = (formData) => {
     addScheduleUser(scheduleId, formData.name, formData.email, users).then((res) => {
       if (res.success) {
-        dispatch(setUser(formData));
-        dispatch(setModal()); // this can be like dispatch(setModal('input_calendar')) to basically act as a redirect to that modal
+        dispatch(setUser(res.data));
+        dispatch(setModal('availability_calendar'));
       } else {
         dispatch(setErrorModal(res.error));
       }

@@ -34,11 +34,12 @@ export async function addScheduleUser({ scheduleId, user_name, user_email, exist
   await updateDoc(scheduleRef, {
     [`users.${user_id}`]: {user_name, user_email}
   })
+  return { id: user_id, name: user_name, email: user_email };
 };
 
 export async function updateUserAvailability({ scheduleId, user_id, availability, existing_availability, existing_users }) {
   if (!existing_users[user_id]) {
-    throw new Error('User already exists!') 
+    throw new Error('User does not exist!') 
   }
 
   for (let time of availability) {

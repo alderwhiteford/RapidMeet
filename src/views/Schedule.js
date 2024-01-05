@@ -3,17 +3,23 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setSchedule } from '../redux/scheduleSlice';
+import { setModal } from '../redux/generalSlice';
 import { db } from '../services/firebase/config';
 import { doc, onSnapshot } from 'firebase/firestore';
 import ScheduleGrid from '../components/Schedule/Schedule';
 import Navbar from '../components/Navbar/Navbar';
+import NewUserForm from '../components/NewUserForm/NewUserForm';
+import styled from '@emotion/styled';
+import { Button } from '@mui/material';
+import AvailabilityForm from '../components/AvailabilityForm/AvailabilityForm';
+import ErrorModal from '../components/Modal/ErrorModal';
 
 function Schedule() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedTimes, setSelectedTimes] = useState(new Set());
 
-  const { modal } = useSelector((state) => state.general);
+  const { errorModal, modal } = useSelector((state) => state.general);
   const { name, start_time, end_time, dates } = useSelector((state) => state.schedule);
   const { user } = useSelector((state) => state.user);
   const { scheduleId } = useParams();
@@ -46,13 +52,19 @@ function Schedule() {
       <>
         <Navbar />
         <ScheduleContainer>
-          <ScheduleGrid startTime={start_time} endTime={end_time} dates={dates}/>
+          {errorModal.isOpen && (
+            <ErrorModal />
+          )}
+          <ScheduleGrid startTime={start_time} endTime={end_time} dates={dates} display/>
           {user &&
-            <p>Hi {user.name}, {user.email}</p>
+            <p>Hi {user.name}, {user.email}</p> // User is not being correctly set right in redux from NewUserForm for some reason...
           }
           <Button onClick={() => dispatch(setModal('new_user_form'))}>Add Availability</Button>
           {modal === 'new_user_form' && (
             <NewUserForm />
+          )}
+          {modal === 'availability_calendar' && (
+            <AvailabilityForm startTime={start_time} endTime={end_time} dates={dates} setTimes={setSelectedTimes} selectedTimes={selectedTimes} />
           )}
         </ScheduleContainer>
       </>

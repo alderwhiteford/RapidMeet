@@ -15,8 +15,8 @@ export async function createSchedule({ name, start_time, end_time, dates, timezo
 
 export async function addScheduleUser(scheduleId, user_name, user_email, existing_users) {
   try {
-    await addScheduleUserAPI({ scheduleId, user_name, user_email, existing_users });
-    return { success: true };
+    const user = await addScheduleUserAPI({ scheduleId, user_name, user_email, existing_users });
+    return { success: true, data: user };
   } catch (error) {
     return { success: false, error: error.message };
   }
