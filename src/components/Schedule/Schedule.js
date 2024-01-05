@@ -1,14 +1,14 @@
-import { useSelector } from "react-redux";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { computeTimeIntervals, createScheduleRows } from "../../utils/scheduleGrid";
+import { days, months } from "../../utils/constants";
+import { useSelector } from "react-redux";
 import { useState } from "react";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box } from "@mui/material";
 import SelectCell from "../Cell/SelectCell";
 import HeaderCell from "../HeaderCell/HeaderCell";
 import TimeCell from "../Cell/TimeCell";
 import DisplayCell from "../Cell/DisplayCell";
-import { days, months } from "../../utils/constants";
 
-export default function ScheduleMerged({ startTime, endTime, dates, display }) {
+export default function ScheduleGrid({ startTime, endTime, dates, display, setTimes }) {
   const { availability, users } = useSelector((state) => state.schedule);
   const [sideBarTimes, intervals] = computeTimeIntervals(startTime, endTime);
   const rows = createScheduleRows(dates, intervals)
@@ -84,6 +84,7 @@ export default function ScheduleMerged({ startTime, endTime, dates, display }) {
                         epochTime={cell}
                         isMouseDown={isMouseDown}
                         isHour={index % 2 === 1}
+                        setTime={setTimes}
                       />
                   ))}
                 </TableRow>
