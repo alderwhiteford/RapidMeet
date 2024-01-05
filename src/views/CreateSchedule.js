@@ -45,6 +45,7 @@ function CreateSchedule() {
     return () => {
       typed.destroy();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [schedulePhrases]);
 
   return (

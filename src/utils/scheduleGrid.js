@@ -19,7 +19,7 @@ export function computeTimeIntervals(startTime, endTime) {
   // Compute Time Bar Times:
   const times = [];
   for (let i = startHour ; i <= endHour ; i++) {
-    let time = i;
+    let time = i === 0 ? 12 : i ;
     let meridiem = 'AM';
     if (i > 12) {
       time = time - 12;

@@ -1,10 +1,13 @@
-import styled, { css } from "@emotion/styled";
-import { TableCell } from "@mui/material";
+import styled from "@emotion/styled";
 
 export default function TimeCell({ time, lastCell }) {
-  const StyledCell = styled(TableCell)({
+  const StyledCell = styled('div')({
     border: 0,
-    position: 'relative',
+    width: '65px',
+    minHeight: '26px',
+    position: 'sticky',
+    left: '0px',
+    fontFamily: 'sans-serif',
 
     '&::before': {
       content: "''",
@@ -46,7 +49,7 @@ export default function TimeCell({ time, lastCell }) {
   `
   
   return (
-    <StyledCell>
+    <StyledCell key={time}>
       {time &&
         <TimeText>
           {time}

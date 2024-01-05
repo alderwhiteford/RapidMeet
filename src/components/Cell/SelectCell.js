@@ -1,10 +1,24 @@
 import styled from "@emotion/styled";
 import { TableCell } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function SelectCell({ epochTime, isMouseDown, isHour }) {
+export default function SelectCell({ epochTime, isMouseDown, isHour, setTime }) {
   const [selected, setSelected] = useState(false);
   const [mouseEntered, setMouseEntered] = useState(false);
+
+  useEffect(() => {
+    if (selected) {
+      setTime((times) => {
+        times.add(epochTime);
+        return times;
+      })
+    } else {
+      setTime((times) => {
+        times.delete(epochTime);
+        return times;
+      })
+    }
+  }, [epochTime, selected, setTime])
 
   const handleMouseEnter = () => {
     if (!mouseEntered && isMouseDown) {
@@ -38,10 +52,9 @@ export default function SelectCell({ epochTime, isMouseDown, isHour }) {
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onMouseUp={handleMouseLeave}
+      onMouseUpCapture={handleMouseLeave}
     >
-      <StyledDiv>
-      </StyledDiv>
+      <StyledDiv />
     </TableCell>
   )
 }

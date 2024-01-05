@@ -19,7 +19,7 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, position: 'fixed', zIndex: 2, width: '100vw' }}>
       <AppBar position="static">
         <StyledToolbar>
           {/* Logo will go here, also we will prob want to find a nice font to use for the typography */}
