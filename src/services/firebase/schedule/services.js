@@ -27,31 +27,38 @@ export async function addScheduleUser({ scheduleId, user_name, user_email, exist
   const user_id = stringToUniqueNumber(user_email);
 
   if (existing_users[user_id]) {
-    throw new Error('User already exists with this email') 
-   }
+    return { id: user_id, name: user_name, email: user_email };
+  }
   
   const scheduleRef = doc(db, "schedule", scheduleId);
   await updateDoc(scheduleRef, {
     [`users.${user_id}`]: {user_name, user_email}
   })
+
   return { id: user_id, name: user_name, email: user_email };
 };
 
-export async function updateUserAvailability({ scheduleId, user_id, availability, existing_availability, existing_users }) {
+export async function updateUserAvailability({ scheduleId, user, availability, existing_availability, existing_users }) {
+  let { id: user_id, name: user_name, email: user_email } = user;
+
   if (!existing_users[user_id]) {
-    throw new Error('User does not exist!') 
+    await updateDoc(scheduleRef, {
+      [`users.${user.id}`]: {user_name, user_email}
+    })
   }
 
+  let newAvailability =  { ...existing_availability };
+
   for (let time of availability) {
-    if (!existing_availability[time]) {
-      existing_availability[time] = [];
+    if (!newAvailability[time]) {
+      newAvailability[time] = [];
     }
-    existing_availability[time].push(user_id);
+    newAvailability[time] = [...newAvailability[time], user_id];
   }
 
   const scheduleRef = doc(db, "schedule", scheduleId);
   await updateDoc(scheduleRef, {
-    availability: existing_availability
+    availability: newAvailability
   });
 };
 

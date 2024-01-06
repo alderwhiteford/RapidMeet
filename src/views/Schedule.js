@@ -21,7 +21,7 @@ function Schedule() {
 
   const { errorModal, modal } = useSelector((state) => state.general);
   const { name, start_time, end_time, dates } = useSelector((state) => state.schedule);
-  const { user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state);
   const { scheduleId } = useParams();
 
   useLayoutEffect(() => {
@@ -56,16 +56,20 @@ function Schedule() {
             <ErrorModal />
           )}
           <ScheduleGrid startTime={start_time} endTime={end_time} dates={dates} display/>
-          {user &&
-            <p>Hi {user.name}, {user.email}</p> // User is not being correctly set right in redux from NewUserForm for some reason...
+          {user.id ?
+            <Button onClick={() => dispatch(setModal('availability_calendar'))}>Edit Availability</Button>
+            :
+            <Button onClick={() => dispatch(setModal('new_user_form'))}>Add Availability</Button>
           }
-          <Button onClick={() => dispatch(setModal('new_user_form'))}>Add Availability</Button>
           {modal === 'new_user_form' && (
             <NewUserForm />
           )}
           {modal === 'availability_calendar' && (
             <AvailabilityForm startTime={start_time} endTime={end_time} dates={dates} setTimes={setSelectedTimes} selectedTimes={selectedTimes} />
           )}
+          {user &&
+            <p>Hi {user.name}</p> // User is not being correctly set right in redux from NewUserForm for some reason...
+          }
         </ScheduleContainer>
       </>
   )

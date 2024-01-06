@@ -60,15 +60,15 @@ const StyledIconButton = styled(IconButton)({
 export default function AvailabilityForm({ startTime, endTime, dates, setTimes, selectedTimes }) {
   const dispatch = useDispatch();
   const { availability, name, users } = useSelector((state) => state.schedule);
-  const { user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state);
   const { scheduleId } = useParams();
 
   const addAvailability = () => {
-    updateUserAvailability(scheduleId, user?.id, selectedTimes, availability, users).then((res) => {
+    updateUserAvailability(scheduleId, user, selectedTimes, availability, users).then((res) => {
       if (res.success) {
         dispatch(setModal());
       } else {
-        dispatch(setErrorModal(res.error))
+        dispatch(setErrorModal(res.error));
       }
     })
   }
