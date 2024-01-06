@@ -53,7 +53,8 @@ export async function updateUserAvailability({ scheduleId, user, availability, e
     if (!newAvailability[time]) {
       newAvailability[time] = [];
     }
-    newAvailability[time] = [...newAvailability[time], user_id];
+    const userSet = new Set([...newAvailability[time], user_id]);
+    newAvailability[time] = Array.from(userSet);
   }
 
   const scheduleRef = doc(db, "schedule", scheduleId);

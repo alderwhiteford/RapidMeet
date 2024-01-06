@@ -13,12 +13,18 @@ export const userSlice = createSlice({
       state.id = action.payload.id;
       state.name = action.payload.name;
       state.email = action.payload.email;
+    },
+    resetUser: (state) => {
+      state.id = '';
+      state.name = '';
+      state.email = '';
     }
   },
 });
 
 export const { 
   setUser,
+  resetUser,
 } = userSlice.actions;
 
 export default userSlice.reducer;
