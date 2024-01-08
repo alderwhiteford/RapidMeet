@@ -5,8 +5,10 @@ import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { setErrorModal, setModal } from "../../redux/generalSlice";
-import { addScheduleUser } from "../../services/scheduleApi";
+import { addScheduleUser, getUserByName } from "../../services/scheduleApi";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { stringToUniqueNumber } from "../../utils/strings";
 
 const FormContainer = styled('div')({
   position: 'fixed',
@@ -25,13 +27,14 @@ const StyledForm = styled('form')({
   position: 'relative',
   width: '25vw',
   height: '50vh',
+  paddingTop: '40px',
   backgroundColor: 'white',
   borderRadius: '20px',
   zIndex: 100,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'flex-start',
   gap: '10px',
 });
 
@@ -75,6 +78,7 @@ export default function NewUserForm() {
   const dispatch = useDispatch();
   const { name, users } = useSelector((state) => state.schedule);
   const { scheduleId } = useParams();
+  const [isNewUser, setIsNewUser] = useState(false);
   // const { email } = useSelector((state) => state.user);
 
   const {
@@ -97,13 +101,25 @@ export default function NewUserForm() {
       } else {
         dispatch(setErrorModal(res.error));
       }
-    })
-    
+    });
+  };
+
+  const checkUser = (formData) => {
+    const user_id = stringToUniqueNumber(formData.name);
+    if (users[user_id]) {
+      const data = { id: user_id, name: users[user_id].user_name, email: users[user_id].user_email };
+      console.log(data);
+      dispatch(setUser(data));
+      dispatch(setModal('returning_user'));
+    } else {
+      setIsNewUser(true);
+      return;
+    }
   };
 
   return (
     <FormContainer>
-      <StyledForm onSubmit={handleSubmit(addUser)}>
+      <StyledForm onSubmit={handleSubmit(isNewUser ? addUser : checkUser)}>
         <StyledHeader>Welcome!</StyledHeader>
         <StyledSubHeader>Add your availability for {name}</StyledSubHeader>
         <StyledTextField
@@ -116,16 +132,18 @@ export default function NewUserForm() {
           type="text"
           variant="outlined"
         />
-        <StyledTextField
-          error={!!errors.email}
-          helperText={errors.email?.message ?? ' '}
-          InputLabelProps={{ shrink: true }}
-          label="Email"
-          {...register('email', { required: "Please enter your email" })}
-          placeholder="name@email.com"
-          type="text"
-          variant="outlined"
-        />
+        {isNewUser && (
+          <StyledTextField
+            error={!!errors.email}
+            helperText={errors.email?.message ?? ' '}
+            InputLabelProps={{ shrink: true }}
+            label="Email"
+            {...register('email', { required: "Please enter your email" })}
+            placeholder="name@email.com"
+            type="text"
+            variant="outlined"
+          />
+        )}
         <StyledButton
           type="submit"
           variant="contained"

@@ -23,11 +23,21 @@ export async function createSchedule({ name, start_time, end_time, dates, timezo
   return newScheduleWithID;
 };
 
-export async function addScheduleUser({ scheduleId, user_name, user_email, existing_users }) {
-  const user_id = stringToUniqueNumber(user_email);
+export async function getUserByName({ user_name, existing_users }) {
+  const user_id = stringToUniqueNumber(user_name);
 
   if (existing_users[user_id]) {
-    return { id: user_id, name: user_name, email: user_email };
+    return { id: user_id, name: user_name, email: existing_users[user_id].user_email };
+  } else {
+    throw new Error('User with this name does not exist in this event');
+  }
+};
+
+export async function addScheduleUser({ scheduleId, user_name, user_email, existing_users }) {
+  const user_id = stringToUniqueNumber(user_name);
+
+  if (existing_users[user_id]) {
+    throw new Error('User with this name already exists');
   }
   
   const scheduleRef = doc(db, "schedule", scheduleId);

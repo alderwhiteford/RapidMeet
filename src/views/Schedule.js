@@ -13,6 +13,25 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import AvailabilityForm from '../components/AvailabilityForm/AvailabilityForm';
 import ErrorModal from '../components/Modal/ErrorModal';
+import ReturningUserModal from '../components/Modal/ReturningUserModal';
+import { ScheduleHeader } from '../components/ScheduleHeader/ScheduleHeader';
+
+const ScheduleContainer = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  paddingTop: '115px',
+  paddingRight: '65px',
+  alignItems: 'center'
+});
+
+const StyledButton = styled(Button)({
+  backgroundColor: '#04a43c',
+  marginTop: '20px',
+  width: '30vw',
+  '&:hover': {
+    backgroundColor: '#04a43c',
+  },
+});
 
 function Schedule() {
   const dispatch = useDispatch();
@@ -20,7 +39,7 @@ function Schedule() {
   const [selectedTimes, setSelectedTimes] = useState(new Set());
 
   const { errorModal, modal } = useSelector((state) => state.general);
-  const { name, start_time, end_time, dates } = useSelector((state) => state.schedule);
+  const { name, start_time, end_time, dates, users } = useSelector((state) => state.schedule);
   const { user } = useSelector((state) => state);
   const { scheduleId } = useParams();
 
@@ -40,14 +59,6 @@ function Schedule() {
     return () => unsubscribe();
   }, [scheduleId, dispatch, navigate]);
 
-  const ScheduleContainer = styled.div({
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: '115px',
-    paddingRight: '65px',
-    alignItems: 'center'
-  })
-
   return (
       <>
         <Navbar />
@@ -55,21 +66,22 @@ function Schedule() {
           {errorModal.isOpen && (
             <ErrorModal />
           )}
+          <ScheduleHeader name={name} attendees={Object.keys(users).length} />
           <ScheduleGrid startTime={start_time} endTime={end_time} dates={dates} display/>
           {user.id ?
-            <Button onClick={() => dispatch(setModal('availability_calendar'))}>Edit Availability</Button>
+            <StyledButton variant="contained" onClick={() => dispatch(setModal('availability_calendar'))}>Edit Availability</StyledButton>
             :
-            <Button onClick={() => dispatch(setModal('new_user_form'))}>Add Availability</Button>
+            <StyledButton variant="contained" onClick={() => dispatch(setModal('new_user_form'))}>Add Availability</StyledButton>
           }
           {modal === 'new_user_form' && (
             <NewUserForm />
           )}
+          {modal === 'returning_user' && (
+            <ReturningUserModal />
+          )}
           {modal === 'availability_calendar' && (
             <AvailabilityForm startTime={start_time} endTime={end_time} dates={dates} setTimes={setSelectedTimes} selectedTimes={selectedTimes} />
           )}
-          {user &&
-            <p>Hi {user.name}</p> // User is not being correctly set right in redux from NewUserForm for some reason...
-          }
         </ScheduleContainer>
       </>
   )
