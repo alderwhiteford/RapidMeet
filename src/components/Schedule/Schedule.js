@@ -16,18 +16,17 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
 
   return (
     <Paper sx={{
-      minWidth: '50vw',
-      maxWidth: '80vw',
-      maxHeight: '65vh',
+      maxWidth: '80%',
+      maxHeight: '80vh',
       overflow: 'scroll',
-      boxShadow: '5px 5px 5px #C1C1C1',
+      boxShadow: '5px 5px 5px #e8e8e8',
       display: 'flex',
       paddingBottom: '25px'
     }}>
       <div style={{
         display: 'flex',
         flexDirection: 'column',
-        paddingTop: '100px',
+        paddingTop: '80.5px',
       }}>
         {rows.map((row, index) =>
           <TimeCell 
@@ -56,7 +55,7 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
       >
         <Table sx={{boxShadow: '5px 5px'}}>
           <TableHead>
-              <TableRow sx={{ height: '100px', zIndex: 4}}>
+              <TableRow sx={{ height: '80px', zIndex: 4}}>
                 {dates.map((date, index) => {
                   const JSDate = new Date(date);
                   return (

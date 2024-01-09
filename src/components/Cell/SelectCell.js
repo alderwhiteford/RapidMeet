@@ -36,7 +36,7 @@ export default function SelectCell({ epochTime, isMouseDown, isHour, setTime }) 
     position: 'relative',
     alignContent: 'center',
     justifyContent: 'center',
-    height: '25px',
+    height: '17.5px',
   })
   
   return (
