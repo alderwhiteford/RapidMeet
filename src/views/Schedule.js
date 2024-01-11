@@ -3,18 +3,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setSchedule } from '../redux/scheduleSlice';
-import { setModal } from '../redux/generalSlice';
+import { setModal, setSuccessModal } from '../redux/generalSlice';
 import { db } from '../services/firebase/config';
 import { doc, onSnapshot } from 'firebase/firestore';
 import ScheduleGrid from '../components/Schedule/Schedule';
 import Navbar from '../components/Navbar/Navbar';
 import NewUserForm from '../components/NewUserForm/NewUserForm';
 import styled from '@emotion/styled';
-import { Button } from '@mui/material';
+import { Alert, Button, Snackbar } from '@mui/material';
 import AvailabilityForm from '../components/AvailabilityForm/AvailabilityForm';
-import ErrorModal from '../components/Modal/ErrorModal';
 import ReturningUserModal from '../components/Modal/ReturningUserModal';
-import { ScheduleHeader } from '../components/ScheduleHeader/ScheduleHeader';
 
 const ScheduleContainer = styled.div({
   display: 'flex',
@@ -38,8 +36,8 @@ function Schedule() {
   const navigate = useNavigate();
   const [selectedTimes, setSelectedTimes] = useState(new Set());
 
-  const { errorModal, modal } = useSelector((state) => state.general);
-  const { name, start_time, end_time, dates, users } = useSelector((state) => state.schedule);
+  const { successModal, modal } = useSelector((state) => state.general);
+  const { start_time, end_time, dates } = useSelector((state) => state.schedule);
   const { user } = useSelector((state) => state);
   const { scheduleId } = useParams();
 
@@ -61,12 +59,18 @@ function Schedule() {
 
   return (
       <>
+        <Snackbar 
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+          open={successModal?.isOpen} 
+          autoHideDuration={4000} 
+          onClose={() => dispatch(setSuccessModal())}
+        >
+          <Alert onClose={() => dispatch(setSuccessModal())} severity="success" sx={{ width: '100%' }}>
+            {successModal?.message}
+          </Alert>
+        </Snackbar>
         <Navbar />
         <ScheduleContainer>
-          {errorModal.isOpen && (
-            <ErrorModal />
-          )}
-          <ScheduleHeader name={name} attendees={Object.keys(users).length} />
           <ScheduleGrid startTime={start_time} endTime={end_time} dates={dates} display/>
           {user.id ?
             <StyledButton variant="contained" onClick={() => dispatch(setModal('availability_calendar'))}>Edit Availability</StyledButton>

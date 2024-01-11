@@ -92,7 +92,6 @@ export default function ScheduleForm() {
       <StyledTextField
         error={!!errors.event_name}
         helperText={errors.event_name?.message ?? ' '}
-        InputLabelProps={{ shrink: true }}
         label="Event Name"
         {...register('event_name', { required: "Please provide a name for the event" })}
         type="text"

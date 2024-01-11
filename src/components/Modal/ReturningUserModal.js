@@ -1,14 +1,9 @@
-import { Button, IconButton, TextField, Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
-import { resetUser, setUser } from "../../redux/userSlice";
+import { Button, IconButton, Typography } from "@mui/material";
+import { resetUser } from "../../redux/userSlice";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { setErrorModal, setModal } from "../../redux/generalSlice";
-import { addScheduleUser, getUserByName } from "../../services/scheduleApi";
-import { useParams } from "react-router-dom";
-import { useState } from "react";
-import { stringToUniqueNumber } from "../../utils/strings";
+import { setModal } from "../../redux/generalSlice";
 
 const FormContainer = styled('div')({
   position: 'fixed',
@@ -25,9 +20,9 @@ const FormContainer = styled('div')({
 
 const StyledForm = styled('form')({
   position: 'relative',
-  width: '25vw',
-  height: '50vh',
-  paddingTop: '40px',
+  width: '20vw',
+  height: '35vh',
+  padding: '40px',
   backgroundColor: 'white',
   borderRadius: '20px',
   zIndex: 100,
@@ -36,20 +31,28 @@ const StyledForm = styled('form')({
   alignItems: 'center',
   justifyContent: 'flex-start',
   gap: '10px',
+
+  '@media (max-width: 768px)': {
+    width: '75vw',
+    height: '30vh',
+    padding: '25px',
+  },
 });
 
 const StyledHeader = styled(Typography)({
   alignSelf: 'flex-start',
-  marginLeft: '15%',
   marginBottom: '-5%',
   color: '#04a43c',
   fontSize: 40,
   fontWeight: 700,
+
+  '@media (max-width: 768px)': {
+    fontSize: 35,
+  },
 });
 
 const StyledSubHeader = styled(Typography)({
   alignSelf: 'flex-start',
-  marginLeft: '15%',
   marginBottom: '5%',
   fontSize: 20,
 });
@@ -58,7 +61,23 @@ const StyledText = styled(Typography)({
   alignSelf: 'flex-start',
   fontSize: 15,
   flexWrap: 'wrap',
-})
+});
+
+const StyledEmailText = styled(Typography)({
+  color: '#04a43c',
+  display: 'inline',
+});
+
+const StyledButtonContainer = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: '60px',
+
+  '@media (max-width: 768px)': {
+    gap: '40px',
+  },
+});
 
 const StyledButton = styled(Button)({
   backgroundColor: '#04a43c',
@@ -66,13 +85,6 @@ const StyledButton = styled(Button)({
     backgroundColor: '#037e33',
   },
   width: '70%',
-});
-
-const StyledButtonContainer = styled('div')({
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'space-between',
 });
 
 const StyledIconButton = styled(IconButton)({
@@ -85,9 +97,7 @@ const StyledIconButton = styled(IconButton)({
 
 export default function ReturningUserModal() {
   const dispatch = useDispatch();
-  const { name, users } = useSelector((state) => state.schedule);
-  const { scheduleId } = useParams();
-  const [isNewUser, setIsNewUser] = useState(false);
+  const { name } = useSelector((state) => state.schedule);
   const { email } = useSelector((state) => state.user);
 
   const handleCancel = () => {
@@ -102,7 +112,7 @@ export default function ReturningUserModal() {
       <StyledForm>
         <StyledHeader>Edit Your</StyledHeader>
         <StyledSubHeader>availability for {name}</StyledSubHeader>
-        <StyledText>The name you have provided is in use. Do you wish to continue as {email}</StyledText>
+        <StyledText>The name you have provided is in use. Do you wish to continue as <StyledEmailText>{email}</StyledEmailText>?</StyledText>
         <StyledButtonContainer>
           <StyledButton
             variant="contained"

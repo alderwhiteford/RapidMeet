@@ -3,22 +3,22 @@ import { createSlice } from "@reduxjs/toolkit";
 export const generalSlice = createSlice({
   name: 'general',
   initialState: {
-    modal: undefined, // This way we can use the same modal state for al modals but passing a string such as 'new_user_form' or 'input_calendar'
-    errorModal: {
+    modal: undefined,
+    successModal: {
       isOpen: false,
       message: '',
     }
   },
 
   reducers: {
-    setErrorModal: (state, action) => {
-      if (action.payload.error) {
-        state.errorModal = {
+    setSuccessModal: (state, action) => {
+      if (action.payload) {
+        state.successModal = {
           isOpen: true,
-          message: action.payload.error,
+          message: action.payload.message,
         }
       } else {
-        state.errorModal = {
+        state.successModal = {
           isOpen: false,
           message: '',
         }
@@ -35,7 +35,7 @@ export const generalSlice = createSlice({
 });
 
 export const { 
-  setErrorModal,
+  setSuccessModal,
   setModal,
 } = generalSlice.actions;
 
