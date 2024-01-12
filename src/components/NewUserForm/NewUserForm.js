@@ -47,6 +47,8 @@ const StyledForm = styled('form')(
 );
 
 const StyledHeader = styled(Typography)({
+  alignSelf: 'flex-start',
+  marginLeft: '25px',
   marginBottom: '-5%',
   color: '#04a43c',
   fontSize: 40,
@@ -58,6 +60,8 @@ const StyledHeader = styled(Typography)({
 });
 
 const StyledSubHeader = styled(Typography)({
+  alignSelf: 'flex-start',
+  marginLeft: '25px',
   marginBottom: '5%',
   fontSize: 20,
 
@@ -67,7 +71,7 @@ const StyledSubHeader = styled(Typography)({
 });
 
 const StyledTextField = styled(TextField)({
-  width: '70%',
+  width: '85%',
 });
 
 const StyledButton = styled(Button)({
@@ -75,7 +79,7 @@ const StyledButton = styled(Button)({
   '&:hover': {
     backgroundColor: '#037e33',
   },
-  width: '70%',
+  width: '85%',
 });
 
 const StyledIconButton = styled(IconButton)({
@@ -88,6 +92,13 @@ const StyledIconButton = styled(IconButton)({
 
 const StyledSnackbar = styled(Snackbar)({
   zIndex: 101,
+});
+
+const StyledCancelIcon = styled(CancelIcon)({
+  backgroundColor: 'white',
+  color: '#929191',
+  fontSize: 60,
+  borderRadius: '50%',
 });
 
 export default function NewUserForm() {
@@ -180,7 +191,7 @@ export default function NewUserForm() {
             Continue
           </StyledButton>
           <StyledIconButton onClick={() => dispatch(setModal())}>
-            <CancelIcon sx={{ fontSize: 60 }}/>
+            <StyledCancelIcon />
           </StyledIconButton>
         </StyledForm>
       </FormContainer>

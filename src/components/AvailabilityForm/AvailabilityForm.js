@@ -28,15 +28,21 @@ const StyledForm = styled('div')({
   height: '70vh',
   backgroundColor: 'white',
   borderRadius: '20px',
+  padding: '5px',
   zIndex: 100,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
 
+  '@media (max-width: 1280px)': {
+    width: '85vw',
+    height: '85vh',
+  },
+
   '@media (max-width: 768px)': {
     width: '85vw',
-    height: '80vh',
+    height: '85vh',
   },
 });
 
@@ -72,9 +78,15 @@ const StyledSubText = styled(Typography)({
   alignSelf: 'flex-start',
   color: '#929191',
   fontSize: 15,
+  marginRight: '390px',
+
+  '@media (max-width: 1280px)': {
+    marginRight: '350px',
+  },
 
   '@media (max-width: 768px)': {
-    fontSize: 10,
+    fontSize: 12,
+    marginRight: '0px',
   },
 });
 
@@ -102,6 +114,22 @@ const StyledIconButton = styled(IconButton)({
 const StyledSnackbar = styled(Snackbar)({
   zIndex: 101,
 });
+
+const StyledCancelIcon = styled(CancelIcon)({
+  backgroundColor: 'white',
+  color: '#929191',
+  fontSize: 60,
+  borderRadius: '50%',
+});
+
+const StyledInfoIcon = styled(InfoIcon)({
+  color: '#929191',
+  fontSize: 20,
+
+  '@media (max-width: 768px)': {
+    fontSize: 15,
+  },
+})
 
 export default function AvailabilityForm({ startTime, endTime, dates, setTimes, selectedTimes }) {
   const dispatch = useDispatch();
@@ -141,7 +169,7 @@ export default function AvailabilityForm({ startTime, endTime, dates, setTimes, 
         <StyledForm>
           <StyledHeader>Your <StyledHeaderBlack>availability for {name}</StyledHeaderBlack></StyledHeader>
           <StyledInfoContainer>
-            <InfoIcon sx={{ color: '#929191' }}/>
+            <StyledInfoIcon sx={{ color: '#929191' }}/>
             <StyledSubText>Click and drag time blocks on the calendar to add your availability</StyledSubText>
           </StyledInfoContainer>
           <ScheduleGrid startTime={startTime} endTime={endTime} dates={dates} setTimes={setTimes} />
@@ -153,7 +181,7 @@ export default function AvailabilityForm({ startTime, endTime, dates, setTimes, 
             Save
           </StyledButton>
           <StyledIconButton onClick={() => dispatch(setModal())}>
-            <CancelIcon sx={{ fontSize: 60 }}/>
+            <StyledCancelIcon />
           </StyledIconButton>
         </StyledForm>
       </FormContainer>

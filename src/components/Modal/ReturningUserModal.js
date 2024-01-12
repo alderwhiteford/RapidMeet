@@ -95,6 +95,13 @@ const StyledIconButton = styled(IconButton)({
   color: '#D3D3D3',
 });
 
+const StyledCancelIcon = styled(CancelIcon)({
+  backgroundColor: 'white',
+  color: '#929191',
+  fontSize: 60,
+  borderRadius: '50%',
+});
+
 export default function ReturningUserModal() {
   const dispatch = useDispatch();
   const { name } = useSelector((state) => state.schedule);
@@ -130,7 +137,7 @@ export default function ReturningUserModal() {
           </StyledButton>
         </StyledButtonContainer>
         <StyledIconButton onClick={() => dispatch(setModal())}>
-          <CancelIcon sx={{ fontSize: 60 }}/>
+          <StyledCancelIcon />
         </StyledIconButton>
       </StyledForm>
     </FormContainer>
