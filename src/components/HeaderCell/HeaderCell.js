@@ -11,13 +11,13 @@ export default function HeaderCell({ day, date, firstHeader }) {
 
   const HeaderDay = styled.h1({
     margin: 0,
-    fontSize: '25px',
+    fontSize: '17.5px',
     fontWeight: 400,
   })
 
   const HeaderDate = styled.h2({
     margin: 0,
-    fontSize: '15px',
+    fontSize: '12.5px',
     fontWeight: 300,
   })
   
@@ -25,7 +25,7 @@ export default function HeaderCell({ day, date, firstHeader }) {
     <TableCell 
       sx={{ 
         backgroundColor: '#04a43c',
-        minWidth: '150px',
+        minWidth: '75px',
         height: '100%',
         border: 0,
         borderRadius: firstHeader ? '5px 0 0 0' : ''

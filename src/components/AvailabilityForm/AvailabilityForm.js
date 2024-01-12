@@ -1,13 +1,13 @@
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Alert, Button, IconButton, Snackbar, TextField, Typography } from "@mui/material";
 import styled from "@emotion/styled";
-import { useDispatch, useSelector } from "react-redux";
 import CancelIcon from "@mui/icons-material/Cancel";
 import InfoIcon from '@mui/icons-material/Info';
 import { setModal, setSuccessModal } from "../../redux/generalSlice";
 import { updateUserAvailability } from "../../services/scheduleApi";
 import { useParams } from "react-router-dom";
 import ScheduleGrid from "../Schedule/Schedule";
-import { useState } from "react";
 
 const FormContainer = styled('div')({
   position: 'fixed',
@@ -88,6 +88,13 @@ const StyledSubText = styled(Typography)({
     fontSize: 12,
     marginRight: '0px',
   },
+});
+
+const StyledHeader = styled(Typography)({
+  alignSelf: 'flex-center',
+  color: '#04a43c',
+  fontSize: 40,
+  fontWeight: 700,
 });
 
 const StyledButton = styled(Button)({

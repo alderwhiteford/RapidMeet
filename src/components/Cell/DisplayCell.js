@@ -9,7 +9,7 @@ export default function DisplayCell({ epochTime, isHour, availability, users }) 
     position: 'relative',
     alignContent: 'center',
     justifyContent: 'center',
-    height: '25px',
+    height: '17.5px',
   })
   
   return (
