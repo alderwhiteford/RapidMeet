@@ -1,5 +1,6 @@
 import {
   createSchedule as createScheduleAPI,
+  getUserByName as getUserByNameAPI,
   addScheduleUser as addScheduleUserAPI,
   updateUserAvailability as updateUserAvailabilityAPI,
 } from './firebase/schedule/services';
@@ -11,22 +12,31 @@ export async function createSchedule({ name, start_time, end_time, dates, timezo
   } catch (error) {
     return { success: false, error: error.message };
   }
-}
+};
+
+export async function getUserByName({ user_name, existing_users }) {
+  try {
+    const data = await getUserByNameAPI({ user_name, existing_users });
+    return { success: true, data: { user: data?.user, message: data?.message } };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+};
 
 export async function addScheduleUser(scheduleId, user_name, user_email, existing_users) {
   try {
-    await addScheduleUserAPI({ scheduleId, user_name, user_email, existing_users });
-    return { success: true };
+    const user = await addScheduleUserAPI({ scheduleId, user_name, user_email, existing_users });
+    return { success: true, data: user };
   } catch (error) {
     return { success: false, error: error.message };
   }
-}
+};
 
-export async function updateUserAvailability(scheduleId, user_id, availability, existing_availability, existing_users) {
+export async function updateUserAvailability(scheduleId, user, availability, existing_availability, existing_users) {
   try {
-    await updateUserAvailabilityAPI({ scheduleId, user_id, availability, existing_availability, existing_users });
+    await updateUserAvailabilityAPI({ scheduleId, user, availability, existing_availability, existing_users });
     return { success: true };
   } catch (error) {
     return { success: false, error: error.message };
   }
-}
+};

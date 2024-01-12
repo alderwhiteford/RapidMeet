@@ -13,6 +13,7 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
   const [sideBarTimes, intervals] = computeTimeIntervals(startTime, endTime);
   const rows = createScheduleRows(dates, intervals)
   const [isMouseDown, setIsMouseDown] = useState(false);
+  const { user } = useSelector((state) => state);
 
   return (
     <Paper 
@@ -85,6 +86,7 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
                         isMouseDown={isMouseDown}
                         isHour={index % 2 === 1}
                         setTime={setTimes}
+                        selectedState={availability[cell]?.includes(user.id)}
                       />
                   ))}
                 </TableRow>

@@ -1,8 +1,10 @@
-import { Button, IconButton, TextField, Typography } from "@mui/material";
-import styled from "@emotion/styled";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Alert, Button, IconButton, Snackbar, TextField, Typography } from "@mui/material";
+import styled from "@emotion/styled";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { setErrorModal, setModal } from "../../redux/generalSlice";
+import InfoIcon from '@mui/icons-material/Info';
+import { setModal, setSuccessModal } from "../../redux/generalSlice";
 import { updateUserAvailability } from "../../services/scheduleApi";
 import { useParams } from "react-router-dom";
 import ScheduleGrid from "../Schedule/Schedule";
@@ -26,19 +28,66 @@ const StyledForm = styled('div')({
   height: '70vh',
   backgroundColor: 'white',
   borderRadius: '20px',
+  padding: '5px',
   zIndex: 100,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '10px',
+
+  '@media (max-width: 1280px)': {
+    width: '85vw',
+    height: '85vh',
+  },
+
+  '@media (max-width: 768px)': {
+    width: '85vw',
+    height: '85vh',
+  },
 });
 
 const StyledHeader = styled(Typography)({
-  alignSelf: 'flex-center',
+  alignSelf: 'flex-start',
+  marginLeft: '130px',
   color: '#04a43c',
   fontSize: 40,
-  fontWeight: 700,
+
+  '@media (max-width: 768px)': {
+    marginLeft: '0px',
+    fontSize: 25,
+  },
+});
+
+const StyledHeaderBlack = styled(Typography)({
+  color: 'black',
+  display: 'inline',
+  fontSize: 40,
+
+  '@media (max-width: 768px)': {
+    fontSize: 25,
+  },
+});
+
+const StyledInfoContainer = styled('div')({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'flex-start',
+});
+
+const StyledSubText = styled(Typography)({
+  alignSelf: 'flex-start',
+  color: '#929191',
+  fontSize: 15,
+  marginRight: '390px',
+
+  '@media (max-width: 1280px)': {
+    marginRight: '350px',
+  },
+
+  '@media (max-width: 768px)': {
+    fontSize: 12,
+    marginRight: '0px',
+  },
 });
 
 const StyledButton = styled(Button)({
@@ -47,6 +96,11 @@ const StyledButton = styled(Button)({
     backgroundColor: '#037e33',
   },
   width: '30%',
+  marginTop: '20px',
+
+  '@media (max-width: 768px)': {
+    width: '60%',
+  },
 });
 
 const StyledIconButton = styled(IconButton)({
@@ -57,40 +111,80 @@ const StyledIconButton = styled(IconButton)({
   color: '#D3D3D3',
 });
 
+const StyledSnackbar = styled(Snackbar)({
+  zIndex: 101,
+});
+
+const StyledCancelIcon = styled(CancelIcon)({
+  backgroundColor: 'white',
+  color: '#929191',
+  fontSize: 60,
+  borderRadius: '50%',
+});
+
+const StyledInfoIcon = styled(InfoIcon)({
+  color: '#929191',
+  fontSize: 20,
+
+  '@media (max-width: 768px)': {
+    fontSize: 15,
+  },
+})
+
 export default function AvailabilityForm({ startTime, endTime, dates, setTimes, selectedTimes }) {
   const dispatch = useDispatch();
   const { availability, name, users } = useSelector((state) => state.schedule);
   const { user } = useSelector((state) => state);
   const { scheduleId } = useParams();
-
-  console.log(user);
+  const [errorSnackbar, setErrorSnackbar] = useState([false, null]);
 
   const addAvailability = () => {
     updateUserAvailability(scheduleId, user, selectedTimes, availability, users).then((res) => {
       if (res.success) {
         dispatch(setModal());
+        dispatch(setSuccessModal({ message: 'Successfully added availability to calendar' }));
       } else {
-        dispatch(setErrorModal(res.error));
+        setErrorSnackbar([true, res.error]);
       }
-    })
-  }
+    });
+  };
+
+  const handleSnackbarClose = () => {
+    setErrorSnackbar([false, null]);
+  };
 
   return (
-    <FormContainer>
-      <StyledForm>
-        <StyledHeader>Your availability for {name}</StyledHeader>
-        <ScheduleGrid startTime={startTime} endTime={endTime} dates={dates} setTimes={setTimes} />
-        <StyledButton
-          variant="contained"
-          size="large"
-          onClick={addAvailability}
-        >
-          Save
-        </StyledButton>
-        <StyledIconButton onClick={() => dispatch(setModal())}>
-          <CancelIcon sx={{ fontSize: 60 }}/>
-        </StyledIconButton>
-      </StyledForm>
-    </FormContainer>
+    <>
+      <StyledSnackbar 
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+        open={errorSnackbar[0]} 
+        autoHideDuration={4000} 
+        onClose={handleSnackbarClose}
+      >
+        <Alert onClose={handleSnackbarClose} severity="error" sx={{ width: '100%' }}>
+          {errorSnackbar[1]}
+        </Alert>
+      </StyledSnackbar>
+      <FormContainer>
+        <StyledForm>
+          <StyledHeader>Your <StyledHeaderBlack>availability for {name}</StyledHeaderBlack></StyledHeader>
+          <StyledInfoContainer>
+            <StyledInfoIcon sx={{ color: '#929191' }}/>
+            <StyledSubText>Click and drag time blocks on the calendar to add your availability</StyledSubText>
+          </StyledInfoContainer>
+          <ScheduleGrid startTime={startTime} endTime={endTime} dates={dates} setTimes={setTimes} />
+          <StyledButton
+            variant="contained"
+            size="large"
+            onClick={addAvailability}
+          >
+            Save
+          </StyledButton>
+          <StyledIconButton onClick={() => dispatch(setModal())}>
+            <StyledCancelIcon />
+          </StyledIconButton>
+        </StyledForm>
+      </FormContainer>
+    </>
   );
 };

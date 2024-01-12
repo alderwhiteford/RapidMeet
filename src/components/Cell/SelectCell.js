@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 import { TableCell } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export default function SelectCell({ epochTime, isMouseDown, isHour, setTime }) {
-  const [selected, setSelected] = useState(false);
+export default function SelectCell({ epochTime, isMouseDown, isHour, setTime, selectedState }) {
+  const [selected, setSelected] = useState(selectedState);
   const [mouseEntered, setMouseEntered] = useState(false);
 
   useEffect(() => {

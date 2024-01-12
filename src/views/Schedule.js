@@ -1,14 +1,18 @@
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setSchedule } from '../redux/scheduleSlice';
+import { setModal, setSuccessModal } from '../redux/generalSlice';
 import { db } from '../services/firebase/config';
 import { doc, onSnapshot } from 'firebase/firestore';
 import Navbar from '../components/Navbar/Navbar';
+import NewUserForm from '../components/NewUserForm/NewUserForm';
 import styled from '@emotion/styled';
+import { Alert, Button, Snackbar, Typography } from '@mui/material';
+import AvailabilityForm from '../components/AvailabilityForm/AvailabilityForm';
+import ReturningUserModal from '../components/Modal/ReturningUserModal';
 import ScheduleGrid from '../components/Schedule/Schedule';
-import { Button, Typography } from '@mui/material';
 import OptimizerForm from '../components/OptmizerForm/OptimizerForm';
 
 const PageColumnContainer = styled.div({
@@ -73,22 +77,14 @@ const StyledScheduleButton = styled(Button)({
   padding: '10px',
 });
 
-const ScheduleContainer = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  paddingTop: '115px',
-  paddingRight: '65px',
-  alignItems: 'center'
-})
-
-
 function Schedule() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [selectedTimes, setSelectedTimes] = useState(new Set());
 
-  const { name, start_time, end_time, dates } = useSelector((state) => state.schedule);
+  const { successModal, modal } = useSelector((state) => state.general);
+  const { start_time, end_time, dates, name } = useSelector((state) => state.schedule);
+  const { user } = useSelector((state) => state);
   const { scheduleId } = useParams();
 
   useLayoutEffect(() => {
@@ -107,8 +103,32 @@ function Schedule() {
     return () => unsubscribe();
   }, [scheduleId, dispatch, navigate]);
 
+  const onClickShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    dispatch(setSuccessModal({ message: 'Successfully copied invite link to clipboard!' }));
+  };
+
   return (
     <>
+      <Snackbar 
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+        open={successModal?.isOpen} 
+        autoHideDuration={4000} 
+        onClose={() => dispatch(setSuccessModal())}
+      >
+        <Alert onClose={() => dispatch(setSuccessModal())} severity="success" sx={{ width: '100%' }}>
+          {successModal?.message}
+        </Alert>
+      </Snackbar>
+      {modal === 'new_user_form' && (
+        <NewUserForm />
+      )}
+      {modal === 'returning_user' && (
+        <ReturningUserModal />
+      )}
+      {modal === 'availability_calendar' && (
+        <AvailabilityForm startTime={start_time} endTime={end_time} dates={dates} setTimes={setSelectedTimes} selectedTimes={selectedTimes} />
+      )}
       <Navbar />
       <PageColumnContainer>
         <FlexColumn>
@@ -116,9 +136,15 @@ function Schedule() {
             <StyledHeader>
               Need to add / edit your availability?
             </StyledHeader>
-            <StyledAvailabilityButton>
-              Add your availability
-            </StyledAvailabilityButton>
+            {user.id ?
+              <StyledAvailabilityButton onClick={() => dispatch(setModal('availability_calendar'))}>
+                Edit your availability
+              </StyledAvailabilityButton> 
+              :
+              <StyledAvailabilityButton onClick={() => dispatch(setModal('new_user_form'))}>
+                Add your availability
+              </StyledAvailabilityButton> 
+            }
             <OptimizerForm />
             <StyledScheduleButtonContainer>
               <StyledScheduleButton
@@ -127,7 +153,7 @@ function Schedule() {
                   border: 1,
                   color: '#00A63C'
                 }}
-                onClick={() => navigator.clipboard.writeText(window.location.href)}
+                onClick={onClickShare}
               >
                 Share Event
               </StyledScheduleButton>
@@ -150,6 +176,7 @@ function Schedule() {
             dates={dates}
             setTimes={setSelectedTimes}
             title={name}
+            display
           />
         </FlexColumn>
       </PageColumnContainer>

@@ -18,7 +18,7 @@ export default function DisplayCell({ epochTime, isHour, availability, users }) 
       key={epochTime}
       sx={{ 
         padding: '0',
-        backgroundColor: '#013220',
+        backgroundColor: '#00A63C',
         opacity: opacity,
         border: 1,
         borderColor: '#C1C1C1',
