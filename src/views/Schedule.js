@@ -73,6 +73,14 @@ const StyledScheduleButton = styled(Button)({
   padding: '10px',
 });
 
+const ScheduleContainer = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  paddingTop: '115px',
+  paddingRight: '65px',
+  alignItems: 'center'
+})
+
 
 function Schedule() {
   const navigate = useNavigate();

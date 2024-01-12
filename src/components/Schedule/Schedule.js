@@ -7,7 +7,6 @@ import SelectCell from "../Cell/SelectCell";
 import HeaderCell from "../HeaderCell/HeaderCell";
 import TimeCell from "../Cell/TimeCell";
 import DisplayCell from "../Cell/DisplayCell";
-import styled from "@emotion/styled";
 
 export default function ScheduleGrid({ startTime, endTime, dates, display, setTimes, title }) {
   const { availability, users } = useSelector((state) => state.schedule);
@@ -46,8 +45,7 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
         component={Paper} 
         sx={{
           display: 'flex',
-          boxShadow: 'none',
-          height: '100%',
+          overflow: 'visible'
         }}
         {...(!display ? { 
             onMouseDownCapture: () => setIsMouseDown(true), 
@@ -56,7 +54,7 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
           } : {})
         }
       >
-        <Table sx={{boxShadow: '5px 5px'}}>
+        <Table>
           <TableHead>
               <TableRow sx={{ height: '80px', zIndex: 4}}>
                 {dates.map((date, index) => {
