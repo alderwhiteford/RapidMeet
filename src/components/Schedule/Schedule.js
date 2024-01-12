@@ -1,4 +1,4 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { computeTimeIntervals, createScheduleRows } from "../../utils/scheduleGrid";
 import { days, months } from "../../utils/constants";
 import { useSelector } from "react-redux";
@@ -7,22 +7,25 @@ import SelectCell from "../Cell/SelectCell";
 import HeaderCell from "../HeaderCell/HeaderCell";
 import TimeCell from "../Cell/TimeCell";
 import DisplayCell from "../Cell/DisplayCell";
+import styled from "@emotion/styled";
 
-export default function ScheduleGrid({ startTime, endTime, dates, display, setTimes }) {
+export default function ScheduleGrid({ startTime, endTime, dates, display, setTimes, title }) {
   const { availability, users } = useSelector((state) => state.schedule);
   const [sideBarTimes, intervals] = computeTimeIntervals(startTime, endTime);
   const rows = createScheduleRows(dates, intervals)
   const [isMouseDown, setIsMouseDown] = useState(false);
 
   return (
-    <Paper sx={{
-      maxWidth: '80%',
-      maxHeight: '80vh',
-      overflow: 'scroll',
-      boxShadow: '5px 5px 5px #e8e8e8',
-      display: 'flex',
-      paddingBottom: '25px'
-    }}>
+    <Paper 
+      sx={{
+        maxWidth: '80%',
+        maxHeight: '80vh',
+        overflow: 'scroll',
+        boxShadow: '5px 5px 5px #e8e8e8',
+        display: 'flex',
+        paddingBottom: '25px'
+      }}
+    >
       <div style={{
         display: 'flex',
         flexDirection: 'column',

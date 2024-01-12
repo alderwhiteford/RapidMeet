@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
-import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Typography } from "@mui/material";
+import { Box, Chip, FormControl, FormControlLabel, InputLabel, MenuItem, OutlinedInput, Select, Switch, Typography, alpha } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import InfoIcon from '@mui/icons-material/Info';
 
 const OptimizerContainer = styled.div({
     display: 'flex',
@@ -21,6 +22,49 @@ const StyledSubHeader = styled(Typography)({
     fontWeight: 300,
     marginTop: '5px',
 })
+
+const StyledInfoText = styled(Typography)({
+	fontSize: '12.5px',
+    color: '#505050',
+    fontWeight: 300,
+})
+
+const InfoContainer = styled.div({
+	display: 'flex',
+	flexDirection: 'row',
+	alignItems: 'center',
+	gap: '5px',
+	marginTop: '20px'
+})
+
+const TwoInputRow = styled.div({
+	display: 'flex',
+	flexDirection: 'row',
+	gap: '15px'
+})
+
+const StyledFormControl = styled(FormControl)({
+	flex: 1
+})
+
+const GreenSwitch = styled(Switch)({
+	'& .MuiSwitch-switchBase.Mui-checked': {
+	  color: '#00A63C',
+	  '&:hover': {
+		backgroundColor: alpha('#00A63C', 0.1),
+	  },
+	},
+	'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+	  backgroundColor: '#00A63C',
+	},
+});
+
+const SwitchContainer = styled.div({
+	display: 'flex',
+	alignItems: 'center',
+	gap: '5px',
+	marginTop: '15px',
+});
 
 export default function OptimizerForm() {
     const { users, dates } = useSelector((state) => state.schedule)
@@ -104,41 +148,60 @@ export default function OptimizerForm() {
 							))}
 						</Select>
 					</FormControl>
-					<FormControl sx={{ marginTop: '25px'}}>
-						<InputLabel>Number of Meetings</InputLabel>
-						<Select
-							value={meetingCount}
-							onChange={(event) => handleStateChange(event, setMeetingCount)}
-							input={<OutlinedInput label="Number of Meetings" />}
-						>
-						{meetingCountOptions().map((name) => (
-								<MenuItem
-									key={name}
-									value={name}
-								>
-									{name}
-								</MenuItem>
-						))}
-						</Select>
-					</FormControl>
-					<FormControl sx={{ marginTop: '25px'}}>
-						<InputLabel>Days Between Meetings</InputLabel>
-						<Select
-							value={meetingGap}
-							onChange={(event) => handleStateChange(event, setMeetingGap)}
-							input={<OutlinedInput label="Days Between Meetings" />}
-							disabled={meetingGapOptions().length === 0}
-						>
-						{meetingGapOptions().map((name) => (
-								<MenuItem
-									key={name}
-									value={name}
-								>
-									{name}
-								</MenuItem>
-						))}
-						</Select>
-					</FormControl>
+					<TwoInputRow>
+						<StyledFormControl sx={{ marginTop: '25px'}}>
+							<InputLabel>Number of Meetings</InputLabel>
+							<Select
+								value={meetingCount}
+								onChange={(event) => handleStateChange(event, setMeetingCount)}
+								input={<OutlinedInput label="Number of Meetings" />}
+							>
+							{meetingCountOptions().map((name) => (
+									<MenuItem
+										key={name}
+										value={name}
+									>
+										{name}
+									</MenuItem>
+							))}
+							</Select>
+						</StyledFormControl>
+						<StyledFormControl sx={{ marginTop: '25px'}}>
+							<InputLabel>Days Between Meetings</InputLabel>
+							<Select
+								value={meetingGap}
+								onChange={(event) => handleStateChange(event, setMeetingGap)}
+								input={<OutlinedInput label="Days Between Meetings" />}
+								disabled={meetingGapOptions().length === 0}
+							>
+							{meetingGapOptions().map((name) => (
+									<MenuItem
+										key={name}
+										value={name}
+									>
+										{name}
+									</MenuItem>
+							))}
+							</Select>
+						</StyledFormControl>
+					</TwoInputRow>
+					<InfoContainer>
+						<InfoIcon color='disabled' fontSize="small" />
+						<StyledInfoText>
+							ScheduleSync recommended times are marked in 
+							<span style={{ color: '#FAC746' }}>
+							 {' yellow'}
+							</span>
+						</StyledInfoText>
+					</InfoContainer>
+					<SwitchContainer>
+						<StyledSubHeader sx={{ margin: '0 !important' }}>
+							Toggle Schedule Helper
+						</StyledSubHeader>
+						<GreenSwitch
+							onChange={() => setOptimizer((state) => !state)}
+						/>
+					</SwitchContainer>
         </OptimizerContainer>
     );
 }
