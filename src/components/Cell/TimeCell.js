@@ -3,8 +3,8 @@ import styled from "@emotion/styled";
 export default function TimeCell({ time, lastCell }) {
   const StyledCell = styled('div')({
     border: 0,
-    width: '65px',
-    minHeight: '26px',
+    width: '55px',
+    minHeight: '18.5px',
     position: 'sticky',
     left: '0px',
     fontFamily: 'sans-serif',
@@ -35,7 +35,7 @@ export default function TimeCell({ time, lastCell }) {
   const TimeText = styled.p`
     margin: 0;
     position: absolute;
-    font-size: 15px;
+    font-size: 12.5px;
     top: ${lastCell ? '' : '-30%'};
     bottom: ${lastCell ? '-35%' : ''} ;
     left: 0;

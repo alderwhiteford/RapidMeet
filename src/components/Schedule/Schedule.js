@@ -1,4 +1,4 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { computeTimeIntervals, createScheduleRows } from "../../utils/scheduleGrid";
 import { days, months } from "../../utils/constants";
 import { useSelector } from "react-redux";
@@ -8,26 +8,27 @@ import HeaderCell from "../HeaderCell/HeaderCell";
 import TimeCell from "../Cell/TimeCell";
 import DisplayCell from "../Cell/DisplayCell";
 
-export default function ScheduleGrid({ startTime, endTime, dates, display, setTimes }) {
+export default function ScheduleGrid({ startTime, endTime, dates, display, setTimes, title }) {
   const { availability, users } = useSelector((state) => state.schedule);
   const [sideBarTimes, intervals] = computeTimeIntervals(startTime, endTime);
   const rows = createScheduleRows(dates, intervals)
   const [isMouseDown, setIsMouseDown] = useState(false);
 
   return (
-    <Paper sx={{
-      minWidth: '50vw',
-      maxWidth: '80vw',
-      maxHeight: '65vh',
-      overflow: 'scroll',
-      boxShadow: '5px 5px 5px #C1C1C1',
-      display: 'flex',
-      paddingBottom: '25px'
-    }}>
+    <Paper 
+      sx={{
+        maxWidth: '80%',
+        maxHeight: '80vh',
+        overflow: 'scroll',
+        boxShadow: '5px 5px 5px #e8e8e8',
+        display: 'flex',
+        paddingBottom: '25px'
+      }}
+    >
       <div style={{
         display: 'flex',
         flexDirection: 'column',
-        paddingTop: '100px',
+        paddingTop: '80.5px',
       }}>
         {rows.map((row, index) =>
           <TimeCell 
@@ -44,8 +45,7 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
         component={Paper} 
         sx={{
           display: 'flex',
-          boxShadow: 'none',
-          height: '100%',
+          overflow: 'visible'
         }}
         {...(!display ? { 
             onMouseDownCapture: () => setIsMouseDown(true), 
@@ -54,9 +54,9 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
           } : {})
         }
       >
-        <Table sx={{boxShadow: '5px 5px'}}>
+        <Table>
           <TableHead>
-              <TableRow sx={{ height: '100px', zIndex: 4}}>
+              <TableRow sx={{ height: '80px', zIndex: 4}}>
                 {dates.map((date, index) => {
                   const JSDate = new Date(date);
                   return (
