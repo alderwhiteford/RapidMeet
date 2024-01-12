@@ -90,13 +90,6 @@ const StyledSubText = styled(Typography)({
   },
 });
 
-const StyledHeader = styled(Typography)({
-  alignSelf: 'flex-center',
-  color: '#04a43c',
-  fontSize: 40,
-  fontWeight: 700,
-});
-
 const StyledButton = styled(Button)({
   backgroundColor: '#04a43c',
   '&:hover': {

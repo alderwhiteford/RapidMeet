@@ -69,16 +69,6 @@ const SwitchContainer = styled.div({
 export default function OptimizerForm() {
     const { users, dates } = useSelector((state) => state.schedule)
 
-    /**
-     * TO BE DELETED IN THE FUTURE - TEMP DATE:
-     */
-    const names = [
-        "Alder Whiteford",
-        "Ethan Johnson",
-        "Adam Smith",
-        "John Hancock",
-    ]
-
     const [requiredAttendees, setRequiredAttendees] = useState([]);
     const [meetingCount, setMeetingCount] = useState(1);
     const [meetingGap, setMeetingGap] = useState();
@@ -138,12 +128,12 @@ export default function OptimizerForm() {
 								</Box>
 							)}
 						>
-							{names.map((name) => (
+							{Object.keys(users).forEach((user) => (
 								<MenuItem
-									key={name}
-									value={name}
+									key={user.name}
+									value={user.name}
 								>
-									{name}
+									{user.name}
 								</MenuItem>
 							))}
 						</Select>

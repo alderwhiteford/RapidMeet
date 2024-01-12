@@ -77,21 +77,13 @@ const StyledScheduleButton = styled(Button)({
   padding: '10px',
 });
 
-const ScheduleContainer = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  paddingTop: '115px',
-  paddingRight: '65px',
-  alignItems: 'center',
-});
-
 function Schedule() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedTimes, setSelectedTimes] = useState(new Set());
 
   const { successModal, modal } = useSelector((state) => state.general);
-  const { start_time, end_time, dates } = useSelector((state) => state.schedule);
+  const { start_time, end_time, dates, name } = useSelector((state) => state.schedule);
   const { user } = useSelector((state) => state);
   const { scheduleId } = useParams();
 
@@ -111,46 +103,12 @@ function Schedule() {
     return () => unsubscribe();
   }, [scheduleId, dispatch, navigate]);
 
+  const onClickShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    dispatch(setSuccessModal({ message: 'Successfully copied invite link to clipboard!' }));
+  };
+
   return (
-      <>
-        <Snackbar 
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
-          open={successModal?.isOpen} 
-          autoHideDuration={4000} 
-          onClose={() => dispatch(setSuccessModal())}
-        >
-          <Alert onClose={() => dispatch(setSuccessModal())} severity="success" sx={{ width: '100%' }}>
-            {successModal?.message}
-          </Alert>
-        </Snackbar>
-        {modal === 'new_user_form' && (
-          <NewUserForm />
-        )}
-        {modal === 'returning_user' && (
-          <ReturningUserModal />
-        )}
-        {modal === 'availability_calendar' && (
-          <AvailabilityForm startTime={start_time} endTime={end_time} dates={dates} setTimes={setSelectedTimes} selectedTimes={selectedTimes} />
-        )}
-        <Navbar />
-        <ScheduleContainer>
-          <ScheduleGrid startTime={start_time} endTime={end_time} dates={dates} display/>
-          {user.id ?
-            <StyledButton variant="contained" onClick={() => dispatch(setModal('availability_calendar'))}>Edit Availability</StyledButton>
-            :
-            <StyledButton variant="contained" onClick={() => dispatch(setModal('new_user_form'))}>Add Availability</StyledButton>
-          }
-          {modal === 'new_user_form' && (
-            <NewUserForm />
-          )}
-          {modal === 'returning_user' && (
-            <ReturningUserModal />
-          )}
-          {modal === 'availability_calendar' && (
-            <AvailabilityForm startTime={start_time} endTime={end_time} dates={dates} setTimes={setSelectedTimes} selectedTimes={selectedTimes} />
-          )}
-        </ScheduleContainer>
-      </>
     <>
       <Snackbar 
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
@@ -162,6 +120,15 @@ function Schedule() {
           {successModal?.message}
         </Alert>
       </Snackbar>
+      {modal === 'new_user_form' && (
+        <NewUserForm />
+      )}
+      {modal === 'returning_user' && (
+        <ReturningUserModal />
+      )}
+      {modal === 'availability_calendar' && (
+        <AvailabilityForm startTime={start_time} endTime={end_time} dates={dates} setTimes={setSelectedTimes} selectedTimes={selectedTimes} />
+      )}
       <Navbar />
       <PageColumnContainer>
         <FlexColumn>
@@ -170,11 +137,11 @@ function Schedule() {
               Need to add / edit your availability?
             </StyledHeader>
             {user.id ?
-              <StyledAvailabilityButton  onClick={() => dispatch(setModal('availability_calendar'))}>
+              <StyledAvailabilityButton onClick={() => dispatch(setModal('availability_calendar'))}>
                 Edit your availability
               </StyledAvailabilityButton> 
               :
-              <StyledAvailabilityButton  onClick={() => dispatch(setModal('new_user_form'))}>
+              <StyledAvailabilityButton onClick={() => dispatch(setModal('new_user_form'))}>
                 Add your availability
               </StyledAvailabilityButton> 
             }
@@ -186,7 +153,7 @@ function Schedule() {
                   border: 1,
                   color: '#00A63C'
                 }}
-                onClick={() => navigator.clipboard.writeText(window.location.href)}
+                onClick={onClickShare}
               >
                 Share Event
               </StyledScheduleButton>
@@ -209,6 +176,7 @@ function Schedule() {
             dates={dates}
             setTimes={setSelectedTimes}
             title={name}
+            display
           />
         </FlexColumn>
       </PageColumnContainer>

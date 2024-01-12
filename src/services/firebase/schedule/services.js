@@ -72,4 +72,3 @@ export async function updateUserAvailability({ scheduleId, user, availability, e
     availability: newAvailability
   });
 };
-
