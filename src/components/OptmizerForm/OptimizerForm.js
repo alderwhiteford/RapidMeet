@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Box, Chip, FormControl, FormControlLabel, InputLabel, MenuItem, OutlinedInput, Select, Switch, Typography, alpha } from "@mui/material";
+import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Switch, Typography, alpha } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import InfoIcon from '@mui/icons-material/Info';
@@ -67,7 +67,7 @@ const SwitchContainer = styled.div({
 });
 
 export default function OptimizerForm() {
-    const { users, dates } = useSelector((state) => state.schedule)
+    const { users, dates } = useSelector((state) => state.schedule);
 
     const [requiredAttendees, setRequiredAttendees] = useState([]);
     const [meetingCount, setMeetingCount] = useState(1);
@@ -128,14 +128,17 @@ export default function OptimizerForm() {
 								</Box>
 							)}
 						>
-							{Object.keys(users).forEach((user) => (
-								<MenuItem
-									key={user.name}
-									value={user.name}
-								>
-									{user.name}
-								</MenuItem>
-							))}
+							{Object.keys(users).map((userId) => {
+								const user = users[userId];
+								return (
+									<MenuItem
+										key={userId}
+										value={user.user_name}
+									>
+										{user.user_name}
+									</MenuItem>
+								);
+							})}
 						</Select>
 					</FormControl>
 					<TwoInputRow>

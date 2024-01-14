@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert, Button, IconButton, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, Button, IconButton, Snackbar, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import CancelIcon from "@mui/icons-material/Cancel";
 import InfoIcon from '@mui/icons-material/Info';
@@ -47,8 +47,7 @@ const StyledForm = styled('div')({
 });
 
 const StyledHeader = styled(Typography)({
-  alignSelf: 'flex-start',
-  marginLeft: '130px',
+  alignSelf: 'center',
   color: '#04a43c',
   fontSize: 40,
 
@@ -71,18 +70,15 @@ const StyledHeaderBlack = styled(Typography)({
 const StyledInfoContainer = styled('div')({
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'flex-start',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginBottom: '5px',
 });
 
 const StyledSubText = styled(Typography)({
-  alignSelf: 'flex-start',
   color: '#929191',
   fontSize: 15,
-  marginRight: '390px',
 
-  '@media (max-width: 1280px)': {
-    marginRight: '350px',
-  },
 
   '@media (max-width: 768px)': {
     fontSize: 12,

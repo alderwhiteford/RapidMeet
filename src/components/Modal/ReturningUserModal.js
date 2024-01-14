@@ -20,8 +20,8 @@ const FormContainer = styled('div')({
 
 const StyledForm = styled('form')({
   position: 'relative',
-  width: '20vw',
-  height: '35vh',
+  width: '25vw',
+  height: '30vh',
   padding: '40px',
   backgroundColor: 'white',
   borderRadius: '20px',
@@ -34,7 +34,7 @@ const StyledForm = styled('form')({
 
   '@media (max-width: 768px)': {
     width: '75vw',
-    height: '30vh',
+    height: '35vh',
     padding: '25px',
   },
 });
@@ -72,19 +72,27 @@ const StyledButtonContainer = styled('div')({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  gap: '60px',
+  gap: '20%',
 
-  '@media (max-width: 768px)': {
-    gap: '40px',
-  },
+  width: '100%',
 });
 
-const StyledButton = styled(Button)({
+const StyledCancelButton = styled(Button)({
+  alignSelf: 'flex-start',
   backgroundColor: '#04a43c',
   '&:hover': {
     backgroundColor: '#037e33',
   },
-  width: '70%',
+  width: '45%',
+});
+
+const StyledContinueButton = styled(Button)({
+  alignSelf: 'flex-end',
+  backgroundColor: '#04a43c',
+  '&:hover': {
+    backgroundColor: '#037e33',
+  },
+  width: '45%',
 });
 
 const StyledIconButton = styled(IconButton)({
@@ -121,20 +129,20 @@ export default function ReturningUserModal() {
         <StyledSubHeader>availability for {name}</StyledSubHeader>
         <StyledText>The name you have provided is in use. Do you wish to continue as <StyledEmailText>{email}</StyledEmailText>?</StyledText>
         <StyledButtonContainer>
-          <StyledButton
+          <StyledCancelButton
             variant="contained"
             size="large"
             onClick={handleCancel}
           >
             Cancel
-          </StyledButton>
-          <StyledButton
+          </StyledCancelButton>
+          <StyledContinueButton
             variant="contained"
             size="large"
             onClick={handleContinue}
           >
             Continue
-          </StyledButton>
+          </StyledContinueButton>
         </StyledButtonContainer>
         <StyledIconButton onClick={() => dispatch(setModal())}>
           <StyledCancelIcon />

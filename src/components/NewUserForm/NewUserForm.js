@@ -1,11 +1,14 @@
+import { useEffect } from "react";
 import { Alert, Button, IconButton, Snackbar, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { setUser } from "../../redux/userSlice";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { setErrorModal, setModal } from "../../redux/generalSlice";
-import { addScheduleUser, getUserByName } from "../../services/scheduleApi";
+import { setModal } from "../../redux/generalSlice";
+import { addScheduleUser } from "../../services/scheduleApi";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { stringToUniqueNumber } from "../../utils/strings";
@@ -74,6 +77,12 @@ const StyledTextField = styled(TextField)({
   width: '85%',
 });
 
+const StyledEmailField = styled(StyledTextField)(({ show }) => ({
+  transition: 'max-height 0.5s, opacity 0.5s',
+  maxHeight: show ? '100px' : '0',
+  opacity: show ? 1 : 0,
+}));
+
 const StyledButton = styled(Button)({
   backgroundColor: '#04a43c',
   '&:hover': {
@@ -108,17 +117,34 @@ export default function NewUserForm() {
   const [isNewUser, setIsNewUser] = useState(false);
   const [errorSnackbar, setErrorSnackbar] = useState([false, null]);
 
+  let schema = yup.object({
+    name: yup.string().required("Please enter your name"),
+  });
+
+  if (isNewUser) {
+    schema = schema.shape({
+      email: yup.string().email("Invalid email format, please use name@email.com format.").required("Please enter your email"),
+    });
+  }
+
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    reset
   } = useForm({
-        defaultValues: {
-          name: '',
-          email: '',
-        }
+      mode: 'onSubmit',
+      resolver: yupResolver(schema),
+      defaultValues: {
+        name: '',
+        email: '',
       }
+    }
   );
+
+  useEffect(() => {
+    reset({}, { keepValues: true });
+  }, [isNewUser, reset]);
 
   const addUser = (formData) => {
     addScheduleUser(scheduleId, formData.name, formData.email, users).then((res) => {
@@ -172,17 +198,16 @@ export default function NewUserForm() {
             type="text"
             variant="outlined"
           />
-          {isNewUser && (
-            <StyledTextField
-              error={!!errors.email}
-              helperText={errors.email?.message ?? ' '}
-              label="Email"
-              {...register('email', { required: "Please enter your email" })}
-              placeholder="name@email.com"
-              type="text"
-              variant="outlined"
-            />
-          )}
+          <StyledEmailField
+            show={isNewUser}
+            error={!!errors.email}
+            helperText={errors.email?.message ?? ' '}
+            label="Email"
+            {...register('email', { required: "Please enter your email" })}
+            placeholder="name@email.com"
+            type="email"
+            variant="outlined"
+          />
           <StyledButton
             type="submit"
             variant="contained"
