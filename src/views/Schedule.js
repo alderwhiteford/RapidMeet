@@ -85,6 +85,7 @@ function Schedule() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedTimes, setSelectedTimes] = useState(new Set());
+  const [deletedTimes, setDeletedTimes] = useState(new Set());
 
   const { successModal, modal } = useSelector((state) => state.general);
   const { start_time, end_time, dates, name } = useSelector((state) => state.schedule);
@@ -131,7 +132,15 @@ function Schedule() {
         <ReturningUserModal />
       )}
       {modal === 'availability_calendar' && (
-        <AvailabilityForm startTime={start_time} endTime={end_time} dates={dates} setTimes={setSelectedTimes} selectedTimes={selectedTimes} />
+        <AvailabilityForm 
+          startTime={start_time}
+          endTime={end_time}
+          dates={dates}
+          setTimes={setSelectedTimes}
+          setDeletedTimes={setDeletedTimes}
+          deletedTimes={deletedTimes}
+          selectedTimes={selectedTimes}
+        />
       )}
       <Navbar />
       <PageColumnContainer>

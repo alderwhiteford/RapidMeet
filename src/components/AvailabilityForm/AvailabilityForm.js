@@ -131,7 +131,7 @@ const StyledInfoIcon = styled(InfoIcon)({
   },
 })
 
-export default function AvailabilityForm({ startTime, endTime, dates, setTimes, selectedTimes }) {
+export default function AvailabilityForm({ startTime, endTime, dates, setTimes, selectedTimes, setDeletedTimes, deletedTimes }) {
   const dispatch = useDispatch();
   const { availability, name, users } = useSelector((state) => state.schedule);
   const { user } = useSelector((state) => state);
@@ -139,7 +139,8 @@ export default function AvailabilityForm({ startTime, endTime, dates, setTimes, 
   const [errorSnackbar, setErrorSnackbar] = useState([false, null]);
 
   const addAvailability = () => {
-    updateUserAvailability(scheduleId, user, selectedTimes, availability, users).then((res) => {
+    console.log(selectedTimes);
+    updateUserAvailability(scheduleId, user, selectedTimes, availability, users, deletedTimes).then((res) => {
       if (res.success) {
         dispatch(setModal());
         dispatch(setSuccessModal({ message: 'Successfully added availability to calendar' }));
@@ -172,7 +173,13 @@ export default function AvailabilityForm({ startTime, endTime, dates, setTimes, 
             <StyledInfoIcon sx={{ color: '#929191' }}/>
             <StyledSubText>Click and drag time blocks on the calendar to add your availability</StyledSubText>
           </StyledInfoContainer>
-          <ScheduleGrid startTime={startTime} endTime={endTime} dates={dates} setTimes={setTimes} />
+          <ScheduleGrid 
+            startTime={startTime}
+            endTime={endTime}
+            dates={dates}
+            setTimes={setTimes}
+            setDeletedTimes={setDeletedTimes}
+          />
           <StyledButton
             variant="contained"
             size="large"

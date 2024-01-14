@@ -48,7 +48,7 @@ export async function addScheduleUser({ scheduleId, user_name, user_email, exist
   return { id: user_id, name: user_name, email: user_email };
 };
 
-export async function updateUserAvailability({ scheduleId, user, availability, existing_availability, existing_users }) {
+export async function updateUserAvailability({ scheduleId, user, availability, existing_availability, existing_users, deletedTimes }) {
   let { id: user_id, name: user_name, email: user_email } = user;
 
   if (!existing_users[user_id]) {
@@ -59,12 +59,20 @@ export async function updateUserAvailability({ scheduleId, user, availability, e
 
   let newAvailability =  { ...existing_availability };
 
+  // Add new availability:
   for (let time of availability) {
     if (!newAvailability[time]) {
       newAvailability[time] = [];
     }
     const userSet = new Set([...newAvailability[time], user_id]);
     newAvailability[time] = Array.from(userSet);
+  }
+
+  // Remove times that have been deleted:
+  for (let time of deletedTimes) {
+    if (newAvailability[time]) {
+      newAvailability[time] = newAvailability[time].filter((user) => user !== user_id);
+    }
   }
 
   const scheduleRef = doc(db, "schedule", scheduleId);
