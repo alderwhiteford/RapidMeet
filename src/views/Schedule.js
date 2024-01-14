@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -44,6 +44,10 @@ const OptimizerContainer = styled.div({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
+
+  '@media (max-width: 768px)': {
+    marginTop: '30px'
+  },
 })
 
 const StyledHeader = styled(Typography)({

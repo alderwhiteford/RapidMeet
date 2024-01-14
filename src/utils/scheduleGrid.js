@@ -1,12 +1,10 @@
-import SelectCell from "../components/Cell/SelectCell";
-
 export function computeTimeIntervals(startTime, endTime) {
   let startHour = Number(startTime.split(":")[0])
   const startMeridiem = startTime.split(" ")[1]
   if (startMeridiem === 'am' && startHour === 12) {
     startHour = 0;
   }
-  if (startMeridiem === 'pm') {
+  if (startMeridiem === 'pm' && startHour !== 12) {
     startHour += 12
   }
 
@@ -21,8 +19,8 @@ export function computeTimeIntervals(startTime, endTime) {
   for (let i = startHour ; i <= endHour ; i++) {
     let time = i === 0 ? 12 : i ;
     let meridiem = 'AM';
-    if (i > 12) {
-      time = time - 12;
+    if (i >= 12) {
+      time = time === 12 ? time : time - 12;
       meridiem = 'PM';
     }
     const timeString = `${time} ${meridiem}`
@@ -32,6 +30,8 @@ export function computeTimeIntervals(startTime, endTime) {
   // Compute Epoch Times:
   const startEpochTime = 1000 * 60 * 60 * startHour // (milliseconds * seconds * minutes * hours)
 
+  console.log(startHour)
+  console.log(endHour);
   const timeIntervals = [startEpochTime];
   let lastInterval = startEpochTime;
   const numIntervals = ((endHour - startHour) * 2) - 1
@@ -46,6 +46,7 @@ export function computeTimeIntervals(startTime, endTime) {
 
 export function createScheduleRows(dates, intervals) {
   const scheduleRows = [];
+
   for (let i = 0 ; i < intervals.length ; i++) {
     const row = [];
     for (let j = 0 ; j < dates.length ; j++) {
