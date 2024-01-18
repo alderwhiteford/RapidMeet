@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { TableCell } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export default function SelectCell({ epochTime, isMouseDown, isHour, setTime, selectedState }) {
+export default function SelectCell({ epochTime, isMouseDown, isHour, setTime, selectedState, setDeletedTime }) {
   const [selected, setSelected] = useState(selectedState);
   const [mouseEntered, setMouseEntered] = useState(false);
 
@@ -12,13 +12,21 @@ export default function SelectCell({ epochTime, isMouseDown, isHour, setTime, se
         times.add(epochTime);
         return times;
       })
+      setDeletedTime((deletedTimes) => {
+        deletedTimes.delete(epochTime);
+        return deletedTimes;
+      })
     } else {
       setTime((times) => {
         times.delete(epochTime);
         return times;
       })
+      setDeletedTime((deletedTimes) => {
+        deletedTimes.add(epochTime);
+        return deletedTimes
+      })
     }
-  }, [epochTime, selected, setTime])
+  }, [epochTime, selected, setDeletedTime, setTime])
 
   const handleMouseEnter = () => {
     if (!mouseEntered && isMouseDown) {

@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -44,6 +44,10 @@ const OptimizerContainer = styled.div({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
+
+  '@media (max-width: 768px)': {
+    marginTop: '30px'
+  },
 })
 
 const StyledHeader = styled(Typography)({
@@ -81,6 +85,7 @@ function Schedule() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedTimes, setSelectedTimes] = useState(new Set());
+  const [deletedTimes, setDeletedTimes] = useState(new Set());
 
   const { successModal, modal } = useSelector((state) => state.general);
   const { start_time, end_time, dates, name } = useSelector((state) => state.schedule);
@@ -127,7 +132,15 @@ function Schedule() {
         <ReturningUserModal />
       )}
       {modal === 'availability_calendar' && (
-        <AvailabilityForm startTime={start_time} endTime={end_time} dates={dates} setTimes={setSelectedTimes} selectedTimes={selectedTimes} />
+        <AvailabilityForm 
+          startTime={start_time}
+          endTime={end_time}
+          dates={dates}
+          setTimes={setSelectedTimes}
+          setDeletedTimes={setDeletedTimes}
+          deletedTimes={deletedTimes}
+          selectedTimes={selectedTimes}
+        />
       )}
       <Navbar />
       <PageColumnContainer>
