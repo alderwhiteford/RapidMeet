@@ -15,6 +15,7 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
   const [isMouseDown, setIsMouseDown] = useState(false);
   const { user } = useSelector((state) => state);
 
+  console.log(availability);
   return (
     <Paper 
       sx={{
