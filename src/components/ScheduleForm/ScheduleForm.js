@@ -37,6 +37,9 @@ export default function ScheduleForm() {
       return date.getTime()
     })
     
+    // Put the dates in order if selected out of order:
+    epochDates.sort();
+    
     createSchedule({
       name: event_name,
       start_time: startTime,

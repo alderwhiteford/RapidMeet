@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert, Button, IconButton, Snackbar, Typography } from "@mui/material";
+import { Alert, Button, IconButton, Snackbar, TextField, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import CancelIcon from "@mui/icons-material/Cancel";
 import InfoIcon from '@mui/icons-material/Info';
@@ -79,7 +79,6 @@ const StyledSubText = styled(Typography)({
   color: '#929191',
   fontSize: 15,
 
-
   '@media (max-width: 768px)': {
     fontSize: 12,
     marginRight: '0px',
@@ -127,7 +126,7 @@ const StyledInfoIcon = styled(InfoIcon)({
   },
 })
 
-export default function AvailabilityForm({ startTime, endTime, dates, setTimes, selectedTimes }) {
+export default function AvailabilityForm({ startTime, endTime, dates, setTimes, selectedTimes, setDeletedTimes, deletedTimes }) {
   const dispatch = useDispatch();
   const { availability, name, users } = useSelector((state) => state.schedule);
   const { user } = useSelector((state) => state);
@@ -135,7 +134,7 @@ export default function AvailabilityForm({ startTime, endTime, dates, setTimes, 
   const [errorSnackbar, setErrorSnackbar] = useState([false, null]);
 
   const addAvailability = () => {
-    updateUserAvailability(scheduleId, user, selectedTimes, availability, users).then((res) => {
+    updateUserAvailability(scheduleId, user, selectedTimes, availability, users, deletedTimes).then((res) => {
       if (res.success) {
         dispatch(setModal());
         dispatch(setSuccessModal({ message: 'Successfully added availability to calendar' }));
@@ -168,7 +167,13 @@ export default function AvailabilityForm({ startTime, endTime, dates, setTimes, 
             <StyledInfoIcon sx={{ color: '#929191' }}/>
             <StyledSubText>Click and drag time blocks on the calendar to add your availability</StyledSubText>
           </StyledInfoContainer>
-          <ScheduleGrid startTime={startTime} endTime={endTime} dates={dates} setTimes={setTimes} />
+          <ScheduleGrid 
+            startTime={startTime}
+            endTime={endTime}
+            dates={dates}
+            setTimes={setTimes}
+            setDeletedTimes={setDeletedTimes}
+          />
           <StyledButton
             variant="contained"
             size="large"

@@ -32,9 +32,9 @@ export async function addScheduleUser(scheduleId, user_name, user_email, existin
   }
 };
 
-export async function updateUserAvailability(scheduleId, user, availability, existing_availability, existing_users) {
+export async function updateUserAvailability(scheduleId, user, availability, existing_availability, existing_users, deletedTimes) {
   try {
-    await updateUserAvailabilityAPI({ scheduleId, user, availability, existing_availability, existing_users });
+    await updateUserAvailabilityAPI({ scheduleId, user, availability, existing_availability, existing_users, deletedTimes });
     return { success: true };
   } catch (error) {
     return { success: false, error: error.message };
