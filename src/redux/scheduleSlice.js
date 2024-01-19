@@ -1,17 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+  id: '',
+  name: '',
+  start_time: '',
+  end_time: '',
+  dates: [],
+  users: {},
+  availability: {},
+};
 
 export const scheduleSlice = createSlice({
   name: 'schedule',
-  initialState: {
-    id: '',
-    name: '',
-    start_time: '',
-    end_time: '',
-    dates: [],
-    users: {},
-    availability: {},
-  },
-
+  initialState,
   reducers: {
     setSchedule: (state, action) => {
       state.id = action.payload.id;
@@ -21,12 +22,16 @@ export const scheduleSlice = createSlice({
       state.dates = action.payload.dates;
       state.users = action.payload.users;
       state.availability = action.payload.availability;
+    },
+    resetSchedule: (state) => {
+      Object.assign(state, initialState);
     }
   },
 })
 
 export const { 
   setSchedule,
+  resetSchedule
 } = scheduleSlice.actions;
 
 export default scheduleSlice.reducer;

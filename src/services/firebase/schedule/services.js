@@ -1,6 +1,6 @@
 import { stringToUniqueNumber } from "../../../utils/strings";
 import { db } from "../config";
-import { collection, doc, setDoc, updateDoc } from "firebase/firestore"; 
+import { collection, doc, deleteDoc, setDoc, updateDoc } from "firebase/firestore"; 
 
 // DISCLAIMER: Params that start with 'existing' will be fetched from state and passed to the API call
 
@@ -79,4 +79,10 @@ export async function updateUserAvailability({ scheduleId, user, availability, e
   await updateDoc(scheduleRef, {
     availability: newAvailability
   });
+};
+
+export async function deleteSchedule({ scheduleId }) {
+  const scheduleRef = doc(db, "schedule", scheduleId);
+
+  await deleteDoc(scheduleRef);
 };
