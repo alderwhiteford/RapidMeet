@@ -14,6 +14,7 @@ import AvailabilityForm from '../components/AvailabilityForm/AvailabilityForm';
 import ReturningUserModal from '../components/Modal/ReturningUserModal';
 import ScheduleGrid from '../components/Schedule/Schedule';
 import OptimizerForm from '../components/OptmizerForm/OptimizerForm';
+import ScheduleHeader from '../components/Schedule/ScheduleHeader';
 
 const PageColumnContainer = styled.div({
   maxWidth: '100vw',
@@ -88,7 +89,7 @@ function Schedule() {
   const [deletedTimes, setDeletedTimes] = useState(new Set());
 
   const { successModal, modal } = useSelector((state) => state.general);
-  const { start_time, end_time, dates, name } = useSelector((state) => state.schedule);
+  const { start_time, end_time, dates, name, users } = useSelector((state) => state.schedule);
   const { user } = useSelector((state) => state);
   const { scheduleId } = useParams();
 
@@ -149,15 +150,11 @@ function Schedule() {
             <StyledHeader>
               Need to add / edit your availability?
             </StyledHeader>
-            {user.id ?
-              <StyledAvailabilityButton onClick={() => dispatch(setModal('availability_calendar'))}>
-                Edit your availability
-              </StyledAvailabilityButton> 
-              :
-              <StyledAvailabilityButton onClick={() => dispatch(setModal('new_user_form'))}>
-                Add your availability
-              </StyledAvailabilityButton> 
-            }
+            <StyledAvailabilityButton onClick={() => {
+              user.id ? dispatch(setModal('availability_calendar')) : dispatch(setModal('new_user_form'))
+            }}>
+              {user.id ? 'Edit your availability' : 'Add your availability'}
+            </StyledAvailabilityButton>
             <OptimizerForm />
             <StyledScheduleButtonContainer>
               <StyledScheduleButton
@@ -183,6 +180,7 @@ function Schedule() {
           </OptimizerContainer>
         </FlexColumn>
         <FlexColumn>
+          <ScheduleHeader name={name} attendees={Object.keys(users).length} onClickShare={onClickShare} />
           <ScheduleGrid 
             startTime={start_time}
             endTime={end_time}

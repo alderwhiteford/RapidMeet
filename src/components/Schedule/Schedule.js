@@ -18,12 +18,17 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
   return (
     <Paper 
       sx={{
+        minWidth: '40vw',
         maxWidth: '80%',
         maxHeight: '80vh',
         overflow: 'scroll',
         boxShadow: '5px 5px 5px #e8e8e8',
         display: 'flex',
-        paddingBottom: '25px'
+        paddingBottom: '25px',
+
+        '@media (max-width: 768px)': {
+          minWidth: '90vw',
+        },
       }}
     >
       <div style={{
