@@ -11,13 +11,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSuccessModal } from '../redux/generalSlice';
 
 const CreateScheduleHeader = styled(Typography)({
-  fontWeight: 600
+  fontWeight: 600,
+
+  '@media (max-width: 768px)': {
+    fontSize: 40,
+    marginRight: '0px',
+  },
 });
 
 const CreateScheduleSubHeader = styled(Typography)({
   fontWeight: 600,
   color: '#04a43c',
-  marginBottom: '40px'
+  marginBottom: '40px',
+
+  '@media (max-width: 768px)': {
+    fontSize: 40,
+    marginRight: '0px',
+  },
 });
 
 const StyledGrid = styled(Grid)({
