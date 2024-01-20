@@ -36,9 +36,9 @@ export default function DisplayCell({ epochTime, isHour, availability, users }) 
         zIndex: 0
       }}
     >
-      <Tooltip title={generateTooltipTitle()} arrow>
+      <Tooltip title={generateTooltipTitle()}>
         <StyledDiv />
       </Tooltip>
     </TableCell>
   )
-}
+};

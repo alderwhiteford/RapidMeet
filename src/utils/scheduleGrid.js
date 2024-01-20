@@ -30,8 +30,6 @@ export function computeTimeIntervals(startTime, endTime) {
   // Compute Epoch Times:
   const startEpochTime = 1000 * 60 * 60 * startHour // (milliseconds * seconds * minutes * hours)
 
-  console.log(startHour)
-  console.log(endHour);
   const timeIntervals = [startEpochTime];
   let lastInterval = startEpochTime;
   const numIntervals = ((endHour - startHour) * 2) - 1
