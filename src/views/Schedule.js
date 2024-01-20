@@ -204,7 +204,7 @@ function Schedule() {
           </OptimizerContainer>
         </FlexColumn>
         <FlexColumn>
-          <ScheduleHeader name={name} attendees={Object.keys(users).length} onClickShare={onClickShare} />
+          <ScheduleHeader name={name} attendees={Object.keys(users).length} />
           <ScheduleGrid 
             startTime={start_time}
             endTime={end_time}
