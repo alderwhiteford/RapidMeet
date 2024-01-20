@@ -29,8 +29,8 @@ const FormContainer = styled('div')({
 const StyledForm = styled('form')(
   ({ isNewUser }) => ({
     position: 'relative',
-    width: '25vw',
-    height: isNewUser ? '50vh' : '40vh',
+    width: '400px',
+    height: isNewUser ? '450px' : '375px',
     padding: '40px',
     backgroundColor: 'white',
     borderRadius: '20px',
@@ -43,7 +43,7 @@ const StyledForm = styled('form')(
 
     '@media (max-width: 768px)': {
       width: '75vw',
-      height: isNewUser ? '45vh' : '40vh',
+      height: isNewUser ? '450px' : '350px',
       padding: '10px',
     },
   })
@@ -212,6 +212,7 @@ export default function NewUserForm() {
             type="submit"
             variant="contained"
             size="large"
+            sx={{ textTransform: 'none' }}
           >
             Continue
           </StyledButton>

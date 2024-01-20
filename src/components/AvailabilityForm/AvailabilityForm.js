@@ -24,8 +24,8 @@ const FormContainer = styled('div')({
 
 const StyledForm = styled('div')({
   position: 'relative',
-  width: '60vw',
-  height: '70vh',
+  width: '800px',
+  height: '600px',
   backgroundColor: 'white',
   borderRadius: '20px',
   padding: '5px',
@@ -41,8 +41,8 @@ const StyledForm = styled('div')({
   },
 
   '@media (max-width: 768px)': {
-    width: '85vw',
-    height: '85vh',
+    width: '95vw',
+    height: '65vh',
   },
 });
 
@@ -53,7 +53,7 @@ const StyledHeader = styled(Typography)({
 
   '@media (max-width: 768px)': {
     marginLeft: '0px',
-    fontSize: 25,
+    fontSize: 20,
   },
 });
 
@@ -63,7 +63,7 @@ const StyledHeaderBlack = styled(Typography)({
   fontSize: 40,
 
   '@media (max-width: 768px)': {
-    fontSize: 25,
+    fontSize: 20,
   },
 });
 
@@ -80,7 +80,7 @@ const StyledSubText = styled(Typography)({
   fontSize: 15,
 
   '@media (max-width: 768px)': {
-    fontSize: 12,
+    fontSize: 10,
     marginRight: '0px',
   },
 });
@@ -104,6 +104,11 @@ const StyledIconButton = styled(IconButton)({
   right: -30,
   zIndex: 101,
   color: '#D3D3D3',
+
+  '@media (max-width: 768px)': {
+    top: -20,
+    right: -20,
+  },
 });
 
 const StyledSnackbar = styled(Snackbar)({
@@ -115,6 +120,10 @@ const StyledCancelIcon = styled(CancelIcon)({
   color: '#929191',
   fontSize: 60,
   borderRadius: '50%',
+
+  '@media (max-width: 768px)': {
+    fontSize: 40,
+  },
 });
 
 const StyledInfoIcon = styled(InfoIcon)({
@@ -122,7 +131,7 @@ const StyledInfoIcon = styled(InfoIcon)({
   fontSize: 20,
 
   '@media (max-width: 768px)': {
-    fontSize: 15,
+    fontSize: 10,
   },
 })
 
@@ -178,6 +187,7 @@ export default function AvailabilityForm({ startTime, endTime, dates, setTimes, 
             variant="contained"
             size="large"
             onClick={addAvailability}
+            sx={{ textTransform: 'none' }}
           >
             Save
           </StyledButton>

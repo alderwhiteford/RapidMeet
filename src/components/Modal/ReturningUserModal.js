@@ -20,8 +20,8 @@ const FormContainer = styled('div')({
 
 const StyledForm = styled('form')({
   position: 'relative',
-  width: '25vw',
-  height: '30vh',
+  width: '400px',
+  height: '300px',
   padding: '40px',
   backgroundColor: 'white',
   borderRadius: '20px',
@@ -34,7 +34,7 @@ const StyledForm = styled('form')({
 
   '@media (max-width: 768px)': {
     width: '75vw',
-    height: '35vh',
+    height: '300px',
     padding: '25px',
   },
 });
@@ -72,7 +72,7 @@ const StyledButtonContainer = styled('div')({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  gap: '20%',
+  gap: '10%',
 
   width: '100%',
 });
@@ -83,7 +83,7 @@ const StyledCancelButton = styled(Button)({
   '&:hover': {
     backgroundColor: '#037e33',
   },
-  width: '45%',
+  width: '50%',
 });
 
 const StyledContinueButton = styled(Button)({
@@ -92,7 +92,7 @@ const StyledContinueButton = styled(Button)({
   '&:hover': {
     backgroundColor: '#037e33',
   },
-  width: '45%',
+  width: '50%',
 });
 
 const StyledIconButton = styled(IconButton)({
@@ -133,6 +133,7 @@ export default function ReturningUserModal() {
             variant="contained"
             size="large"
             onClick={handleCancel}
+            sx={{ textTransform: 'none' }}
           >
             Cancel
           </StyledCancelButton>
@@ -140,6 +141,7 @@ export default function ReturningUserModal() {
             variant="contained"
             size="large"
             onClick={handleContinue}
+            sx={{ textTransform: 'none' }}
           >
             Continue
           </StyledContinueButton>
