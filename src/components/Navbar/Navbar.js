@@ -23,7 +23,7 @@ const StyledTypograpgy = styled(Typography)({
     fontSize: 25,
     marginRight: '0px',
   },
-})
+});
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ export default function Navbar() {
         <StyledToolbar>
           {/* Logo will go here, also we will prob want to find a nice font to use for the typography */}
           <StyledTypograpgy variant="h4" component="div">
-            ScheduleSync
+            RapidMeet
           </StyledTypograpgy>
           <StyledButton
             variant="contained"

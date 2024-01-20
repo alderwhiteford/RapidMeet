@@ -254,9 +254,9 @@ export default function OptimizerForm() {
 					</StyledFormControl>
 				</ThreeInputRow>
 				<InfoContainer>
-					<InfoIcon color='disabled' fontSize="small" />
+					<InfoIcon color='disabled' fontSize='xsmall' />
 					<StyledInfoText>
-						ScheduleSync recommended times are marked in 
+						RapidMeet recommended times are marked in 
 						<span style={{ color: '#FAC746' }}>
 							{' yellow'}
 						</span>
