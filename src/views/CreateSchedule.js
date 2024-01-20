@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react';
 
 import PageWrapper from '../components/PageWrapper/PageWrapper';
-import { Grid, Typography } from '@mui/material';
+import { Alert, Grid, Snackbar, Typography } from '@mui/material';
 import styled from '@emotion/styled';
 import Typed from 'typed.js';
 
 import ScheduleForm from '../components/ScheduleForm/ScheduleForm';
 import { schedulePhrases } from "../utils/constants";
+import { useDispatch, useSelector } from 'react-redux';
+import { setSuccessModal } from '../redux/generalSlice';
 
 const CreateScheduleHeader = styled(Typography)({
   fontWeight: 600
@@ -27,7 +29,9 @@ const StyledGrid = styled(Grid)({
 });
 
 function CreateSchedule() {
+  const dispatch = useDispatch();
   const typedTextRef = useRef(null);
+  const { successModal } = useSelector((state) => state.general);
 
   useEffect(() => {
     const options = {
@@ -50,6 +54,16 @@ function CreateSchedule() {
 
   return (
     <>
+      <Snackbar 
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+        open={successModal?.isOpen} 
+        autoHideDuration={4000} 
+        onClose={() => dispatch(setSuccessModal())}
+      >
+        <Alert onClose={() => dispatch(setSuccessModal())} severity="success" sx={{ width: '100%' }}>
+          {successModal?.message}
+        </Alert>
+      </Snackbar>
       <PageWrapper>
         <StyledGrid item md={6} xs={12}>
           <CreateScheduleHeader variant="h3">
