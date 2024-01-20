@@ -7,6 +7,16 @@ const StyledContainer = styled('div')({
   justifyContent: 'center',
   minWidth: '40vw',
   maxWidth: '80%',
+  marginBottom: '10px',
+
+  '@media (max-width: 768px)': {
+    minWidth: '60vw',
+  },
+});
+
+const StyledTypography = styled(Typography)({
+  color: '#929191',
+  fontSize: 20,
 
   '@media (max-width: 768px)': {
     display: 'none',
@@ -15,11 +25,14 @@ const StyledContainer = styled('div')({
 
 const StyledNameContainer = styled('div')({
   display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
+  flexDirection: 'column',
   justifyContent: 'center',
   marginRight: 'auto',
   marginLeft: '55px',
+
+  '@media (max-width: 768px)': {
+    marginLeft: '0',
+  },
 });
 
 const StyledAttendeesContainer = styled('div')({
@@ -28,13 +41,18 @@ const StyledAttendeesContainer = styled('div')({
   alignItems: 'center',
   justifyContent: 'center',
   marginLeft: 'auto',
+
+  '@media (max-width: 768px)': {
+    display: 'none',
+  },
 });
 
 function ScheduleHeader({ name, attendees }) {
   return (
     <StyledContainer>
       <StyledNameContainer>
-        <Typography sx={{ color: '#929191', fontSize: 20 }}>{name}</Typography>
+        <StyledTypography>{name}</StyledTypography>
+        <Typography sx={{ color: '#929191', fontSize: '12.5px', fontStyle: 'italic'}}>All Times are in EST</Typography>
       </StyledNameContainer>
       <StyledAttendeesContainer>
         <Typography sx={{ color: '#929191', fontSize: 12 }}>{attendees} {attendees === 1 ? 'Attendee' : 'Attendees'}</Typography>

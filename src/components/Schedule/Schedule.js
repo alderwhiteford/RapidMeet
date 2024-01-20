@@ -20,7 +20,7 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
       sx={{
         minWidth: '40vw',
         maxWidth: '80%',
-        maxHeight: '80vh',
+        maxHeight: '80%',
         overflow: 'scroll',
         boxShadow: '5px 5px 5px #e8e8e8',
         display: 'flex',

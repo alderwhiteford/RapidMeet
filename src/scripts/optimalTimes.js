@@ -152,6 +152,11 @@ export function findOptimalTime(availability, timezoneStr, meetingLength, numMee
   // Sort the optimal times by score:
   const allOptimalTimes = []
   const sortedTimesByScore = Object.keys(optimalTimes).sort((a, b) => optimalTimesScore[b] - optimalTimesScore[a]);
+  
+  if (sortedTimesByScore.length < numMeetings) {
+    return [];
+  }
+
   for (let i = 0 ; i < numMeetings ; i++) {
     allOptimalTimes.push(...optimalTimes[sortedTimesByScore[i]])
   }

@@ -31,6 +31,7 @@ export default function Navbar() {
             size="large"
             endIcon={<CalendarMonthIcon />}
             onClick={() => navigate('/')}
+            sx={{ textTransform: 'none' }}
           >
             Create
           </StyledButton>
