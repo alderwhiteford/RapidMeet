@@ -96,6 +96,11 @@ export default function ScheduleForm() {
     flexDirection: 'column',
   });
 
+  const StyledTypography = styled(Typography)({
+    opacity: animationComplete ? 1 : 0,
+    transition: 'all ease-in-out'
+  });
+
   return (
     <>
       <Snackbar 
@@ -130,7 +135,7 @@ export default function ScheduleForm() {
             />
           )}
         />
-        <Typography sx={{ marginBottom: '10px', fontSize: '12.5px', fontStyle: 'italic', color: '#929191' }}>All Times are in EST</Typography>
+        <StyledTypography sx={{ marginBottom: '10px', fontSize: '12.5px', fontStyle: 'italic', color: '#929191' }}>All Times are in EST</StyledTypography>
         <StyledFormControl variant="outlined" style={{ marginBottom: '15px' }} error={!!errors.start_time}>
           <InputLabel>Start Time</InputLabel>
           <Controller
