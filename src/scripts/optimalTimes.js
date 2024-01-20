@@ -22,6 +22,16 @@ function epochTimeToDate(epochTime, timezone) {
   return datetimeInTimezone.format('YYYY-MM-DD');
 }
 
+function hasAllRequiredAttendees(requiredAttendees, userSet) {
+  let hasAllAttendees = true 
+  requiredAttendees.forEach((attendee) => {
+    if (!userSet.has(parseInt(attendee))) {
+      hasAllAttendees = false
+    }
+  })
+  return hasAllAttendees
+}
+
 function convertToDates(availability, timezoneStr) {
   const dates = {};
 
@@ -44,7 +54,7 @@ function convertToDates(availability, timezoneStr) {
   return dates;
 }
 
-function identifyStartingBlocks(dates, day, availability) {
+function identifyStartingBlocks(dates, day, availability, requiredAttendees) {
   let users = new Set([]);
   const timeBlocks = [];
 
@@ -52,13 +62,17 @@ function identifyStartingBlocks(dates, day, availability) {
   for (const time of dates[day]) {
     // Extract the available users at a given time:
     const availableUsers = availability[time];
+    const setOfAvailableUsers = new Set(availableUsers);
 
     // Find which users are no longer in the time block and which users are now in the time block:
     const usersToAdd = new Set(availableUsers.filter(user => !users.has(user)));
     const usersToRemove = new Set([...users].filter(user => !availableUsers.includes(user)));
 
-    // If new users are being added, mark the timeslot as a beginning timestamp:
-    if (usersToAdd.size > 0) {
+    // If new users are being added and all required attendees are present, mark the timeslot as a beginning timestamp:
+    if (time === '1705930200000') {
+      console.log(hasAllRequiredAttendees(requiredAttendees, setOfAvailableUsers))
+    }
+    if (usersToAdd.size > 0 && hasAllRequiredAttendees(requiredAttendees, setOfAvailableUsers)) {
       timeBlocks.push(time);
     }
 
@@ -69,7 +83,7 @@ function identifyStartingBlocks(dates, day, availability) {
   return timeBlocks;
 }
 
-export function findOptimalTime(availability, timezoneStr, meetingLength, numMeetings) {
+export function findOptimalTime(availability, timezoneStr, meetingLength, numMeetings, requiredAttendees) {
   // Confirm meeting length validity:
   if (meetingLength > 10 || meetingLength <= 0) {
     return [];
@@ -85,7 +99,7 @@ export function findOptimalTime(availability, timezoneStr, meetingLength, numMee
   // Iterate across each day:
   for (const key of keys) {
     // Find the starting point for each day
-    const timeBlockStartingPoints = identifyStartingBlocks(dates, key, availability);
+    const timeBlockStartingPoints = identifyStartingBlocks(dates, key, availability, requiredAttendees);
     let optimalTime = [];
     let optimalTimeScore = 0;
 
@@ -94,6 +108,7 @@ export function findOptimalTime(availability, timezoneStr, meetingLength, numMee
       const userScores = {};
       let timeScore = 0;
       const timeBlocks = [];
+      const userSet = new Set([]);
 
       // iterate through the number of time slots matching meeting length:
       for (let i = 0; i < meetingLength; i++) {
@@ -112,6 +127,9 @@ export function findOptimalTime(availability, timezoneStr, meetingLength, numMee
             if (!userScores[user]) {
               userScores[user] = STARTING_SCORES[i];
               timeScore += userScores[user];
+
+              // Track that the user exists in the timeslot
+              userSet.add(user)
             } else {
               const scoreIncrease = userScores[user] * SCORE_SCALE;
               userScores[user] += scoreIncrease;
@@ -121,8 +139,7 @@ export function findOptimalTime(availability, timezoneStr, meetingLength, numMee
         }
       }
 
-      // Check to see if this is the max time score:
-      if (timeScore > optimalTimeScore) {
+      if (timeScore > optimalTimeScore && hasAllRequiredAttendees(requiredAttendees, userSet)) {
         optimalTimeScore = timeScore;
         optimalTime = timeBlocks;
       }
@@ -139,5 +156,11 @@ export function findOptimalTime(availability, timezoneStr, meetingLength, numMee
     allOptimalTimes.push(...optimalTimes[sortedTimesByScore[i]])
   }
 
+  // If the algorithm cannot find optimal times for the requested settings, return an empty array:
+  if (allOptimalTimes.length < (numMeetings * meetingLength)) {
+    return []
+  }
+
+  console.log(allOptimalTimes);
   return allOptimalTimes;
 }

@@ -1,4 +1,15 @@
-export function computeTimeIntervals(startTime, endTime) {
+import moment from "moment-timezone";
+
+export function computeTimeIntervals(startTime, endTime, timezone) {
+  
+  // Compute the difference in the users timezone and the schedule timezone:
+  // CODE WILL COME BACK WHEN WE WORRY ABOUT TIMEZONES: 
+  // var now = moment();
+  // var localOffset = now.utcOffset();
+  // now.tz(timezone); // schedule timezone
+  // var scheduleOffset = now.utcOffset();
+  // var diffInHour = (localOffset - scheduleOffset) / 60;
+
   let startHour = Number(startTime.split(":")[0])
   const startMeridiem = startTime.split(" ")[1]
   if (startMeridiem === 'am' && startHour === 12) {
@@ -30,8 +41,6 @@ export function computeTimeIntervals(startTime, endTime) {
   // Compute Epoch Times:
   const startEpochTime = 1000 * 60 * 60 * startHour // (milliseconds * seconds * minutes * hours)
 
-  console.log(startHour)
-  console.log(endHour);
   const timeIntervals = [startEpochTime];
   let lastInterval = startEpochTime;
   const numIntervals = ((endHour - startHour) * 2) - 1

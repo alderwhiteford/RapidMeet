@@ -80,7 +80,7 @@ const SwitchContainer = styled.div({
 });
 
 export default function OptimizerForm() {
-    const { users, dates, start_time, end_time, availability } = useSelector((state) => state.schedule)
+    const { users, dates, start_time, end_time, availability, timezone } = useSelector((state) => state.schedule)
 
     const [requiredAttendees, setRequiredAttendees] = useState([]);
     const [meetingCount, setMeetingCount] = useState(1);
@@ -91,13 +91,12 @@ export default function OptimizerForm() {
 
 	useEffect(() => {
 		if (optimizer) {
-			const times = findOptimalTime(availability, 'America/New_York', meetingLength * 2, meetingCount)
-			console.log(times);
+			const times = findOptimalTime(availability, 'America/New_York', meetingLength * 2, meetingCount, requiredAttendees)
 			dispatch(setOptimalTimes(times));
 		} else {
 			dispatch(setOptimalTimes([]))
 		}
-	}, [availability, dispatch, meetingCount, meetingLength, optimizer]);
+	}, [availability, dispatch, meetingCount, meetingLength, optimizer, requiredAttendees]);
 
 	const handleStateChange = (event, setter) => {
 		const { target : { value } } = event
@@ -115,7 +114,7 @@ export default function OptimizerForm() {
 	}
 
 	const meetingLengthOptions = () => {
-		const halfHourIntervals = computeTimeIntervals(start_time, end_time)[1].length
+		const halfHourIntervals = computeTimeIntervals(start_time, end_time, timezone)[1].length
 		const meetingLengths = [];
 		for (let i = 1 ; i <= Math.min(halfHourIntervals, 10) ; i++) {
 			meetingLengths.push(i / 2);
@@ -157,9 +156,12 @@ export default function OptimizerForm() {
 					input={<OutlinedInput label="Required Attendee" />}
 					renderValue={(selected) => (
 						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-							{selected.map((value) => (
-									<Chip key={value} label={value} />
-							))}
+							{selected.map((value) => {
+								const user = users[value];
+								return (
+									<Chip key={value} label={user.user_name} />
+								)
+							})}
 						</Box>
 					)}
 				>
@@ -168,7 +170,7 @@ export default function OptimizerForm() {
 						return (
 						<MenuItem
 							key={userId}
-							value={user.user_name}
+							value={userId}
 						>
 							{user.user_name}
 						</MenuItem>

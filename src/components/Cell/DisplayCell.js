@@ -2,7 +2,8 @@ import styled from "@emotion/styled";
 import { TableCell } from "@mui/material";
 
 export default function DisplayCell({ epochTime, isHour, availability, users, isOptimal }) {
-  const opacity = availability ? !isOptimal ? (availability.length / Object.keys(users).length) : 1 : 0;
+  let opacity = availability ? (availability.length / Object.keys(users).length) : 0
+  opacity = isOptimal ? 1 : opacity
   
   const StyledDiv = styled.div({
     display: 'flex',

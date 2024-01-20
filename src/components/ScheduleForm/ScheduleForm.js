@@ -8,6 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { createSchedule } from '../../services/scheduleApi';
 import { timeOptions } from '../../utils/constants';
+import { setSchedule } from '../../redux/scheduleSlice';
 
 export default function ScheduleForm() {
   const [startTime, setStartTime] = useState('');
@@ -49,6 +50,7 @@ export default function ScheduleForm() {
     })
       .then((res) => {
         navigate(`/${res.data.id}`);
+        setSchedule(res.data);
       })
       .catch((error) => {
         console.log(error.message);

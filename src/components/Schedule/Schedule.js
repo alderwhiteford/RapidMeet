@@ -9,8 +9,8 @@ import TimeCell from "../Cell/TimeCell";
 import DisplayCell from "../Cell/DisplayCell";
 
 export default function ScheduleGrid({ startTime, endTime, dates, display, setTimes, setDeletedTimes, title }) {
-  const { availability, users, optimalTimes } = useSelector((state) => state.schedule);
-  const [sideBarTimes, intervals] = computeTimeIntervals(startTime, endTime);
+  const { availability, users, optimalTimes, timezone } = useSelector((state) => state.schedule);
+  const [sideBarTimes, intervals] = computeTimeIntervals(startTime, endTime, timezone);
   const rows = createScheduleRows(dates, intervals)
   const [isMouseDown, setIsMouseDown] = useState(false);
   const { user } = useSelector((state) => state);

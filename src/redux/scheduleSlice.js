@@ -8,7 +8,8 @@ const initialState = {
   dates: [],
   users: {},
   availability: {},
-  optimalTimes: []
+  optimalTimes: [],
+  timezone: '',
 };
 
 export const scheduleSlice = createSlice({
@@ -23,6 +24,7 @@ export const scheduleSlice = createSlice({
       state.dates = action.payload.dates;
       state.users = action.payload.users;
       state.availability = action.payload.availability;
+      state.timezone = action.payload.timezone
     },
     setOptimalTimes: (state, action) => {
       state.optimalTimes = action.payload
