@@ -47,8 +47,7 @@ const StyledForm = styled('div')({
 });
 
 const StyledHeader = styled(Typography)({
-  alignSelf: 'flex-start',
-  marginLeft: '130px',
+  alignSelf: 'center',
   color: '#04a43c',
   fontSize: 40,
 
@@ -71,18 +70,14 @@ const StyledHeaderBlack = styled(Typography)({
 const StyledInfoContainer = styled('div')({
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'flex-start',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginBottom: '5px',
 });
 
 const StyledSubText = styled(Typography)({
-  alignSelf: 'flex-start',
   color: '#929191',
   fontSize: 15,
-  marginRight: '390px',
-
-  '@media (max-width: 1280px)': {
-    marginRight: '350px',
-  },
 
   '@media (max-width: 768px)': {
     fontSize: 12,
@@ -139,7 +134,6 @@ export default function AvailabilityForm({ startTime, endTime, dates, setTimes, 
   const [errorSnackbar, setErrorSnackbar] = useState([false, null]);
 
   const addAvailability = () => {
-    console.log(selectedTimes);
     updateUserAvailability(scheduleId, user, selectedTimes, availability, users, deletedTimes).then((res) => {
       if (res.success) {
         dispatch(setModal());

@@ -1,8 +1,8 @@
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setSchedule } from '../redux/scheduleSlice';
+import { resetSchedule, setSchedule } from '../redux/scheduleSlice';
 import { setModal, setSuccessModal } from '../redux/generalSlice';
 import { db } from '../services/firebase/config';
 import { doc, onSnapshot } from 'firebase/firestore';
@@ -15,6 +15,7 @@ import ReturningUserModal from '../components/Modal/ReturningUserModal';
 import ScheduleGrid from '../components/Schedule/Schedule';
 import OptimizerForm from '../components/OptmizerForm/OptimizerForm';
 import ScheduleHeader from '../components/Schedule/ScheduleHeader';
+import { deleteSchedule } from '../services/scheduleApi';
 
 const PageColumnContainer = styled.div({
   maxWidth: '100vw',
@@ -87,6 +88,7 @@ function Schedule() {
   const navigate = useNavigate();
   const [selectedTimes, setSelectedTimes] = useState(new Set());
   const [deletedTimes, setDeletedTimes] = useState(new Set());
+  const [errorSnackbar, setErrorSnackbar] = useState([false, null]);
 
   const { successModal, modal } = useSelector((state) => state.general);
   const { start_time, end_time, dates, name, users } = useSelector((state) => state.schedule);
@@ -100,8 +102,7 @@ function Schedule() {
       if (snapshot.exists()) {
         dispatch(setSchedule(snapshot.data()));
       } else {
-        // Todo: Set error state, redirect to 404 page or something
-        navigate('/');
+        navigate('/page-not-found');
         return;
       }
     });
@@ -114,6 +115,18 @@ function Schedule() {
     dispatch(setSuccessModal({ message: 'Successfully copied invite link to clipboard!' }));
   };
 
+  const onClickCloseEvent = () => {
+    deleteSchedule(scheduleId).then((res) => {
+      if (res.success) {
+        navigate('/');
+        dispatch(resetSchedule());
+        dispatch(setSuccessModal({ message: `Successfully closed ${name} schedule.` }));
+      } else {
+        setErrorSnackbar([true, res.error]);
+      }
+    })
+  };
+
   return (
     <>
       <Snackbar 
@@ -124,6 +137,16 @@ function Schedule() {
       >
         <Alert onClose={() => dispatch(setSuccessModal())} severity="success" sx={{ width: '100%' }}>
           {successModal?.message}
+        </Alert>
+      </Snackbar>
+      <Snackbar 
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+        open={errorSnackbar[0]} 
+        autoHideDuration={4000} 
+        onClose={() => setErrorSnackbar([false, null])}
+      >
+        <Alert onClose={() => setErrorSnackbar([false, null])} severity="error" sx={{ width: '100%' }}>
+          {errorSnackbar[1]}
         </Alert>
       </Snackbar>
       {modal === 'new_user_form' && (
@@ -173,6 +196,7 @@ function Schedule() {
                   border: 1,
                   color: '#DE4402'
                 }}
+                onClick={onClickCloseEvent}
               >
                 Close Event
               </StyledScheduleButton>

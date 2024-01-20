@@ -1,4 +1,4 @@
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Paper, Table, TableBody, TableContainer, TableHead, TableRow } from "@mui/material";
 import { computeTimeIntervals, createScheduleRows } from "../../utils/scheduleGrid";
 import { days, months } from "../../utils/constants";
 import { useSelector } from "react-redux";
