@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { IconButton, Typography } from "@mui/material";
 import IosShareIcon from '@mui/icons-material/IosShare';
-import InfoIcon from '@mui/icons-material/Info';
 
 const StyledContainer = styled('div')({
   display: 'flex',
