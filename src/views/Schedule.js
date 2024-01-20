@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -204,7 +204,7 @@ function Schedule() {
           </OptimizerContainer>
         </FlexColumn>
         <FlexColumn>
-          <ScheduleHeader name={name} attendees={Object.keys(users).length} onClickShare={onClickShare} />
+          <ScheduleHeader name={name} attendees={Object.keys(users).length} />
           <ScheduleGrid 
             startTime={start_time}
             endTime={end_time}

@@ -1,16 +1,25 @@
 import styled from "@emotion/styled";
-import { TableCell } from "@mui/material";
+import { TableCell, Tooltip } from "@mui/material";
+
+const StyledDiv = styled.div({
+  display: 'flex',
+  position: 'relative',
+  alignContent: 'center',
+  justifyContent: 'center',
+  height: '17.5px',
+});
 
 export default function DisplayCell({ epochTime, isHour, availability, users }) {
   const opacity = availability ? (availability.length / Object.keys(users).length) : 0;
   
-  const StyledDiv = styled.div({
-    display: 'flex',
-    position: 'relative',
-    alignContent: 'center',
-    justifyContent: 'center',
-    height: '17.5px',
-  })
+  const generateTooltipTitle = () => {
+    if (!availability || availability.length === 0) {
+      return 'Nobody available';
+    }
+
+    const userNames = availability.map(userId => users[userId]?.user_name || 'Unknown User').join(', ');
+    return `People available: ${userNames}`;
+  };
   
   return (
     <TableCell 
@@ -27,7 +36,9 @@ export default function DisplayCell({ epochTime, isHour, availability, users }) 
         zIndex: 0
       }}
     >
-      <StyledDiv />
+      <Tooltip title={generateTooltipTitle()}>
+        <StyledDiv />
+      </Tooltip>
     </TableCell>
   )
-}
+};
