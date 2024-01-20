@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react'
 import DatePicker from '../DatePicker/DatePicker';
-import { Alert, Button, InputLabel, FormControl, FormHelperText, MenuItem, Select, Snackbar, TextField } from '@mui/material';
+import { Alert, Button, InputLabel, FormControl, FormHelperText, MenuItem, Select, Snackbar, TextField, Typography } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 
 import { createSchedule } from '../../services/scheduleApi';
@@ -130,6 +130,7 @@ export default function ScheduleForm() {
             />
           )}
         />
+        <Typography sx={{ marginBottom: '10px', fontSize: '12.5px', fontStyle: 'italic', color: '#929191' }}>All Times are in EST</Typography>
         <StyledFormControl variant="outlined" style={{ marginBottom: '15px' }} error={!!errors.start_time}>
           <InputLabel>Start Time</InputLabel>
           <Controller
