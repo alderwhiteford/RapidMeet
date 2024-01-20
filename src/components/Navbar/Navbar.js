@@ -15,6 +15,16 @@ const StyledButton = styled(Button)({
   },
 });
 
+const StyledTypograpgy = styled(Typography)({
+  color: '#04a43c',
+  flexGrow: 1,
+  
+  '@media (max-width: 768px)': {
+    fontSize: 25,
+    marginRight: '0px',
+  },
+})
+
 export default function Navbar() {
   const navigate = useNavigate();
 
@@ -23,9 +33,9 @@ export default function Navbar() {
       <AppBar position="static">
         <StyledToolbar>
           {/* Logo will go here, also we will prob want to find a nice font to use for the typography */}
-          <Typography variant="h4" component="div" sx={{ color: '#04a43c', flexGrow: 1 }}>
+          <StyledTypograpgy variant="h4" component="div">
             ScheduleSync
-          </Typography>
+          </StyledTypograpgy>
           <StyledButton
             variant="contained"
             size="large"
