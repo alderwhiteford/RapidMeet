@@ -9,16 +9,31 @@ const StyledDiv = styled.div({
   height: '17.5px',
 });
 
+const StyledToolTipTitle = styled.h3({
+  fontSize: '12.5px',
+  margin: 0,
+})
+
 export default function DisplayCell({ epochTime, isHour, availability, users }) {
   const opacity = availability ? (availability.length / Object.keys(users).length) : 0;
   
   const generateTooltipTitle = () => {
     if (!availability || availability.length === 0) {
-      return 'Nobody available';
+      return <StyledToolTipTitle>Nobody available</StyledToolTipTitle>;
     }
 
-    const userNames = availability.map(userId => users[userId]?.user_name || 'Unknown User').join(', ');
-    return `People available: ${userNames}`;
+    return (
+      <div>
+        <StyledToolTipTitle>
+          People Available:
+        </StyledToolTipTitle>
+        {availability.map((userId) => 
+          <div style={{marginBottom: '2px', marginTop: '2px'}}>
+            {users[userId]?.user_name || 'Unknown User'}
+          </div>
+        )}
+      </div>
+    );
   };
   
   return (
@@ -36,7 +51,7 @@ export default function DisplayCell({ epochTime, isHour, availability, users }) 
         zIndex: 0
       }}
     >
-      <Tooltip title={generateTooltipTitle()}>
+      <Tooltip placement='left-start' title={generateTooltipTitle()} disableInteractive>
         <StyledDiv />
       </Tooltip>
     </TableCell>
