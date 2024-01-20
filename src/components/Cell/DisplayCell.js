@@ -1,17 +1,41 @@
 import styled from "@emotion/styled";
-import { TableCell } from "@mui/material";
+import { TableCell, Tooltip } from "@mui/material";
+
+const StyledDiv = styled.div({
+  display: 'flex',
+  position: 'relative',
+  alignContent: 'center',
+  justifyContent: 'center',
+  height: '17.5px',
+});
+
+const StyledToolTipTitle = styled.h3({
+  fontSize: '12.5px',
+  margin: 0,
+})
 
 export default function DisplayCell({ epochTime, isHour, availability, users, isOptimal }) {
   let opacity = availability ? (availability.length / Object.keys(users).length) : 0
   opacity = isOptimal ? 1 : opacity
   
-  const StyledDiv = styled.div({
-    display: 'flex',
-    position: 'relative',
-    alignContent: 'center',
-    justifyContent: 'center',
-    height: '17.5px',
-  })
+  const generateTooltipTitle = () => {
+    if (!availability || availability.length === 0) {
+      return <StyledToolTipTitle>Nobody available</StyledToolTipTitle>;
+    }
+
+    return (
+      <div>
+        <StyledToolTipTitle>
+          People Available:
+        </StyledToolTipTitle>
+        {availability.map((userId) => 
+          <div style={{marginBottom: '2px', marginTop: '2px'}}>
+            {users[userId]?.user_name || 'Unknown User'}
+          </div>
+        )}
+      </div>
+    );
+  };
   
   return (
     <TableCell 
@@ -28,7 +52,9 @@ export default function DisplayCell({ epochTime, isHour, availability, users, is
         zIndex: 0
       }}
     >
-      <StyledDiv />
+      <Tooltip placement='left-start' title={generateTooltipTitle()} disableInteractive>
+        <StyledDiv />
+      </Tooltip>
     </TableCell>
   )
-}
+};
