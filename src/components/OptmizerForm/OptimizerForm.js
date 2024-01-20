@@ -1,9 +1,11 @@
 import styled from "@emotion/styled";
-import { Box, Chip, FormControl, FormControlLabel, InputLabel, MenuItem, OutlinedInput, Select, Switch, Typography, alpha } from "@mui/material";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Switch, Typography, alpha } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import InfoIcon from '@mui/icons-material/Info';
 import { computeTimeIntervals } from "../../utils/scheduleGrid";
+import { findOptimalTime } from "../../scripts/optimalTimes";
+import { setOptimalTimes } from "../../redux/scheduleSlice";
 
 const OptimizerContainer = styled.div({
     display: 'flex',
@@ -77,13 +79,24 @@ const SwitchContainer = styled.div({
 });
 
 export default function OptimizerForm() {
-    const { users, dates, start_time, end_time } = useSelector((state) => state.schedule)
+    const { users, dates, start_time, end_time, availability } = useSelector((state) => state.schedule)
 
     const [requiredAttendees, setRequiredAttendees] = useState([]);
     const [meetingCount, setMeetingCount] = useState(1);
-    const [meetingGap, setMeetingGap] = useState(0);
 	const [meetingLength, setMeetingLength] = useState(0.5);
 	const [optimizer, setOptimizer] = useState(false);
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (optimizer) {
+			const times = findOptimalTime(availability, 'America/New_York', meetingLength * 2, meetingCount)
+			console.log(times);
+			dispatch(setOptimalTimes(times));
+		} else {
+			dispatch(setOptimalTimes([]))
+		}
+	}, [availability, dispatch, meetingCount, meetingLength, optimizer]);
 
 	const handleStateChange = (event, setter) => {
 		const { target : { value } } = event
@@ -100,20 +113,21 @@ export default function OptimizerForm() {
 		return meetingCountOptions;
 	}
 
-	// Compute the list of valid gap lengths for meetings:
-	const meetingGapOptions = () => {
-		const meetingGapOptions = [0]
-		if (meetingCount > 1) {
-			const gapDays = dates.length - meetingCount
-			const maxGap = Math.floor(gapDays / (meetingCount - 1))
+	// POTENTIALLY WILL BE ADDED BACK IN THE FUTURE:
+	// // Compute the list of valid gap lengths for meetings:
+	// const meetingGapOptions = () => {
+	// 	const meetingGapOptions = [0]
+	// 	if (meetingCount > 1) {
+	// 		const gapDays = dates.length - meetingCount
+	// 		const maxGap = Math.floor(gapDays / (meetingCount - 1))
 			
-			for (let i = 1 ; i <= maxGap ; i++) {
-				meetingGapOptions.push(i);
-			}
-			return meetingGapOptions
-		}
-		return meetingGapOptions
-	}
+	// 		for (let i = 1 ; i <= maxGap ; i++) {
+	// 			meetingGapOptions.push(i);
+	// 		}
+	// 		return meetingGapOptions
+	// 	}
+	// 	return meetingGapOptions
+	// }
 
 	const meetingLengthOptions = () => {
 		const halfHourIntervals = computeTimeIntervals(start_time, end_time)[1].length
@@ -123,9 +137,6 @@ export default function OptimizerForm() {
 		}
 		return meetingLengths;
 	}
-
-	meetingLengthOptions();
-
 
 	return (
 		<OptimizerContainer>
@@ -178,7 +189,10 @@ export default function OptimizerForm() {
 					))}
 					</Select>
 				</StyledFormControl>
-				<StyledFormControl sx={{ marginTop: '25px'}}>
+				{/**
+				 * POTENTIALLY TO BE ADDED BACK IN THE FUTURE:
+				 */}
+				{/* <StyledFormControl sx={{ marginTop: '25px'}}>
 					<InputLabel>Days Between Meetings</InputLabel>
 					<Select
 						value={meetingGap}
@@ -194,7 +208,7 @@ export default function OptimizerForm() {
 							</MenuItem>
 					))}
 					</Select>
-				</StyledFormControl>
+				</StyledFormControl> */}
 				<StyledFormControl sx={{ marginTop: '25px'}}>
 					<InputLabel>Meeting Length (Hours)</InputLabel>
 					<Select

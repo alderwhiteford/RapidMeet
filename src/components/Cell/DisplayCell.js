@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { TableCell } from "@mui/material";
 
-export default function DisplayCell({ epochTime, isHour, availability, users }) {
-  const opacity = availability ? (availability.length / Object.keys(users).length) : 0;
+export default function DisplayCell({ epochTime, isHour, availability, users, isOptimal }) {
+  const opacity = availability ? !isOptimal ? (availability.length / Object.keys(users).length) : 1 : 0;
   
   const StyledDiv = styled.div({
     display: 'flex',
@@ -18,7 +18,7 @@ export default function DisplayCell({ epochTime, isHour, availability, users }) 
       key={epochTime}
       sx={{ 
         padding: '0',
-        backgroundColor: '#00A63C',
+        backgroundColor: !isOptimal ? '#00A63C' : '#FAC746',
         opacity: opacity,
         border: 1,
         borderColor: '#C1C1C1',

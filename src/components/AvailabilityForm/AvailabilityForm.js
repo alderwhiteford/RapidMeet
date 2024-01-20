@@ -139,7 +139,6 @@ export default function AvailabilityForm({ startTime, endTime, dates, setTimes, 
   const [errorSnackbar, setErrorSnackbar] = useState([false, null]);
 
   const addAvailability = () => {
-    console.log(selectedTimes);
     updateUserAvailability(scheduleId, user, selectedTimes, availability, users, deletedTimes).then((res) => {
       if (res.success) {
         dispatch(setModal());

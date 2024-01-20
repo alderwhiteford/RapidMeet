@@ -9,13 +9,12 @@ import TimeCell from "../Cell/TimeCell";
 import DisplayCell from "../Cell/DisplayCell";
 
 export default function ScheduleGrid({ startTime, endTime, dates, display, setTimes, setDeletedTimes, title }) {
-  const { availability, users } = useSelector((state) => state.schedule);
+  const { availability, users, optimalTimes } = useSelector((state) => state.schedule);
   const [sideBarTimes, intervals] = computeTimeIntervals(startTime, endTime);
   const rows = createScheduleRows(dates, intervals)
   const [isMouseDown, setIsMouseDown] = useState(false);
   const { user } = useSelector((state) => state);
 
-  console.log(availability);
   return (
     <Paper 
       sx={{
@@ -81,6 +80,7 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
                         availability={availability[cell]}
                         epochTime={cell}
                         isHour={index % 2 === 1}
+                        isOptimal={optimalTimes.includes(cell)}
                       /> : 
                       <SelectCell
                         epochTime={cell}
