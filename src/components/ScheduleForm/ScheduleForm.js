@@ -9,6 +9,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { createSchedule } from '../../services/scheduleApi';
 import { timeOptions } from '../../utils/constants';
 import { setSchedule } from '../../redux/scheduleSlice';
+import { useDispatch } from 'react-redux';
 
 export default function ScheduleForm() {
   const [startTime, setStartTime] = useState('');
@@ -17,6 +18,7 @@ export default function ScheduleForm() {
   const [animationComplete, setAnimationComplete] = useState(false);
   const [errorSnackbar, setErrorSnackbar] = useState([false, null]);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
     control,
@@ -52,7 +54,7 @@ export default function ScheduleForm() {
       .then((res) => {
         if (res.success) {
           navigate(`/${res.data.id}`);
-          dispatchEvent(setSchedule(res.data));
+          dispatch(setSchedule(res.data));
         } else {
           setErrorSnackbar([true, res.error]);
         }

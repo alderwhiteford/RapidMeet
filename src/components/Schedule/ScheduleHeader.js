@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import { IconButton, Typography } from "@mui/material";
-import IosShareIcon from '@mui/icons-material/IosShare';
+import { Typography } from "@mui/material";
 
 const StyledContainer = styled('div')({
   display: 'flex',
@@ -31,14 +30,11 @@ const StyledAttendeesContainer = styled('div')({
   marginLeft: 'auto',
 });
 
-function ScheduleHeader({ name, attendees, onClickShare }) {
+function ScheduleHeader({ name, attendees }) {
   return (
     <StyledContainer>
       <StyledNameContainer>
-        <Typography sx={{ color: '#505050', fontSize: 20 }}>{name}</Typography>
-        <IconButton onClick={onClickShare}>
-          <IosShareIcon sx={{ color: 'black' }} />
-        </IconButton>
+        <Typography sx={{ color: '#929191', fontSize: 20 }}>{name}</Typography>
       </StyledNameContainer>
       <StyledAttendeesContainer>
         <Typography sx={{ color: '#929191', fontSize: 12 }}>{attendees} {attendees === 1 ? 'Attendee' : 'Attendees'}</Typography>
