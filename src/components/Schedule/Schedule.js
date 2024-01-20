@@ -1,4 +1,4 @@
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Paper, Table, TableBody, TableContainer, TableHead, TableRow } from "@mui/material";
 import { computeTimeIntervals, createScheduleRows } from "../../utils/scheduleGrid";
 import { days, months } from "../../utils/constants";
 import { useSelector } from "react-redux";
@@ -18,12 +18,17 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
   return (
     <Paper 
       sx={{
+        minWidth: '40vw',
         maxWidth: '80%',
         maxHeight: '80vh',
         overflow: 'scroll',
         boxShadow: '5px 5px 5px #e8e8e8',
         display: 'flex',
-        paddingBottom: '25px'
+        paddingBottom: '25px',
+
+        '@media (max-width: 768px)': {
+          minWidth: '90vw',
+        },
       }}
     >
       <div style={{

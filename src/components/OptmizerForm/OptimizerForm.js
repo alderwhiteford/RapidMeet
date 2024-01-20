@@ -3,6 +3,7 @@ import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Sw
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import InfoIcon from '@mui/icons-material/Info';
+
 import { computeTimeIntervals } from "../../utils/scheduleGrid";
 import { findOptimalTime } from "../../scripts/optimalTimes";
 import { setOptimalTimes } from "../../redux/scheduleSlice";
@@ -113,10 +114,19 @@ export default function OptimizerForm() {
 		return meetingCountOptions;
 	}
 
-	// POTENTIALLY WILL BE ADDED BACK IN THE FUTURE:
+	const meetingLengthOptions = () => {
+		const halfHourIntervals = computeTimeIntervals(start_time, end_time)[1].length
+		const meetingLengths = [];
+		for (let i = 1 ; i <= Math.min(halfHourIntervals, 10) ; i++) {
+			meetingLengths.push(i / 2);
+		}
+		return meetingLengths;
+	}
+
+	// POTENTIALLY COULD BE ADDED BACK IN THE FUTURE:
 	// // Compute the list of valid gap lengths for meetings:
 	// const meetingGapOptions = () => {
-	// 	const meetingGapOptions = [0]
+	// 	const meetingGapOptions = []
 	// 	if (meetingCount > 1) {
 	// 		const gapDays = dates.length - meetingCount
 	// 		const maxGap = Math.floor(gapDays / (meetingCount - 1))
@@ -129,17 +139,9 @@ export default function OptimizerForm() {
 	// 	return meetingGapOptions
 	// }
 
-	const meetingLengthOptions = () => {
-		const halfHourIntervals = computeTimeIntervals(start_time, end_time)[1].length
-		const meetingLengths = [];
-		for (let i = 1 ; i <= Math.min(halfHourIntervals, 10) ; i++) {
-			meetingLengths.push(i / 2);
-		}
-		return meetingLengths;
-	}
 
-	return (
-		<OptimizerContainer>
+    return (
+        <OptimizerContainer>
 			<StyledHeader>
 					Schedule Helper
 			</StyledHeader>
@@ -161,14 +163,17 @@ export default function OptimizerForm() {
 						</Box>
 					)}
 				>
-					{Object.keys(users).forEach((user) => (
+					{Object.keys(users).map((userId) => {
+						const user = users[userId];
+						return (
 						<MenuItem
-							key={user.name}
-							value={user.name}
+							key={userId}
+							value={user.user_name}
 						>
-							{user.name}
+							{user.user_name}
 						</MenuItem>
-					))}
+						);
+					})}
 				</Select>
 			</FormControl>
 			<ThreeInputRow>
@@ -190,7 +195,7 @@ export default function OptimizerForm() {
 					</Select>
 				</StyledFormControl>
 				{/**
-				 * POTENTIALLY TO BE ADDED BACK IN THE FUTURE:
+				 * POTENTIALLY COULD BE ADDED BACK IN THE FUTURE
 				 */}
 				{/* <StyledFormControl sx={{ marginTop: '25px'}}>
 					<InputLabel>Days Between Meetings</InputLabel>
@@ -198,13 +203,14 @@ export default function OptimizerForm() {
 						value={meetingGap}
 						onChange={(event) => handleStateChange(event, setMeetingGap)}
 						input={<OutlinedInput label="Days Between Meetings" />}
+						disabled={meetingGapOptions().length === 0}
 					>
-					{meetingGapOptions().map((gap) => (
+					{meetingGapOptions().map((name) => (
 							<MenuItem
-								key={gap}
-								value={gap}
+								key={name}
+								value={name}
 							>
-								{gap}
+								{name}
 							</MenuItem>
 					))}
 					</Select>
@@ -244,6 +250,6 @@ export default function OptimizerForm() {
 					onChange={() => setOptimizer((state) => !state)}
 				/>
 			</SwitchContainer>
-		</OptimizerContainer>
-	);
+        </OptimizerContainer>
+    );
 }

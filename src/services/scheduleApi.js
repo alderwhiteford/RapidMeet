@@ -3,6 +3,7 @@ import {
   getUserByName as getUserByNameAPI,
   addScheduleUser as addScheduleUserAPI,
   updateUserAvailability as updateUserAvailabilityAPI,
+  deleteSchedule as deleteScheduleAPI,
 } from './firebase/schedule/services';
 
 export async function createSchedule({ name, start_time, end_time, dates, timezone }) {
@@ -34,7 +35,16 @@ export async function addScheduleUser(scheduleId, user_name, user_email, existin
 
 export async function updateUserAvailability(scheduleId, user, availability, existing_availability, existing_users, deletedTimes) {
   try {
-    await updateUserAvailabilityAPI({ scheduleId, user, availability, existing_availability, existing_users, deletedTimes });
+    await updateUserAvailabilityAPI({ scheduleId, user, availability, existing_availability, existing_users, deletedTimes, deletedTimes });
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+};
+
+export async function deleteSchedule(scheduleId) {
+  try {
+    await deleteScheduleAPI({ scheduleId });
     return { success: true };
   } catch (error) {
     return { success: false, error: error.message };
