@@ -99,8 +99,7 @@ function Schedule() {
       if (snapshot.exists()) {
         dispatch(setSchedule(snapshot.data()));
       } else {
-        // Todo: Set error state, redirect to 404 page or something
-        navigate('/');
+        navigate('/page-not-found');
         return;
       }
     });
