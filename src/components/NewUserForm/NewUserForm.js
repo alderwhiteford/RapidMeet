@@ -86,7 +86,7 @@ const StyledEmailField = styled(StyledTextField)(({ show }) => ({
 const StyledButton = styled(Button)({
   backgroundColor: '#04a43c',
   '&:hover': {
-    backgroundColor: '#037e33',
+    backgroundColor: '#97c9a5',
   },
   width: '85%',
 });

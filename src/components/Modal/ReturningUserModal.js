@@ -81,7 +81,7 @@ const StyledCancelButton = styled(Button)({
   alignSelf: 'flex-start',
   backgroundColor: '#04a43c',
   '&:hover': {
-    backgroundColor: '#037e33',
+    backgroundColor: '#97c9a5',
   },
   width: '50%',
 });
@@ -90,7 +90,7 @@ const StyledContinueButton = styled(Button)({
   alignSelf: 'flex-end',
   backgroundColor: '#04a43c',
   '&:hover': {
-    backgroundColor: '#037e33',
+    backgroundColor: '#97c9a5',
   },
   width: '50%',
 });
