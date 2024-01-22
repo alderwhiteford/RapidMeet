@@ -27,8 +27,10 @@ export const generalSlice = createSlice({
     setModal: (state, action) => {
       if (action.payload) {
         state.modal = action.payload;
+        document.body.style.overflow = 'hidden';
       } else {
         state.modal = undefined;
+        document.body.style.overflow = '';
       }
     }
   },
