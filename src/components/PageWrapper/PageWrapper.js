@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Grid, Hidden, Typography } from "@mui/material";
 import BackgroundImage from "../../assets/background.png"
-import Logo from "../../assets/logo.jpeg"
+import RapidMeetLogo from "../../assets/RapidMeetLogo.png"
 
 const StyledGridContainer = styled(Grid)({
   height: '100vh',
@@ -38,7 +38,7 @@ export default function PageWrapper({ children }) {
       { children }
       <Hidden mdDown>
         <StyledGridItem item xs={6}>
-          <StyledLogo src={ Logo }/>
+          <StyledLogo src={RapidMeetLogo}/>
           <StyledTypography>
             A platform for simplifying team scheduling, helping you effortlessly find the perfect meeting times.
           </StyledTypography>
