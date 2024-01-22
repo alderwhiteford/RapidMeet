@@ -52,9 +52,9 @@ export default function DisplayCell({ epochTime, isHour, availability, users, is
         zIndex: 0
       }}
     >
-      {/* <Tooltip placement='left-start' title={generateTooltipTitle()} disableInteractive> */}
+      <Tooltip placement='left-start' title={generateTooltipTitle()} disableInteractive>
         <StyledDiv />
-      {/* </Tooltip> */}
+      </Tooltip>
     </TableCell>
   )
 };

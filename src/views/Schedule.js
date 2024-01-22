@@ -24,6 +24,7 @@ const PageColumnContainer = styled.div({
 
   '@media (max-width: 768px)': {
     flexDirection: 'column-reverse',
+    paddingTop: '125px',
   }
 })
 
@@ -40,6 +41,7 @@ const FlexColumn = styled.div({
   '@media (max-width: 768px)': {
     width: '100%',
     paddingTop: '0px',
+    minHeight: 'auto',
   }
 })
 
@@ -205,7 +207,7 @@ function Schedule() {
             </StyledScheduleButtonContainer>
           </OptimizerContainer>
         </FlexColumn>
-        <FlexColumn>
+        <FlexColumn style={{ marginBottom: '40px'}}>
           <ScheduleHeader name={name} attendees={Object.keys(users).length} />
           <ScheduleGrid 
             startTime={start_time}

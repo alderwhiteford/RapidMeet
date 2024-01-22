@@ -27,6 +27,7 @@ const FormContainer = styled('div')({
 });
 
 const StyledForm = styled('form')({
+  maxWidth: '450px',
   position: 'relative',
   padding: '40px',
   backgroundColor: 'white',
@@ -40,6 +41,7 @@ const StyledForm = styled('form')({
 
   '@media (max-width: 768px)': {
     width: '75vw',
+    maxWidth: 'auto',
     padding: '10px',
     paddingTop: '40px',
     paddingBottom: '40px',
