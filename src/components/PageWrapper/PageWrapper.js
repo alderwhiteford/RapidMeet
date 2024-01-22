@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Grid, Hidden, Typography } from "@mui/material";
 import BackgroundImage from "../../assets/background.png"
-import Logo from "../../assets/logo.png"
+import Logo from "../../assets/logo.jpeg"
 
 const StyledGridContainer = styled(Grid)({
   height: '100vh',
