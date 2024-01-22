@@ -28,6 +28,7 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
 
         '@media (max-width: 768px)': {
           minWidth: '90vw',
+          maxHeight: '60vh',
         },
       }}
     >
