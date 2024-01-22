@@ -24,11 +24,13 @@ const FormContainer = styled('div')({
 
 const StyledForm = styled('div')({
   position: 'relative',
-  width: '60vw',
-  height: '70vh',
+  width: '800px',
+  height: '650px',
   backgroundColor: 'white',
   borderRadius: '20px',
   padding: '5px',
+  paddingBottom: '20px',
+  paddingTop: '20px',
   zIndex: 100,
   display: 'flex',
   flexDirection: 'column',
@@ -41,29 +43,38 @@ const StyledForm = styled('div')({
   },
 
   '@media (max-width: 768px)': {
-    width: '85vw',
-    height: '85vh',
+    width: '95vw',
+    height: '65vh',
   },
 });
 
 const StyledHeader = styled(Typography)({
   alignSelf: 'center',
   color: '#04a43c',
-  fontSize: 40,
+  fontSize: 28,
+  textAlign: 'center',
+
+  '@media (max-width: 1280px)': {
+    fontSize: 25,
+  },
 
   '@media (max-width: 768px)': {
     marginLeft: '0px',
-    fontSize: 25,
+    fontSize: 18,
   },
 });
 
 const StyledHeaderBlack = styled(Typography)({
   color: 'black',
   display: 'inline',
-  fontSize: 40,
+  fontSize: 28,
+
+  '@media (max-width: 1280px)': {
+    fontSize: 25,
+  },
 
   '@media (max-width: 768px)': {
-    fontSize: 25,
+    fontSize: 18,
   },
 });
 
@@ -80,7 +91,7 @@ const StyledSubText = styled(Typography)({
   fontSize: 15,
 
   '@media (max-width: 768px)': {
-    fontSize: 12,
+    fontSize: 10,
     marginRight: '0px',
   },
 });
@@ -88,7 +99,7 @@ const StyledSubText = styled(Typography)({
 const StyledButton = styled(Button)({
   backgroundColor: '#04a43c',
   '&:hover': {
-    backgroundColor: '#037e33',
+    backgroundColor: '#97c9a5',
   },
   width: '30%',
   marginTop: '20px',
@@ -104,6 +115,11 @@ const StyledIconButton = styled(IconButton)({
   right: -30,
   zIndex: 101,
   color: '#D3D3D3',
+
+  '@media (max-width: 768px)': {
+    top: -20,
+    right: -20,
+  },
 });
 
 const StyledSnackbar = styled(Snackbar)({
@@ -115,6 +131,10 @@ const StyledCancelIcon = styled(CancelIcon)({
   color: '#929191',
   fontSize: 60,
   borderRadius: '50%',
+
+  '@media (max-width: 768px)': {
+    fontSize: 40,
+  },
 });
 
 const StyledInfoIcon = styled(InfoIcon)({
@@ -122,7 +142,7 @@ const StyledInfoIcon = styled(InfoIcon)({
   fontSize: 20,
 
   '@media (max-width: 768px)': {
-    fontSize: 15,
+    fontSize: 10,
   },
 })
 
@@ -164,7 +184,7 @@ export default function AvailabilityForm({ startTime, endTime, dates, setTimes, 
         <StyledForm>
           <StyledHeader>Your <StyledHeaderBlack>availability for {name}</StyledHeaderBlack></StyledHeader>
           <StyledInfoContainer>
-            <StyledInfoIcon sx={{ color: '#929191' }}/>
+            <StyledInfoIcon sx={{ color: '#929191', marginRight: '5px' }}/>
             <StyledSubText>Click and drag time blocks on the calendar to add your availability</StyledSubText>
           </StyledInfoContainer>
           <ScheduleGrid 
@@ -178,6 +198,7 @@ export default function AvailabilityForm({ startTime, endTime, dates, setTimes, 
             variant="contained"
             size="large"
             onClick={addAvailability}
+            sx={{ textTransform: 'none' }}
           >
             Save
           </StyledButton>

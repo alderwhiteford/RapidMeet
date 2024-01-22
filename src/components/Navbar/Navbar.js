@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useNavigate } from "react-router-dom";
+import RapidMeetLogo from "../../assets/RapidMeetNavbar.png";
 
 const StyledToolbar = styled(Toolbar)({
   backgroundColor: 'white',
@@ -10,8 +11,10 @@ const StyledToolbar = styled(Toolbar)({
 
 const StyledButton = styled(Button)({
   backgroundColor: '#04a43c',
+  marginLeft: 'auto',
+
   '&:hover': {
-    backgroundColor: '#037e33',
+    backgroundColor: '#97c9a5',
   },
 });
 
@@ -23,7 +26,16 @@ const StyledTypograpgy = styled(Typography)({
     fontSize: 25,
     marginRight: '0px',
   },
-})
+});
+
+const StyledLogo = styled('img')({
+  width: '200px',
+  marginRight: 'auto',
+
+  '@media (max-width: 768px)': {
+    width: '150px',
+  },
+});
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -33,9 +45,10 @@ export default function Navbar() {
       <AppBar position="static">
         <StyledToolbar>
           {/* Logo will go here, also we will prob want to find a nice font to use for the typography */}
-          <StyledTypograpgy variant="h4" component="div">
-            ScheduleSync
-          </StyledTypograpgy>
+          <StyledLogo src={RapidMeetLogo} />
+          {/* <StyledTypograpgy variant="h4" component="div">
+            RapidMeet
+          </StyledTypograpgy> */}
           <StyledButton
             variant="contained"
             size="large"

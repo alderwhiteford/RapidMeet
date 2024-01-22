@@ -51,7 +51,8 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
         component={Paper} 
         sx={{
           display: 'flex',
-          overflow: 'visible'
+          overflow: 'visible',
+          boxShadow: 'none'
         }}
         {...(!display ? { 
             onMouseDownCapture: () => setIsMouseDown(true), 

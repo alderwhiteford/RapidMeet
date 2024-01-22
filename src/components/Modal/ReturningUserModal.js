@@ -20,8 +20,7 @@ const FormContainer = styled('div')({
 
 const StyledForm = styled('form')({
   position: 'relative',
-  width: '25vw',
-  height: '30vh',
+  width: '400px',
   padding: '40px',
   backgroundColor: 'white',
   borderRadius: '20px',
@@ -34,27 +33,26 @@ const StyledForm = styled('form')({
 
   '@media (max-width: 768px)': {
     width: '75vw',
-    height: '35vh',
     padding: '25px',
   },
 });
 
 const StyledHeader = styled(Typography)({
   alignSelf: 'flex-start',
-  marginBottom: '-5%',
+  marginBottom: '-3%',
   color: '#04a43c',
-  fontSize: 40,
+  fontSize: 30,
   fontWeight: 700,
 
   '@media (max-width: 768px)': {
-    fontSize: 35,
+    fontSize: 25,
   },
 });
 
 const StyledSubHeader = styled(Typography)({
   alignSelf: 'flex-start',
   marginBottom: '5%',
-  fontSize: 20,
+  fontSize: 18,
 });
 
 const StyledText = styled(Typography)({
@@ -72,7 +70,8 @@ const StyledButtonContainer = styled('div')({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  gap: '20%',
+  gap: '10%',
+  marginTop: '20px',
 
   width: '100%',
 });
@@ -81,18 +80,18 @@ const StyledCancelButton = styled(Button)({
   alignSelf: 'flex-start',
   backgroundColor: '#04a43c',
   '&:hover': {
-    backgroundColor: '#037e33',
+    backgroundColor: '#97c9a5',
   },
-  width: '45%',
+  width: '50%',
 });
 
 const StyledContinueButton = styled(Button)({
   alignSelf: 'flex-end',
   backgroundColor: '#04a43c',
   '&:hover': {
-    backgroundColor: '#037e33',
+    backgroundColor: '#97c9a5',
   },
-  width: '45%',
+  width: '50%',
 });
 
 const StyledIconButton = styled(IconButton)({
@@ -133,6 +132,7 @@ export default function ReturningUserModal() {
             variant="contained"
             size="large"
             onClick={handleCancel}
+            sx={{ textTransform: 'none' }}
           >
             Cancel
           </StyledCancelButton>
@@ -140,6 +140,7 @@ export default function ReturningUserModal() {
             variant="contained"
             size="large"
             onClick={handleContinue}
+            sx={{ textTransform: 'none' }}
           >
             Continue
           </StyledContinueButton>

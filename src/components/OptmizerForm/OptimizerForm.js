@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Switch, Typography, alpha } from "@mui/material";
+import { Alert, Box, Chip, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Snackbar, Switch, Typography, alpha } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import InfoIcon from '@mui/icons-material/Info';
@@ -80,26 +80,34 @@ const SwitchContainer = styled.div({
 });
 
 export default function OptimizerForm() {
-    const { users, dates, start_time, end_time, availability, timezone } = useSelector((state) => state.schedule)
+	const { users, dates, start_time, end_time, availability, timezone } = useSelector((state) => state.schedule)
 
-    const [requiredAttendees, setRequiredAttendees] = useState([]);
-    const [meetingCount, setMeetingCount] = useState(1);
+	const [requiredAttendees, setRequiredAttendees] = useState([]);
+	const [meetingCount, setMeetingCount] = useState(1);
 	const [meetingLength, setMeetingLength] = useState(0.5);
 	const [optimizer, setOptimizer] = useState(false);
+	const [errorSnackbar, setErrorSnackbar] = useState([false, null]);
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (optimizer) {
-			const times = findOptimalTime(availability, 'America/New_York', meetingLength * 2, meetingCount, requiredAttendees)
-			dispatch(setOptimalTimes(times));
+			if (Object.keys(availability).length === 0) {
+				setErrorSnackbar([true, 'No optimal times found with this criteria']);
+			} else {
+				const times = findOptimalTime(availability, 'America/New_York', meetingLength * 2, meetingCount, requiredAttendees);
+				dispatch(setOptimalTimes(times));
+				if (times.length === 0) {
+					setErrorSnackbar([true, 'No optimal times found with this criteria']);
+				}
+			}
 		} else {
-			dispatch(setOptimalTimes([]))
+			dispatch(setOptimalTimes([]));
 		}
 	}, [availability, dispatch, meetingCount, meetingLength, optimizer, requiredAttendees]);
 
 	const handleStateChange = (event, setter) => {
-		const { target : { value } } = event
+		const { target : { value } } = event;
 		setter(value);
 	}
 
@@ -140,118 +148,128 @@ export default function OptimizerForm() {
 
 
     return (
-        <OptimizerContainer>
-			<StyledHeader>
-					Schedule Helper
-			</StyledHeader>
-			<StyledSubHeader>
-					Let us help you find your optimal meeting time
-			</StyledSubHeader>
-			<FormControl sx={{ marginTop: '25px'}}>
-				<InputLabel>Required Attendees</InputLabel>
-				<Select
-					multiple
-					value={requiredAttendees}
-					onChange={(event) => handleStateChange(event, setRequiredAttendees)}
-					input={<OutlinedInput label="Required Attendee" />}
-					renderValue={(selected) => (
-						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-							{selected.map((value) => {
-								const user = users[value];
-								return (
-									<Chip key={value} label={user.user_name} />
-								)
-							})}
-						</Box>
-					)}
+      <OptimizerContainer>
+				<Snackbar 
+					anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+					open={errorSnackbar[0]} 
+					autoHideDuration={4000} 
+					onClose={() => setErrorSnackbar([false, null])}
 				>
-					{Object.keys(users).map((userId) => {
-						const user = users[userId];
-						return (
-						<MenuItem
-							key={userId}
-							value={userId}
-						>
-							{user.user_name}
-						</MenuItem>
-						);
-					})}
-				</Select>
-			</FormControl>
-			<ThreeInputRow>
-				<StyledFormControl sx={{ marginTop: '25px'}}>
-					<InputLabel>Number of Meetings</InputLabel>
-					<Select
-						value={meetingCount}
-						onChange={(event) => handleStateChange(event, setMeetingCount)}
-						input={<OutlinedInput label="Number of Meetings" />}
-					>
-					{meetingCountOptions().map((name) => (
-							<MenuItem
-								key={name}
-								value={name}
-							>
-								{name}
-							</MenuItem>
-					))}
-					</Select>
-				</StyledFormControl>
-				{/**
-				 * POTENTIALLY COULD BE ADDED BACK IN THE FUTURE
-				 */}
-				{/* <StyledFormControl sx={{ marginTop: '25px'}}>
-					<InputLabel>Days Between Meetings</InputLabel>
-					<Select
-						value={meetingGap}
-						onChange={(event) => handleStateChange(event, setMeetingGap)}
-						input={<OutlinedInput label="Days Between Meetings" />}
-						disabled={meetingGapOptions().length === 0}
-					>
-					{meetingGapOptions().map((name) => (
-							<MenuItem
-								key={name}
-								value={name}
-							>
-								{name}
-							</MenuItem>
-					))}
-					</Select>
-				</StyledFormControl> */}
-				<StyledFormControl sx={{ marginTop: '25px'}}>
-					<InputLabel>Meeting Length (Hours)</InputLabel>
-					<Select
-						value={meetingLength}
-						onChange={(event) => handleStateChange(event, setMeetingLength)}
-						input={<OutlinedInput label="Meeting Length (Hours)" />}
-					>
-					{meetingLengthOptions().map((length) => (
-							<MenuItem
-								key={length}
-								value={length}
-							>
-								{length}
-							</MenuItem>
-					))}
-					</Select>
-				</StyledFormControl>
-			</ThreeInputRow>
-			<InfoContainer>
-				<InfoIcon color='disabled' fontSize="small" />
-				<StyledInfoText>
-					ScheduleSync recommended times are marked in 
-					<span style={{ color: '#FAC746' }}>
-						{' yellow'}
-					</span>
-				</StyledInfoText>
-			</InfoContainer>
-			<SwitchContainer>
-				<StyledSubHeader sx={{ margin: '0 !important' }}>
-					Toggle Schedule Helper
+					<Alert onClose={() => setErrorSnackbar([false, null])} severity="error" sx={{ width: '100%' }}>
+						{errorSnackbar[1]}
+					</Alert>
+				</Snackbar>
+				<StyledHeader>
+						Schedule Helper
+				</StyledHeader>
+				<StyledSubHeader>
+						Let us help you find your optimal meeting time
 				</StyledSubHeader>
-				<GreenSwitch
-					onChange={() => setOptimizer((state) => !state)}
-				/>
-			</SwitchContainer>
-        </OptimizerContainer>
+				<FormControl sx={{ marginTop: '25px'}}>
+					<InputLabel>Required Attendees</InputLabel>
+					<Select
+						multiple
+						value={requiredAttendees}
+						onChange={(event) => handleStateChange(event, setRequiredAttendees)}
+						input={<OutlinedInput label="Required Attendee" />}
+						renderValue={(selected) => (
+							<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+								{selected.map((value) => {
+									const user = users[value];
+									return (
+										<Chip key={value} label={user.user_name} />
+									)
+								})}
+							</Box>
+						)}
+					>
+						{Object.keys(users).map((userId) => {
+							const user = users[userId];
+							return (
+							<MenuItem
+								key={userId}
+								value={userId}
+							>
+								{user.user_name}
+							</MenuItem>
+							);
+						})}
+					</Select>
+				</FormControl>
+				<ThreeInputRow>
+					<StyledFormControl sx={{ marginTop: '25px'}}>
+						<InputLabel>Number of Meetings</InputLabel>
+						<Select
+							value={meetingCount}
+							onChange={(event) => handleStateChange(event, setMeetingCount)}
+							input={<OutlinedInput label="Number of Meetings" />}
+						>
+						{meetingCountOptions().map((name) => (
+								<MenuItem
+									key={name}
+									value={name}
+								>
+									{name}
+								</MenuItem>
+						))}
+						</Select>
+					</StyledFormControl>
+					{/**
+					 * POTENTIALLY COULD BE ADDED BACK IN THE FUTURE
+					 */}
+					{/* <StyledFormControl sx={{ marginTop: '25px'}}>
+						<InputLabel>Days Between Meetings</InputLabel>
+						<Select
+							value={meetingGap}
+							onChange={(event) => handleStateChange(event, setMeetingGap)}
+							input={<OutlinedInput label="Days Between Meetings" />}
+							disabled={meetingGapOptions().length === 0}
+						>
+						{meetingGapOptions().map((name) => (
+								<MenuItem
+									key={name}
+									value={name}
+								>
+									{name}
+								</MenuItem>
+						))}
+						</Select>
+					</StyledFormControl> */}
+					<StyledFormControl sx={{ marginTop: '25px'}}>
+						<InputLabel>Meeting Length (Hours)</InputLabel>
+						<Select
+							value={meetingLength}
+							onChange={(event) => handleStateChange(event, setMeetingLength)}
+							input={<OutlinedInput label="Meeting Length (Hours)" />}
+						>
+						{meetingLengthOptions().map((length) => (
+								<MenuItem
+									key={length}
+									value={length}
+								>
+									{length}
+								</MenuItem>
+						))}
+						</Select>
+					</StyledFormControl>
+				</ThreeInputRow>
+				<InfoContainer>
+					<InfoIcon color='disabled' fontSize='xsmall' />
+					<StyledInfoText>
+						RapidMeet recommended times are marked in 
+						<span style={{ color: '#FAC746' }}>
+							{' yellow'}
+						</span>
+					</StyledInfoText>
+				</InfoContainer>
+				<SwitchContainer>
+					<StyledSubHeader sx={{ margin: '0 !important' }}>
+						Toggle Schedule Helper
+					</StyledSubHeader>
+					<GreenSwitch
+						onChange={() => setOptimizer((state) => !state)}
+					/>
+				</SwitchContainer>
+      </OptimizerContainer>
     );
 }
