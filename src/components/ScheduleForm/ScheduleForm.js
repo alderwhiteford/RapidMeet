@@ -72,7 +72,7 @@ export default function ScheduleForm() {
     transform: animationComplete ? 'translateY(0)' : 'translateY(-13.5em)',
     animation: !animationComplete && datesSelected ? `${slideDown} 0.4s ease-in-out forwards` : '',
     height: '40px',
-    backgroundColor: datesSelected && endTime !== '' ? '#97c9a5' : '#D3D3D3',
+    backgroundColor: datesSelected && endTime !== '' ? '#04a43c' : '#D3D3D3',
     boxShadow: 'none',
     textTransform: 'none',
 

@@ -18,7 +18,7 @@ const StyledGridItem = styled(Grid)({
 })
 
 const StyledLogo = styled('img')({
-  width: '60%',
+  width: '50%',
   minWidth: '400px',
   alignSelf: 'center',
 })
