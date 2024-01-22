@@ -21,7 +21,6 @@ const FormContainer = styled('div')({
 const StyledForm = styled('form')({
   position: 'relative',
   width: '400px',
-  height: '300px',
   padding: '40px',
   backgroundColor: 'white',
   borderRadius: '20px',
@@ -34,27 +33,26 @@ const StyledForm = styled('form')({
 
   '@media (max-width: 768px)': {
     width: '75vw',
-    height: '300px',
     padding: '25px',
   },
 });
 
 const StyledHeader = styled(Typography)({
   alignSelf: 'flex-start',
-  marginBottom: '-5%',
+  marginBottom: '-3%',
   color: '#04a43c',
-  fontSize: 40,
+  fontSize: 30,
   fontWeight: 700,
 
   '@media (max-width: 768px)': {
-    fontSize: 35,
+    fontSize: 25,
   },
 });
 
 const StyledSubHeader = styled(Typography)({
   alignSelf: 'flex-start',
   marginBottom: '5%',
-  fontSize: 20,
+  fontSize: 18,
 });
 
 const StyledText = styled(Typography)({
@@ -73,6 +71,7 @@ const StyledButtonContainer = styled('div')({
   flexDirection: 'row',
   alignItems: 'center',
   gap: '10%',
+  marginTop: '20px',
 
   width: '100%',
 });

@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useNavigate } from "react-router-dom";
-import RapidMeetLogo from "../../assets/RapidMeetLogo.png";
+import RapidMeetLogo from "../../assets/RapidMeetNavbar.png";
 
 const StyledToolbar = styled(Toolbar)({
   backgroundColor: 'white',

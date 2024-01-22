@@ -25,10 +25,12 @@ const FormContainer = styled('div')({
 const StyledForm = styled('div')({
   position: 'relative',
   width: '800px',
-  height: '600px',
+  height: '650px',
   backgroundColor: 'white',
   borderRadius: '20px',
   padding: '5px',
+  paddingBottom: '20px',
+  paddingTop: '20px',
   zIndex: 100,
   display: 'flex',
   flexDirection: 'column',
@@ -49,21 +51,30 @@ const StyledForm = styled('div')({
 const StyledHeader = styled(Typography)({
   alignSelf: 'center',
   color: '#04a43c',
-  fontSize: 40,
+  fontSize: 28,
+  textAlign: 'center',
+
+  '@media (max-width: 1280px)': {
+    fontSize: 25,
+  },
 
   '@media (max-width: 768px)': {
     marginLeft: '0px',
-    fontSize: 20,
+    fontSize: 18,
   },
 });
 
 const StyledHeaderBlack = styled(Typography)({
   color: 'black',
   display: 'inline',
-  fontSize: 40,
+  fontSize: 28,
+
+  '@media (max-width: 1280px)': {
+    fontSize: 25,
+  },
 
   '@media (max-width: 768px)': {
-    fontSize: 20,
+    fontSize: 18,
   },
 });
 
@@ -173,7 +184,7 @@ export default function AvailabilityForm({ startTime, endTime, dates, setTimes, 
         <StyledForm>
           <StyledHeader>Your <StyledHeaderBlack>availability for {name}</StyledHeaderBlack></StyledHeader>
           <StyledInfoContainer>
-            <StyledInfoIcon sx={{ color: '#929191' }}/>
+            <StyledInfoIcon sx={{ color: '#929191', marginRight: '5px' }}/>
             <StyledSubText>Click and drag time blocks on the calendar to add your availability</StyledSubText>
           </StyledInfoContainer>
           <ScheduleGrid 

@@ -45,6 +45,8 @@ const StyledForm = styled('form')(
       width: '75vw',
       height: isNewUser ? '450px' : '350px',
       padding: '10px',
+      paddingTop: '40px',
+      paddingBottom: '40px',
     },
   })
 );
@@ -52,7 +54,7 @@ const StyledForm = styled('form')(
 const StyledHeader = styled(Typography)({
   alignSelf: 'flex-start',
   marginLeft: '25px',
-  marginBottom: '-5%',
+  marginBottom: '-3%',
   color: '#04a43c',
   fontSize: 40,
   fontWeight: 700,
