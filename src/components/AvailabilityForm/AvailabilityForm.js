@@ -59,7 +59,7 @@ const StyledHeader = styled(Typography)({
 
   '@media (max-width: 768px)': {
     marginLeft: '0px',
-    fontSize: 18,
+    fontSize: 25,
   },
 });
 
@@ -73,7 +73,7 @@ const StyledHeaderBlack = styled(Typography)({
   },
 
   '@media (max-width: 768px)': {
-    fontSize: 18,
+    fontSize: 25,
   },
 });
 

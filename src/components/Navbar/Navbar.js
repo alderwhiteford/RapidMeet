@@ -18,16 +18,6 @@ const StyledButton = styled(Button)({
   },
 });
 
-const StyledTypograpgy = styled(Typography)({
-  color: '#04a43c',
-  flexGrow: 1,
-  
-  '@media (max-width: 768px)': {
-    fontSize: 25,
-    marginRight: '0px',
-  },
-});
-
 const StyledLogo = styled('img')({
   width: '200px',
   marginRight: 'auto',
@@ -46,9 +36,6 @@ export default function Navbar() {
         <StyledToolbar>
           {/* Logo will go here, also we will prob want to find a nice font to use for the typography */}
           <StyledLogo src={RapidMeetLogo} />
-          {/* <StyledTypograpgy variant="h4" component="div">
-            RapidMeet
-          </StyledTypograpgy> */}
           <StyledButton
             variant="contained"
             size="large"

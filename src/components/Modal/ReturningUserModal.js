@@ -33,6 +33,7 @@ const StyledForm = styled('form')({
 
   '@media (max-width: 768px)': {
     width: '75vw',
+    height: '35vh',
     padding: '25px',
   },
 });
@@ -70,8 +71,7 @@ const StyledButtonContainer = styled('div')({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  gap: '10%',
-  marginTop: '20px',
+  gap: '20%',
 
   width: '100%',
 });

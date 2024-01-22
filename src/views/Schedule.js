@@ -23,7 +23,7 @@ const PageColumnContainer = styled.div({
   flexDirection: 'row',
 
   '@media (max-width: 768px)': {
-    flexDirection: 'column'
+    flexDirection: 'column-reverse',
   }
 })
 
@@ -38,7 +38,8 @@ const FlexColumn = styled.div({
   paddingTop: '82.25px',
 
   '@media (max-width: 768px)': {
-    width: '100%'
+    width: '100%',
+    paddingTop: '0px',
   }
 })
 
@@ -49,7 +50,7 @@ const OptimizerContainer = styled.div({
   justifyContent: 'center',
 
   '@media (max-width: 768px)': {
-    marginTop: '30px'
+    marginBottom: '50px'
   },
 })
 
@@ -68,7 +69,7 @@ const StyledAvailabilityButton = styled(Button)({
 
   '&:hover': {
     backgroundColor: '#97c9a5'
-  }
+  },
 })
 
 const StyledScheduleButtonContainer = styled.div({
