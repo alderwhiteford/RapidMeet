@@ -26,30 +26,25 @@ const FormContainer = styled('div')({
   justifyContent: 'center',
 });
 
-const StyledForm = styled('form')(
-  ({ isNewUser }) => ({
-    position: 'relative',
-    width: '400px',
-    height: isNewUser ? '450px' : '375px',
-    padding: '40px',
-    backgroundColor: 'white',
-    borderRadius: '20px',
-    zIndex: 100,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    gap: '10px',
+const StyledForm = styled('form')({
+  position: 'relative',
+  padding: '40px',
+  backgroundColor: 'white',
+  borderRadius: '20px',
+  zIndex: 100,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+  gap: '10px',
 
-    '@media (max-width: 768px)': {
-      width: '75vw',
-      height: isNewUser ? '450px' : '350px',
-      padding: '10px',
-      paddingTop: '40px',
-      paddingBottom: '40px',
-    },
-  })
-);
+  '@media (max-width: 768px)': {
+    width: '75vw',
+    padding: '10px',
+    paddingTop: '40px',
+    paddingBottom: '40px',
+  },
+});
 
 const StyledHeader = styled(Typography)({
   alignSelf: 'flex-start',
