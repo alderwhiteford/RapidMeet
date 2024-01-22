@@ -35,6 +35,13 @@ export default function SelectCell({ epochTime, isMouseDown, isHour, setTime, se
     }
   }
 
+  const handleTouchEnter = () => {
+    if (!mouseEntered) {
+      setSelected(!selected);
+      setMouseEntered(true)
+    }
+  }
+
   const handleMouseLeave = () => {
     setMouseEntered(false)
   }
@@ -61,7 +68,7 @@ export default function SelectCell({ epochTime, isMouseDown, isHour, setTime, se
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onMouseUpCapture={handleMouseLeave}
-      onTouchStart={handleMouseEnter}
+      onTouchStart={handleTouchEnter}
       onTouchEnd={handleMouseLeave}
     >
       <StyledDiv />
