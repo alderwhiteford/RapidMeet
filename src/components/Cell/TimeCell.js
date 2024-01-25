@@ -4,7 +4,7 @@ export default function TimeCell({ time, lastCell }) {
   const StyledCell = styled('div')({
     border: 0,
     width: '55px',
-    minHeight: '18.5px !important',
+    minHeight: '18.5px',
     position: 'sticky',
     left: '0px',
     fontFamily: 'sans-serif',
@@ -29,10 +29,6 @@ export default function TimeCell({ time, lastCell }) {
       height: '50%',
       borderTop: lastCell ? '1px solid #C1C1C1' : '',
       boxSizing: 'border-box',
-    },
-
-    '@media (max-width: 768px)': {
-      minHeight: '18.65px',
     },
   });
 

@@ -7,10 +7,6 @@ const StyledDiv = styled.div({
   alignContent: 'center',
   justifyContent: 'center',
   minHeight: '17.5px',
-
-  '@media (max-width: 768px)': {
-    minHeight: '18px',
-  },
 });
 
 const StyledToolTipTitle = styled.h3({
