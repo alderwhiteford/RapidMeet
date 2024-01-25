@@ -30,6 +30,10 @@ export default function TimeCell({ time, lastCell }) {
       borderTop: lastCell ? '1px solid #C1C1C1' : '',
       boxSizing: 'border-box',
     },
+
+    '@media (max-width: 768px)': {
+      minHeight: '18.65px',
+    },
   });
 
   const TimeText = styled.p`
