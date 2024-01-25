@@ -2,6 +2,18 @@ import styled from "@emotion/styled";
 import { TableCell } from "@mui/material";
 import { useEffect, useState } from "react";
 
+const StyledDiv = styled.div({
+  display: 'flex',
+  position: 'relative',
+  alignContent: 'center',
+  justifyContent: 'center',
+  height: '17.5px',
+
+  '@media (max-width: 768px)': {
+    minHeight: '18px',
+  },
+});
+
 export default function SelectCell({ epochTime, isMouseDown, isHour, setTime, selectedState, setDeletedTime }) {
   const [selected, setSelected] = useState(selectedState);
   const [mouseEntered, setMouseEntered] = useState(false);
@@ -45,14 +57,6 @@ export default function SelectCell({ epochTime, isMouseDown, isHour, setTime, se
   const handleMouseLeave = () => {
     setMouseEntered(false)
   }
-
-  const StyledDiv = styled.div({
-    display: 'flex',
-    position: 'relative',
-    alignContent: 'center',
-    justifyContent: 'center',
-    height: '17.5px',
-  })
   
   return (
     <TableCell 
