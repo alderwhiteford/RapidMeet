@@ -71,7 +71,8 @@ const StyledButtonContainer = styled('div')({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  gap: '20%',
+  gap: '5%',
+  marginTop: '20px',
 
   width: '100%',
 });

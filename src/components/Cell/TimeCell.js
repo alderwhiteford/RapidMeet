@@ -23,7 +23,7 @@ export default function TimeCell({ time, lastCell }) {
     '&::after': {
       content: "''",
       position: 'absolute',
-      bottom: '-49%',
+      bottom: '-50%',
       left: '75%',
       width: '25%',
       height: '50%',

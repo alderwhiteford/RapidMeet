@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert, Button, IconButton, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, Button, IconButton, Snackbar, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import CancelIcon from "@mui/icons-material/Cancel";
 import InfoIcon from '@mui/icons-material/Info';
@@ -44,7 +44,6 @@ const StyledForm = styled('div')({
 
   '@media (max-width: 768px)': {
     width: '95vw',
-    height: '65vh',
   },
 });
 
