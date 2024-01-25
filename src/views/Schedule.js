@@ -36,9 +36,11 @@ const FlexColumn = styled.div({
   justifyContent: 'center',
   height: '100vh',
   minHeight: '680px',
+  maxWidth: '50vw',
   paddingTop: '82.25px',
 
   '@media (max-width: 768px)': {
+    maxWidth: 'revert',
     width: '100%',
     paddingTop: '0px',
     minHeight: 'auto',
