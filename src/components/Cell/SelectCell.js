@@ -74,6 +74,7 @@ export default function SelectCell({ epochTime, isMouseDown, isHour, setTime, se
       onMouseUpCapture={handleMouseLeave}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleMouseLeave}
+      onMouseDownCapture={() => setSelected(!selected)}
     >
       <StyledDiv />
     </TableCell>
