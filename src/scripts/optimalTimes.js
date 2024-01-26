@@ -57,9 +57,15 @@ function convertToDates(availability, timezoneStr) {
 function identifyStartingBlocks(dates, day, availability, requiredAttendees) {
   let users = new Set([]);
   const timeBlocks = [];
+  let lastTime = '0'
 
   // Iterate across each time in a day:
   for (const time of dates[day]) {
+    // If there has been a gap in availability, remove everyone from the currently tracked users:
+    if (parseInt(time) - parseInt(lastTime) > TIME_INCREMENT) {
+      users = new Set([]);
+    }
+
     // Extract the available users at a given time:
     const availableUsers = availability[time];
     const setOfAvailableUsers = new Set(availableUsers);
@@ -69,15 +75,14 @@ function identifyStartingBlocks(dates, day, availability, requiredAttendees) {
     const usersToRemove = new Set([...users].filter(user => !availableUsers.includes(user)));
 
     // If new users are being added and all required attendees are present, mark the timeslot as a beginning timestamp:
-    if (time === '1705930200000') {
-      console.log(hasAllRequiredAttendees(requiredAttendees, setOfAvailableUsers))
-    }
     if (usersToAdd.size > 0 && hasAllRequiredAttendees(requiredAttendees, setOfAvailableUsers)) {
       timeBlocks.push(time);
     }
 
     // Update the user set:
     users = new Set([...users, ...Array.from(usersToAdd)].filter(user => !usersToRemove.has(user)));
+
+    lastTime = time;
   }
 
   return timeBlocks;

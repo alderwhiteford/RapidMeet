@@ -6,7 +6,7 @@ const StyledDiv = styled.div({
   position: 'relative',
   alignContent: 'center',
   justifyContent: 'center',
-  height: '17.5px',
+  minHeight: '17.5px',
 });
 
 const StyledToolTipTitle = styled.h3({
