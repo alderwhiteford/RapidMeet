@@ -7,6 +7,10 @@ const StyledDiv = styled.div({
   alignContent: 'center',
   justifyContent: 'center',
   minHeight: '17.5px',
+
+  // '@media (max-width: 768px)': {
+  //   minHeight: '18px',
+  // },
 });
 
 const StyledToolTipTitle = styled.h3({
@@ -29,7 +33,7 @@ export default function DisplayCell({ epochTime, isHour, availability, users, is
           People Available:
         </StyledToolTipTitle>
         {availability.map((userId) => 
-          <div style={{marginBottom: '2px', marginTop: '2px'}}>
+          <div key={userId} style={{marginBottom: '2px', marginTop: '2px'}}>
             {users[userId]?.user_name || 'Unknown User'}
           </div>
         )}

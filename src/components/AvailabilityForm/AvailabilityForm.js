@@ -148,9 +148,10 @@ const StyledInfoIcon = styled(InfoIcon)({
 export default function AvailabilityForm({ startTime, endTime, dates, setTimes, selectedTimes, setDeletedTimes, deletedTimes }) {
   const dispatch = useDispatch();
   const { availability, name, users } = useSelector((state) => state.schedule);
-  const { user } = useSelector((state) => state);
+  const { id, name: username, email } = useSelector((state) => state.user);
   const { scheduleId } = useParams();
   const [errorSnackbar, setErrorSnackbar] = useState([false, null]);
+  const user = { id: id, name: username, email: email };
 
   const addAvailability = () => {
     updateUserAvailability(scheduleId, user, selectedTimes, availability, users, deletedTimes).then((res) => {
