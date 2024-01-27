@@ -82,7 +82,7 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
           </TableHead>
           <TableBody sx={{position: 'relative'}}>
             {rows.map((row, index) => (
-                <TableRow>
+                <TableRow sx={{ height: '18.5px' }}>
                   {row.map((cell) => (
                     display ? (
                       <DisplayCell
