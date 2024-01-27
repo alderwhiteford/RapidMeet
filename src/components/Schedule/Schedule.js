@@ -13,7 +13,8 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
   const [sideBarTimes, intervals] = computeTimeIntervals(startTime, endTime, timezone);
   const rows = createScheduleRows(dates, intervals)
   const [isMouseDown, setIsMouseDown] = useState(false);
-  const { user } = useSelector((state) => state);
+  const { id, name, email } = useSelector((state) => state.user);
+  const user = { id: id, name: name, email: email };
 
   return (
     <Paper 
@@ -28,7 +29,7 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
 
         '@media (max-width: 768px)': {
           minWidth: '90vw',
-          maxHeight: 'revert'
+          maxHeight: '40vh'
         },
       }}
     >
@@ -38,7 +39,8 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
         paddingTop: '80.5px',
       }}>
         {rows.map((row, index) =>
-          <TimeCell 
+          <TimeCell
+            key={index} 
             time={index === rows.length - 1 
               ? sideBarTimes[sideBarTimes.length - 1] 
               : index % 2 === 0 
@@ -69,6 +71,7 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
                   const JSDate = new Date(date);
                   return (
                     <HeaderCell
+                      key={index}
                       day={days[JSDate.getDay()]} 
                       date={`${months[JSDate.getMonth()]} ${JSDate.getDate()}`}
                       firstHeader={index === 0}
@@ -79,17 +82,19 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
           </TableHead>
           <TableBody sx={{position: 'relative'}}>
             {rows.map((row, index) => (
-                <TableRow>
+                <TableRow sx={{ height: '18.5px' }}>
                   {row.map((cell) => (
-                    display ?
+                    display ? (
                       <DisplayCell
+                        key={index}
                         users={users}
                         availability={availability[cell]}
                         epochTime={cell}
                         isHour={index % 2 === 1}
                         isOptimal={optimalTimes.includes(cell)}
-                      /> : 
+                      />) : (
                       <SelectCell
+                        key={index}
                         epochTime={cell}
                         isMouseDown={isMouseDown}
                         isHour={index % 2 === 1}
@@ -97,6 +102,7 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
                         setDeletedTime={setDeletedTimes}
                         selectedState={availability[cell]?.includes(user.id)}
                       />
+                    )
                   ))}
                 </TableRow>
             ))}

@@ -33,6 +33,7 @@ const StyledForm = styled('form')({
 
   '@media (max-width: 768px)': {
     width: '75vw',
+    height: '35vh',
     padding: '25px',
   },
 });
