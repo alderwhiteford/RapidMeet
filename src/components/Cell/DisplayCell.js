@@ -29,7 +29,7 @@ export default function DisplayCell({ epochTime, isHour, availability, users, is
           People Available:
         </StyledToolTipTitle>
         {availability.map((userId) => 
-          <div style={{marginBottom: '2px', marginTop: '2px'}}>
+          <div key={userId} style={{marginBottom: '2px', marginTop: '2px'}}>
             {users[userId]?.user_name || 'Unknown User'}
           </div>
         )}
