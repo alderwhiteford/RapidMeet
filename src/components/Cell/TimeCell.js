@@ -8,7 +8,7 @@ export default function TimeCell({ time, lastCell }) {
     position: 'sticky',
     left: '0px',
     fontFamily: 'sans-serif',
-
+    
     '&::before': {
       content: "''",
       position: 'absolute',

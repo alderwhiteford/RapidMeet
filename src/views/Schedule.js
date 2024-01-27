@@ -98,8 +98,9 @@ function Schedule() {
 
   const { successModal, modal } = useSelector((state) => state.general);
   const { start_time, end_time, dates, name, users } = useSelector((state) => state.schedule);
-  const { user } = useSelector((state) => state);
+  const { id, name: username, email } = useSelector((state) => state.user);
   const { scheduleId } = useParams();
+  const user = { id: id, name: username, email: email };
 
   useLayoutEffect(() => {
     const docRef = doc(db, 'schedule', scheduleId);
