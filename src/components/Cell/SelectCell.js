@@ -18,6 +18,8 @@ export default function SelectCell({ epochTime, isMouseDown, isHour, setTime, se
   const [selected, setSelected] = useState(selectedState);
   const [mouseEntered, setMouseEntered] = useState(false);
 
+  const isMobile = window.innerWidth <= 768;
+
   useEffect(() => {
     if (selected) {
       setTime((times) => {
@@ -74,7 +76,9 @@ export default function SelectCell({ epochTime, isMouseDown, isHour, setTime, se
       onMouseUpCapture={handleMouseLeave}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleMouseLeave}
-      onMouseDownCapture={() => setSelected(!selected)}
+      {
+        ...(!isMobile ? { onMouseDownCapture: () => setSelected(!selected) } : {} )
+      }      
     >
       <StyledDiv />
     </TableCell>
