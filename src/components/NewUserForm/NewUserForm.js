@@ -122,7 +122,7 @@ export default function NewUserForm() {
 
   if (isNewUser) {
     schema = schema.shape({
-      email: yup.string().email("Invalid email format, please use name@email.com format.").required("Please enter your email"),
+      email: yup.string().email("Invalid email. Use name@email.com format.").required("Please enter your email"),
     });
   }
 
