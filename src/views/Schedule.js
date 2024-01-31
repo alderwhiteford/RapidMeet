@@ -95,6 +95,7 @@ function Schedule() {
   const [selectedTimes, setSelectedTimes] = useState(new Set());
   const [deletedTimes, setDeletedTimes] = useState(new Set());
   const [errorSnackbar, setErrorSnackbar] = useState([false, null]);
+  const [loading, setLoading] = useState(false);
 
   const { successModal, modal } = useSelector((state) => state.general);
   const { start_time, end_time, dates, name, users } = useSelector((state) => state.schedule);
@@ -103,13 +104,16 @@ function Schedule() {
   const user = { id: id, name: username, email: email };
 
   useLayoutEffect(() => {
+    setLoading(true);
     const docRef = doc(db, 'schedule', scheduleId);
 
     const unsubscribe = onSnapshot(docRef, (snapshot) => {
       if (snapshot.exists()) {
         dispatch(setSchedule(snapshot.data()));
+        setLoading(false);
       } else {
         navigate('/page-not-found');
+        setLoading(false);
         return;
       }
     });
@@ -131,8 +135,10 @@ function Schedule() {
       } else {
         setErrorSnackbar([true, res.error]);
       }
-    })
+    });
   };
+
+  if (loading) return null;
 
   return (
     <>
