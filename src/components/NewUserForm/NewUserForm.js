@@ -76,11 +76,11 @@ const StyledTextField = styled(TextField)({
   width: '85%',
 });
 
-const StyledEmailField = styled(StyledTextField)(({ show }) => ({
-  transition: 'max-height 0.5s, opacity 0.5s',
-  maxHeight: show ? '100px' : '0',
-  opacity: show ? 1 : 0,
-}));
+// const StyledEmailField = styled(StyledTextField)(({ show }) => ({
+//   transition: 'max-height 0.5s, opacity 0.5s',
+//   maxHeight: show ? '100px' : '0',
+//   opacity: show ? 1 : 0,
+// }));
 
 const StyledButton = styled(Button)({
   backgroundColor: '#04a43c',
@@ -113,18 +113,17 @@ export default function NewUserForm() {
   const dispatch = useDispatch();
   const { name, users } = useSelector((state) => state.schedule);
   const { scheduleId } = useParams();
-  const [isNewUser, setIsNewUser] = useState(false);
   const [errorSnackbar, setErrorSnackbar] = useState([false, null]);
 
   let schema = yup.object({
     name: yup.string().required("Please enter your name"),
   });
 
-  if (isNewUser) {
-    schema = schema.shape({
-      email: yup.string().email("Invalid email. Use name@email.com format.").required("Please enter your email"),
-    });
-  }
+  // if (isNewUser) {
+  //   schema = schema.shape({
+  //     email: yup.string().email("Invalid email. Use name@email.com format.").required("Please enter your email"),
+  //   });
+  // }
 
   const {
     register,
@@ -136,17 +135,16 @@ export default function NewUserForm() {
       resolver: yupResolver(schema),
       defaultValues: {
         name: '',
-        email: '',
       }
     }
   );
 
   useEffect(() => {
     reset({}, { keepValues: true });
-  }, [isNewUser, reset]);
+  }, [reset]);
 
   const addUser = (formData) => {
-    addScheduleUser(scheduleId, formData.name, formData.email, users).then((res) => {
+    addScheduleUser(scheduleId, formData.name, '', users).then((res) => {
       if (res.success) {
         dispatch(setUser(res.data));
         dispatch(setModal('availability_calendar'));
@@ -159,12 +157,11 @@ export default function NewUserForm() {
   const checkUser = (formData) => {
     const user_id = stringToUniqueNumber(formData.name);
     if (users[user_id]) {
-      const data = { id: user_id, name: users[user_id].user_name, email: users[user_id].user_email };
+      const data = { id: user_id, name: users[user_id].user_name };
       dispatch(setUser(data));
       dispatch(setModal('returning_user'));
     } else {
-      setIsNewUser(true);
-      return;
+      addUser(formData)
     }
   };
 
@@ -185,7 +182,7 @@ export default function NewUserForm() {
         </Alert>
       </StyledSnackbar>
       <FormContainer>
-        <StyledForm isNewUser={isNewUser} onSubmit={handleSubmit(isNewUser ? addUser : checkUser)}>
+        <StyledForm onSubmit={handleSubmit(checkUser)}>
           <StyledHeader>Welcome!</StyledHeader>
           <StyledSubHeader>Add your availability for {name}</StyledSubHeader>
           <StyledTextField
@@ -197,7 +194,7 @@ export default function NewUserForm() {
             type="text"
             variant="outlined"
           />
-          <StyledEmailField
+          {/* <StyledEmailField
             show={isNewUser}
             error={!!errors.email}
             helperText={errors.email?.message ?? ' '}
@@ -206,7 +203,7 @@ export default function NewUserForm() {
             placeholder="name@email.com"
             type="email"
             variant="outlined"
-          />
+          /> */}
           <StyledButton
             type="submit"
             variant="contained"

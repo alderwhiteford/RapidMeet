@@ -82,11 +82,11 @@ export default function ScheduleGrid({ startTime, endTime, dates, display, setTi
           </TableHead>
           <TableBody sx={{position: 'relative'}}>
             {rows.map((row, index) => (
-                <TableRow sx={{ height: '18.5px' }}>
-                  {row.map((cell) => (
+                <TableRow sx={{ height: '18.5px' }} key={index}>
+                  {row.map((cell, subIndex) => (
                     display ? (
                       <DisplayCell
-                        key={index}
+                        key={index + subIndex}
                         users={users}
                         availability={availability[cell]}
                         epochTime={cell}
