@@ -217,7 +217,7 @@ function Schedule() {
           </OptimizerContainer>
         </FlexColumn>
         <FlexColumn style={{ marginBottom: '40px'}}>
-          <ScheduleHeader name={name} attendees={Object.keys(users).length} />
+          <ScheduleHeader name={name} attendees={users} />
           <ScheduleGrid 
             startTime={start_time}
             endTime={end_time}

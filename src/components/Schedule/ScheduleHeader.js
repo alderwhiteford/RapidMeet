@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
-import { IconButton, Typography } from "@mui/material";
+import { IconButton, Tooltip, Typography } from "@mui/material";
 import IosShareIcon from '@mui/icons-material/IosShare';
 import { useDispatch } from "react-redux";
 import { setSuccessModal } from "../../redux/generalSlice";
+import AvailabilityTooltip from "../Tooltip/AvailabilityTooltip";
 
 const StyledContainer = styled('div')({
   display: 'flex',
@@ -60,6 +61,7 @@ const StyledIconShareButton = styled(IconButton)({
 
 function ScheduleHeader({ name, attendees }) {
   const dispatch = useDispatch();
+  const attendeeCount = Object.keys(attendees).length;
 
   const onClickShare = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -78,7 +80,19 @@ function ScheduleHeader({ name, attendees }) {
         </span>
       </StyledNameContainer>
       <StyledAttendeesContainer>
-        <Typography sx={{ color: '#929191', fontSize: 12.5 }}>{attendees} {attendees === 1 ? 'Attendee' : 'Attendees'}</Typography>
+      <Tooltip 
+        placement='left-start'
+        title={
+          <AvailabilityTooltip 
+            attendeeIds={Object.keys(attendees)}
+            allAttendees={attendees}
+            noneMessage={"No Attendees"}
+            someMessage={"Attendees:"}
+          />}
+        disableInteractive
+      >
+          <Typography sx={{ color: '#929191', fontSize: 12.5, cursor:'default' }}>{attendeeCount} {attendeeCount === 1 ? 'Attendee' : 'Attendees'}</Typography>
+        </Tooltip>
       </StyledAttendeesContainer>
     </StyledContainer>
   )

@@ -113,7 +113,7 @@ const StyledCancelIcon = styled(CancelIcon)({
 export default function ReturningUserModal() {
   const dispatch = useDispatch();
   const { name } = useSelector((state) => state.schedule);
-  const { email } = useSelector((state) => state.user);
+  const { name: userName } = useSelector((state) => state.user);
 
   const handleCancel = () => {
     dispatch(resetUser())
@@ -127,7 +127,7 @@ export default function ReturningUserModal() {
       <StyledForm>
         <StyledHeader>Edit Your</StyledHeader>
         <StyledSubHeader>availability for {name}</StyledSubHeader>
-        <StyledText>The name you have provided is in use. Do you wish to continue as <StyledEmailText>{email}</StyledEmailText>?</StyledText>
+        <StyledText>The name you have provided is in use. Do you wish to continue as <StyledEmailText>{userName}</StyledEmailText>?</StyledText>
         <StyledButtonContainer>
           <StyledCancelButton
             variant="contained"

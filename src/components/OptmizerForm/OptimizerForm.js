@@ -81,7 +81,6 @@ const SwitchContainer = styled.div({
 
 export default function OptimizerForm() {
 	const { users, dates, start_time, end_time, availability, timezone } = useSelector((state) => state.schedule)
-
 	const [requiredAttendees, setRequiredAttendees] = useState([]);
 	const [meetingCount, setMeetingCount] = useState(1);
 	const [meetingLength, setMeetingLength] = useState(0.5);
@@ -89,6 +88,8 @@ export default function OptimizerForm() {
 	const [errorSnackbar, setErrorSnackbar] = useState([false, null]);
 
 	const dispatch = useDispatch();
+
+	const attendeeCount = Object.keys(users).length;
 
 	useEffect(() => {
 		if (optimizer) {
@@ -169,9 +170,10 @@ export default function OptimizerForm() {
 					<InputLabel>Required Attendees</InputLabel>
 					<Select
 						multiple
+						disabled={attendeeCount === 0}
 						value={requiredAttendees}
 						onChange={(event) => handleStateChange(event, setRequiredAttendees)}
-						input={<OutlinedInput label="Required Attendee" />}
+						input={<OutlinedInput label="Required Attendees" />}
 						renderValue={(selected) => (
 							<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
 								{selected.map((value) => {
